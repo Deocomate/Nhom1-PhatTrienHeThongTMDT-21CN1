@@ -5,7 +5,8 @@ use App\Http\Controllers\Admin\{AdminController,
     TourSystem\CategoryController,
     TourSystem\ContactController,
     TourSystem\DestinationController,
-    TourSystem\TourController};
+    TourSystem\TourController
+};
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Client\{BusTicketBookingClient\ClientHomeController};
 use App\Http\Middleware\AuthenticationMiddleware;
@@ -21,9 +22,9 @@ Route::get('/', [ClientHomeController::class, "index"])->name("client.homepage")
 // Admin
 
 // Auth
-Route::get('/admin/login', [LoginController::class, "login"])->name("admin.login");
-Route::get('/admin/logout', [LoginController::class, "logout"])->name("admin.logout");
-Route::post('/admin/authenticate', [LoginController::class, "authenticate"])->name("admin.authenticate");
+Route::get('/login', [LoginController::class, "login"])->name("admin.login");
+Route::get('/logout', [LoginController::class, "logout"])->name("admin.logout");
+Route::post('/authenticate', [LoginController::class, "authenticate"])->name("admin.authenticate");
 
 Route::prefix('admin')->name("admin.")->middleware(AuthenticationMiddleware::class)->group(function () {
     // Trang chủ admin
@@ -37,9 +38,6 @@ Route::prefix('admin')->name("admin.")->middleware(AuthenticationMiddleware::cla
     Route::resource("tour", TourController::class);
     Route::resource("contact", ContactController::class)
         ->except("create", "show", "edit", "destroy", "store");
-
-
-
 });
 
 Route::any('/ckfinder/connector', '\CKSource\CKFinderBridge\Controller\CKFinderController@requestAction')
