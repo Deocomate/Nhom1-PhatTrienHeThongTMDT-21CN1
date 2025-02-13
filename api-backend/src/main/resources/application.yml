@@ -1,0 +1,12 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: "jdbc:mysql://localhost:3306/db_an_khang_pharmacy"
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
