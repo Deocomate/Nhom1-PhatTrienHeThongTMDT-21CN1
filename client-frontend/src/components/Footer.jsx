@@ -5,7 +5,7 @@ export default function Footer() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     return (
-        <footer className="bg-gray-100 dark:bg-gray-900 text-sm">
+        <footer className="bg-gray-100 dark:bg-gray-900 text-sm p-2">
             <div className="mx-auto w-full max-w-screen-xl">
                 <div className="grid grid-cols-1 gap-0 px-4 py-6 lg:py-8 md:grid-cols-4">
                     <div className="w-full md:w-full mb-6 md:mb-0">

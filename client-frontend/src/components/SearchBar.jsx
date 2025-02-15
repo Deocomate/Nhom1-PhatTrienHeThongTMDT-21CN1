@@ -14,22 +14,22 @@ export default function SearchBar() {
     );
 
     return (
-        <div className="relative w-full max-w-md">
-            {/* thanh search bar */}
+        <div className="relative w-full max-w-lg p-2">
+            {/* Thanh search bar */}
             <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-black size-1/2" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
                 <Input
                     type="text"
                     placeholder="Tên thuốc, triệu chứng, vitamin và thực phẩm chức năng"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    className="pl-10 pr-4 py-2 border rounded-sm bg-white text-black focus:outline-none focus:ring-2 focus:ring-black-100"
+                    className="pl-12 pr-4 h-10 border border-gray-300 rounded-sm bg-white text-black focus:outline-none focus:ring-2 focus:ring-gray-300"
                 />
             </div>
 
-            {/* card dropdown kết quả tìm kiếm */}
+            {/* Card dropdown kết quả tìm kiếm */}
             {query && (
-                <Card className="absolute w-full mt-1 bg-white shadow-lg rounded-sm p-2">
+                <Card className="absolute w-full mt-2 bg-white shadow-lg rounded-lg p-2">
                     {filteredSuggestions.length > 0 ? (
                         filteredSuggestions.map((s, index) => (
                             <div key={index} className="p-2 hover:bg-gray-100 cursor-pointer">
@@ -37,7 +37,7 @@ export default function SearchBar() {
                             </div>
                         ))
                     ) : (
-                        <div className="p-1 pl-2 text-gray-500">Không tìm thấy</div>
+                        <div className="p-2 text-gray-500">Không tìm thấy</div>
                     )}
                 </Card>
             )}

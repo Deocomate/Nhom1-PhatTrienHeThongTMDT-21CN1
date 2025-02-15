@@ -1,6 +1,7 @@
 "use client";
 import ProductCard from "@/components/ProductCard";
 import ProductCardButton from "@/components/ProductCardButton";
+import HoverButton from "@/components/HoverButton";
 
 export default function Home() {
     return (
@@ -13,7 +14,6 @@ export default function Home() {
                         favor={"Yêu thích 51.8k"}
                         sale={"Đã bán 8.4k"}
                     />
-
 
                 </div>
             </div>
