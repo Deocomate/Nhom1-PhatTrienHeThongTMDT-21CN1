@@ -14,9 +14,13 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { List } from "@phosphor-icons/react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import {useState} from "react";
+
+const trendingSearches = ["Khẩu trang", "Giảm ho đau họng", "Collagen"];
 
 
 export default function Header() {
+
 
     return (
         <header>
@@ -35,13 +39,23 @@ export default function Header() {
                         {/* Search Bar */}
                         <div className="flex-1 hidden md:block">
                             <SearchBar />
+                            {/* Danh sách các từ khóa tìm kiếm phổ biến */}
+                            <ul className="flex flex-wrap mb-2 gap-2 text-white text-sm z-10">
+                                {trendingSearches.map((item, index) => (
+                                    <li
+                                        key={index}
+                                        className="px-2 py-1 cursor-pointer"
+                                    >
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
 
                         {/* Nhóm button bên phải */}
                         <div className="flex gap-2 self-start mr-12">
                             <NotificationButton />
                             <CartButton />
-                            {/*<AccountButton />*/}
                         </div>
                         <div className="flex self-start">
                             <AccountButton />
