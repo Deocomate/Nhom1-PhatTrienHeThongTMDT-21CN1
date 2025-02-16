@@ -7,13 +7,15 @@ import {
 } from "@/components/ui/hover-card";
 
 import React from "react";
-import { ShoppingCart } from "@phosphor-icons/react";
+import { ShoppingCart, Bell, UserCircle } from "@phosphor-icons/react";
 
-export default function HoverButton() {
+export default function NotificationButton() {
     return (
         <HoverCard>
-            <HoverCardTrigger className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center shadow-md border border-gray-300 hover:bg-gray-200 transition-all duration-200">
-                <ShoppingCart size={22} />
+            <HoverCardTrigger
+                className="w-fit h-9 px-2 rounded-full bg-white text-black flex items-center justify-center shadow-md border border-gray-300 hover:bg-gray-200 transition-all duration-200">
+                <UserCircle size={22} />
+                <h1 className="text-sm mx-1">Đăng nhập/ Đăng ký</h1>
             </HoverCardTrigger>
             <HoverCardContent className="w-64 text-sm p-3 shadow-lg bg-white border border-gray-200 rounded-md">
                 The React Framework – created and maintained by @vercel.

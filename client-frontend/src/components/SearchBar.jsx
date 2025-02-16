@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Search } from "lucide-react";
 import { useState } from "react";
 
-const suggestions = ["React", "Next.js", "Tailwind CSS", "ShadCN", "JavaScript"];
+const suggestions = [];
 
 export default function SearchBar() {
     const [query, setQuery] = useState("");
@@ -14,7 +14,7 @@ export default function SearchBar() {
     );
 
     return (
-        <div className="relative w-full max-w-lg p-2">
+        <div className="relative w-full max-w-3xl px-2">
             {/* Thanh search bar */}
             <div className="relative">
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
@@ -23,13 +23,17 @@ export default function SearchBar() {
                     placeholder="Tên thuốc, triệu chứng, vitamin và thực phẩm chức năng"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    className="pl-12 pr-4 h-10 border border-gray-300 rounded-sm bg-white text-black focus:outline-none focus:ring-2 focus:ring-gray-300"
+                    className="pl-12 pr-4 h-9 border border-gray-300 rounded-sm bg-white text-black focus:outline-none focus:ring-2 focus:ring-gray-300"
                 />
             </div>
-
+            <div className="flex mt-1 text-white text-sm">
+                <div className="mr-4">khẩu trang</div>
+                <div className="mr-4">giảm ho đau họng</div>
+                <div className="mr-4">collagen</div>
+            </div>
             {/* Card dropdown kết quả tìm kiếm */}
             {query && (
-                <Card className="absolute w-full mt-2 bg-white shadow-lg rounded-lg p-2">
+                <Card className="absolute w-full bg-white p-2">
                     {filteredSuggestions.length > 0 ? (
                         filteredSuggestions.map((s, index) => (
                             <div key={index} className="p-2 hover:bg-gray-100 cursor-pointer">

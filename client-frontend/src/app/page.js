@@ -1,7 +1,7 @@
 "use client";
 import ProductCard from "@/components/ProductCard";
 import ProductCardButton from "@/components/ProductCardButton";
-import HoverButton from "@/components/HoverButton";
+import NotificationButton from "@/components/NotificationButton";
 
 export default function Home() {
     return (
