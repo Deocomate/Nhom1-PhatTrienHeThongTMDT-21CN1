@@ -31,7 +31,7 @@ export default function ProductCard(
             <CardContent className="text-sm flex flex-col gap-1 p-2">
                 <p className="font-extrabold text-blue-600">
                     {price}
-                    {/*30.000 ₫/Hộp*/}
+                    {/*30.000 đ/Hộp*/}
                 </p>
                 <p className="text-xs text-gray-500">
                     {favor} | {sale}

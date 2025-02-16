@@ -13,36 +13,10 @@ export default function Home() {
                 <div className="max-w-screen-xl flex flex-wrap items-center  mx-auto p-4 gap-8">
                     <ProductCard
                         title={"Cao dán Salonpas Pain Relief Patch 7cmx10cm giảm đau vai, đau cổ, đau lưng, đau khớp (hộp 3 miếng)"}
-                        price={"30.000 ₫/Hộp"}
+                        price={"30.000 đ/Hộp"}
                         favor={"Yêu thích 51.8k"}
                         sale={"Đã bán 8.4k"}
                     />
-                    <ProductCard
-                        title={"Cao dán Salonpas Pain Relief Patch 7cmx10cm giảm đau vai, đau cổ, đau lưng, đau khớp (hộp 3 miếng)"}
-                        price={"30.000 ₫/Hộp"}
-                        favor={"Yêu thích 51.8k"}
-                        sale={"Đã bán 8.4k"}
-                    />
-                    <ProductCard
-                        title={"Cao dán Salonpas Pain Relief Patch 7cmx10cm giảm đau vai, đau cổ, đau lưng, đau khớp (hộp 3 miếng)"}
-                        price={"30.000 ₫/Hộp"}
-                        favor={"Yêu thích 51.8k"}
-                        sale={"Đã bán 8.4k"}
-                    />
-                    <ProductCard
-                        title={"Cao dán Salonpas Pain Relief Patch 7cmx10cm giảm đau vai, đau cổ, đau lưng, đau khớp (hộp 3 miếng)"}
-                        price={"30.000 ₫/Hộp"}
-                        favor={"Yêu thích 51.8k"}
-                        sale={"Đã bán 8.4k"}
-                    />
-                    <ProductCard
-                        title={"Cao dán Salonpas Pain Relief Patch 7cmx10cm giảm đau vai, đau cổ, đau lưng, đau khớp (hộp 3 miếng)"}
-                        price={"30.000 ₫/Hộp"}
-                        favor={"Yêu thích 51.8k"}
-                        sale={"Đã bán 8.4k"}
-                    />
-
-
 
                 </div>
             </div>
