@@ -10,7 +10,7 @@ import ProductCardButton from "./ProductCardButton";
 export default function ProductCard(
     {title = "", price="", favor="", sale="", className = ""}) {
     return (
-        <Card className="w-56 rounded-lg border border-gray-200 shadow-md flex flex-col overflow-hidden m-2">
+        <Card className="w-56 rounded-lg border border-gray-200 shadow-md flex flex-col overflow-hidden my-2">
             {/* Ảnh sản phẩm */}
             <CardContent className="p-0 flex items-center justify-center h-56 w-full bg-white">
                 <img

@@ -5,7 +5,7 @@ export default function Footer() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     return (
-        <footer className="bg-gray-100 dark:bg-gray-900 text-sm p-2">
+        <footer className="bg-gray-100 dark:bg-gray-900 text-sm text-gray-600 p-2">
             <div className="mx-auto w-full max-w-screen-xl">
                 <div className="grid grid-cols-1 gap-0 px-4 py-6 lg:py-8 md:grid-cols-4">
                     <div className="w-full md:w-full mb-6 md:mb-0">
@@ -84,7 +84,7 @@ export default function Footer() {
                 <div className="grid grid-cols-1 gap-0 px-4 py-6 lg:py-8 md:grid-cols-4">
                     <div className="w-full md:w-full mb-6 md:mb-0 col-span-3">
                         <nav className="list-none md:block">
-                            <h3 className="font-semibold">Công Ty Cổ Phần Dược Phẩm Pharmacity</h3>
+                            <h3 className="font-semibold pb-3">Công Ty Cổ Phần Dược Phẩm Pharmacity</h3>
                             <li className="pb-1">
                                 Trụ sở: 248A Nơ Trang Long, P.12, Q.Bình Thạnh, TP.Hồ Chí Minh
                             </li>
