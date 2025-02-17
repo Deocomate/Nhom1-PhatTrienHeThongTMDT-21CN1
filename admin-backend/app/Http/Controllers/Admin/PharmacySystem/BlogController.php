@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Admin\TourSystem;
-
+namespace App\Http\Controllers\Admin\PharmacySystem;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -12,7 +12,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::all();
+        $blogs = DB::table('blogs')->get();
         return view('admin.modules.blog.index', compact('blogs'));
     }
 
@@ -22,7 +22,7 @@ class BlogController extends Controller
     public function create()
     {
         $blog = null;
-        $blogCategories = BlogCategory::all();
+        $blogCategories = DB::table('blog_categories')->get();
         return view('admin.modules.blog.createOrEdit', compact('blog', 'blogCategories'));
     }
 
@@ -39,7 +39,7 @@ class BlogController extends Controller
             'blogcategory_id' => 'required|exists:blog_categories,id',
         ]);
 
-        Blog::create($validated);
+        DB::table('blogs')->insert($validated);
 
         return redirect()->route('admin.blog.index')->with('success', 'Blog created successfully!');
     }
@@ -49,7 +49,7 @@ class BlogController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // Không cần thiết cho CRUD cơ bản
     }
 
     /**
@@ -57,7 +57,11 @@ class BlogController extends Controller
      */
     public function edit(string $id)
     {
-        $blogCategories = BlogCategory::all();
+        $blog = DB::table('blogs')->where('id', $id)->first();
+        if (!$blog) {
+            abort(404);
+        }
+        $blogCategories = DB::table('blog_categories')->get();
         return view('admin.modules.blog.createOrEdit', compact('blog', 'blogCategories'));
     }
 
@@ -74,7 +78,7 @@ class BlogController extends Controller
             'blogcategory_id' => 'required|exists:blog_categories,id',
         ]);
 
-        $blog->update($validated);
+        DB::table('blogs')->where('id', $id)->update($validated);
 
         return redirect()->route('admin.blog.index')->with('success', 'Blog updated successfully!');
     }
@@ -84,8 +88,7 @@ class BlogController extends Controller
      */
     public function destroy(string $id)
     {
-        $blog->delete();
-
+        DB::table('blogs')->where('id', $id)->delete();
         return redirect()->route('admin.blog.index')->with('success', 'Blog deleted successfully!');
     }
 }

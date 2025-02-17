@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Admin\TourSystem;
-
+namespace App\Http\Controllers\Admin\PharmacySystem;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -12,7 +12,7 @@ class BlogCategoryController extends Controller
      */
     public function index()
     {
-        $blogCategories = BlogCategory::all();
+        $blogCategories = DB::table('blog_categories')->get();
         return view('admin.modules.blog_category.index', compact('blogCategories'));
     }
 
@@ -36,7 +36,7 @@ class BlogCategoryController extends Controller
             'priority' => 'nullable|integer',
         ]);
 
-        BlogCategory::create($validated);
+        DB::table('blog_categories')->insert($validated);
 
         return redirect()->route('admin.blogcategory.index')->with('success', 'Blog Category created successfully!');
     }
@@ -46,7 +46,7 @@ class BlogCategoryController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // Không cần thiết cho CRUD cơ bản
     }
 
     /**
@@ -54,6 +54,10 @@ class BlogCategoryController extends Controller
      */
     public function edit(string $id)
     {
+        $blogCategory = DB::table('blog_categories')->where('id', $id)->first();
+        if (!$blogCategory) {
+            abort(404);
+        }
         return view('admin.modules.blog_category.createOrEdit', compact('blogCategory'));
     }
 
@@ -63,12 +67,12 @@ class BlogCategoryController extends Controller
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
-            'name' => 'required|unique:blog_categories,name,' . $blogCategory->id . '|max:255',
+            'name' => 'required|unique:blog_categories,name,' . $id . '|max:255',
             'thumbnail' => 'nullable|max:255',
             'priority' => 'nullable|integer',
         ]);
 
-        $blogCategory->update($validated);
+        DB::table('blog_categories')->where('id', $id)->update($validated);
 
         return redirect()->route('admin.blogcategory.index')->with('success', 'Blog Category updated successfully!');
     }
@@ -78,8 +82,7 @@ class BlogCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $blogCategory->delete();
-
+        DB::table('blog_categories')->where('id', $id)->delete();
         return redirect()->route('admin.blogcategory.index')->with('success', 'Blog Category deleted successfully!');
     }
 }

@@ -1,14 +1,14 @@
 <?php
 /**
- * @var \App\Models\TourSystem\Category[] $categories
+ * @var \stdClass[] $blogCategories
  */
 ?>
 @extends('admin.layouts.main')
-@section('title','Danh sách danh mục')
+@section('title','Danh sách danh mục Blog')
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Danh sách danh mục</h3>
+            <h3 class="card-title">Danh sách danh mục Blog</h3>
         </div>
         <div class="card-body">
             @if(session('success'))
@@ -16,36 +16,35 @@
                     {{ session('success') }}
                 </div>
             @endif
+            <a href="{{ route('admin.blogcategory.create') }}" class="btn btn-primary mb-3">Tạo mới</a>
             <table id="data-table" class="table table-bordered table-striped table-hover">
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Tiêu đề</th>
+                    <th>Tên</th>
                     <th>Ảnh</th>
-                    <th>Mô tả</th>
                     <th>Thứ tự</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($categories as $category)
+                @foreach($blogCategories as $blogCategory)
                     <tr>
-                        <td>{{ $category->id }}</td>
-                        <td>{{ $category->title }}</td>
+                        <td>{{ $blogCategory->id }}</td>
+                        <td>{{ $blogCategory->name }}</td>
                         <td>
-                            @if($category->thumbnail)
-                                <img src="{{ $category->thumbnail }}" alt="{{ $category->title }}"
+                            @if($blogCategory->thumbnail)
+                                <img src="{{ $blogCategory->thumbnail }}" alt="{{ $blogCategory->name }}"
                                      style="max-width: 100px; max-height: 100px;">
                             @else
                                 Không có
                             @endif
                         </td>
-                        <td>{{ $category->description }}</td>
-                        <td>{{ $category->priority }}</td>
+                        <td>{{ $blogCategory->priority }}</td>
                         <td>
                             <a class="btn btn-warning"
-                               href="{{ route('admin.category.edit', ['category' => $category->id]) }}">Sửa</a>
-                            <form action="{{ route('admin.category.destroy', ['category' => $category->id]) }}"
+                               href="{{ route('admin.blogcategory.edit', ['blogcategory' => $blogCategory->id]) }}">Sửa</a>
+                            <form action="{{ route('admin.blogcategory.destroy', ['blogcategory' => $blogCategory->id]) }}"
                                   method="POST" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
