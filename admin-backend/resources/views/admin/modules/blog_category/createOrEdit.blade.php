@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \App\Models\BlogCategory|null $blogCategory
+ * @var \stdClass|null $blogCategory
  */
 $isEdit = isset($blogCategory) && $blogCategory;
 ?>
@@ -13,17 +13,17 @@ $isEdit = isset($blogCategory) && $blogCategory;
         </div>
         <div class="card-body">
             <form
-                action="{{ $isEdit ? route('admin.blogcategory.update', ['blogcategory' => $blogCategory->id]) : route('admin.blogcategory.store') }}"
+                action="{{ $isEdit ? route('admin.blogcategory.update', ['blogcategory' => $blogCategory ? $blogCategory->id : null]) : route('admin.blogcategory.store') }}"
                 method="post">
                 @csrf
                 @if($isEdit)
                     @method('PUT')
                 @endif
 
-                <x-inputs.text label="Tên danh mục" name="name" :value="$blogCategory?->name"/>
-                <x-inputs.image-link label="Ảnh đại diện" name="thumbnail" :value="$blogCategory?->thumbnail"/>
+                <x-inputs.text label="Tên danh mục" name="name" :value="$blogCategory ? $blogCategory->name : ''"/>
+                <x-inputs.image-link label="Ảnh đại diện" name="thumbnail" :value="$blogCategory ? $blogCategory->thumbnail : ''"/>
                 <x-inputs.number label="Thứ tự ưu tiên" name="priority"
-                                 :value="$blogCategory?->priority"></x-inputs.number>
+                                 :value="$blogCategory ? $blogCategory->priority : ''"></x-inputs.number>
 
                 <button type="submit" class="btn btn-primary">{{ $isEdit ? 'Sửa' : 'Tạo' }}</button>
             </form>

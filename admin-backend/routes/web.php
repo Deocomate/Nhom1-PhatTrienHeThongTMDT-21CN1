@@ -10,9 +10,14 @@ use App\Http\Controllers\Admin\{AdminController,
 
 
 
+
+
 use App\Http\Controllers\Admin\PharmacySystem\{
-    CategoryController
+    CategoryController,
+    BlogController,
+    BlogCategoryController
 };
+
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Client\{BusTicketBookingClient\ClientHomeController};
@@ -47,7 +52,14 @@ Route::prefix('admin')->name("admin.")->middleware(AuthenticationMiddleware::cla
         ->except("create", "show", "edit", "destroy", "store");
 
 
+
+
+    // BlogCategory
+    Route::resource("blogcategory", BlogCategoryController::class);
+    Route::resource("blog", BlogController::class);
+
     Route::resource("category", CategoryController::class);
+
 });
 
 Route::any('/ckfinder/connector', '\CKSource\CKFinderBridge\Controller\CKFinderController@requestAction')
