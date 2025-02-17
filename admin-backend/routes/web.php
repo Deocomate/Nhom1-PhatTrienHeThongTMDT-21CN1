@@ -6,7 +6,10 @@ use App\Http\Controllers\Admin\{AdminController,
     TourSystem\ContactController,
     TourSystem\DestinationController,
     TourSystem\TourController
+    
 };
+
+
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Client\{BusTicketBookingClient\ClientHomeController};
 use App\Http\Middleware\AuthenticationMiddleware;
@@ -39,7 +42,10 @@ Route::prefix('admin')->name("admin.")->middleware(AuthenticationMiddleware::cla
     Route::resource("contact", ContactController::class)
         ->except("create", "show", "edit", "destroy", "store");
 
-    
+    // BlogCategory
+    Route::resource("blogcategory", BlogCategoryController::class);
+    Route::resource("blog", BlogController::class);
+
 });
 
 Route::any('/ckfinder/connector', '\CKSource\CKFinderBridge\Controller\CKFinderController@requestAction')
