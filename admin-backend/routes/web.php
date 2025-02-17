@@ -38,6 +38,8 @@ Route::prefix('admin')->name("admin.")->middleware(AuthenticationMiddleware::cla
     Route::resource("tour", TourController::class);
     Route::resource("contact", ContactController::class)
         ->except("create", "show", "edit", "destroy", "store");
+
+    
 });
 
 Route::any('/ckfinder/connector', '\CKSource\CKFinderBridge\Controller\CKFinderController@requestAction')
