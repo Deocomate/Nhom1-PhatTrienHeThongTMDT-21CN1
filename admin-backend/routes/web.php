@@ -9,20 +9,11 @@ use App\Http\Controllers\Admin\{AdminController,
 };
 
 
-<<<<<<< HEAD
 
-
-use App\Http\Controllers\Admin\PharmacySystem\{
-    CategoryController,
-    BlogController,
-    BlogCategoryController
-};
-
-=======
 use App\Http\Controllers\Admin\PharmacySystem\{
     CategoryController
 };
->>>>>>> b701db0cde967aefcd70ed47df20fd21c0f3ab4f
+
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Client\{BusTicketBookingClient\ClientHomeController};
 use App\Http\Middleware\AuthenticationMiddleware;
@@ -55,17 +46,8 @@ Route::prefix('admin')->name("admin.")->middleware(AuthenticationMiddleware::cla
     Route::resource("contact", ContactController::class)
         ->except("create", "show", "edit", "destroy", "store");
 
-<<<<<<< HEAD
-
-    // BlogCategory
-    Route::resource("blogcategory", BlogCategoryController::class);
-    Route::resource("blog", BlogController::class);
 
     Route::resource("category", CategoryController::class);
-
-=======
-    Route::resource("category", CategoryController::class);
->>>>>>> b701db0cde967aefcd70ed47df20fd21c0f3ab4f
 });
 
 Route::any('/ckfinder/connector', '\CKSource\CKFinderBridge\Controller\CKFinderController@requestAction')
