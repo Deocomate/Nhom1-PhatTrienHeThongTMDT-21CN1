@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Create Customers Table
+        // Create Customers table
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('email')->unique();
@@ -24,15 +25,17 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Create Categories Table
+        // Create Categories table
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('thumbnail')->nullable();
+            $table->integer('priority')->nullable();
             $table->foreignId('parent_id')->nullable()->constrained('categories');
             $table->timestamps();
         });
 
-        // Create Products Table
+        // Create Products table
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('title');
@@ -53,18 +56,18 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Create Orders Table
+        // Create Orders table
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained('customers');
             $table->enum('status', ['new', 'processing', 'shipped', 'cancelled'])->default('new');
             $table->enum('payment_method', ['online', 'offline']);
             $table->enum('payment_status', ['fail', 'pending', 'success'])->default('pending');
-            $table->integer('total_price')->nullable();
+            $table->integer('total_price');
             $table->timestamps();
         });
 
-        // Create OrderDetails Table
+        // Create OrderDetails table
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products');
@@ -74,7 +77,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Create Payments Table
+        // Create Payments table
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained('orders');
@@ -83,14 +86,34 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Create Blogs Table
+        // Create BlogCategories table
+        Schema::create('blog_categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->string('thumbnail')->nullable();
+            $table->integer('priority')->nullable();
+            $table->timestamps();
+        });
+        // Create Blogs table
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('content');
-            $table->foreignId('category_id')->nullable()->constrained('categories');
+            $table->text('content')->nullable();
+            $table->string('thumbnail')->nullable();
+            $table->integer('priority')->nullable();
+            $table->foreignId('blogcategory_id')->constrained('blog_categories');
             $table->timestamps();
         });
+
+        DB::table('users')->delete();
+        $countUser = DB::table('users')->get()->count();
+        if ($countUser < 1) {
+            User::insert([
+                'name' => "Admin",
+                'email' => "admin@gmail.com",
+                'password' => bcrypt('admin')
+            ]);
+        }
     }
 
     /**
@@ -99,6 +122,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('blogs');
+        Schema::dropIfExists('blog_categories');
         Schema::dropIfExists('payments');
         Schema::dropIfExists('order_details');
         Schema::dropIfExists('orders');
