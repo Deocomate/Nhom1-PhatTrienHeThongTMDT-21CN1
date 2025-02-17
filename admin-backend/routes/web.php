@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Admin\{AdminController,
     SeederController,
-    TourSystem\CategoryController,
     TourSystem\ContactController,
     TourSystem\DestinationController,
     TourSystem\TourController
@@ -10,6 +9,9 @@ use App\Http\Controllers\Admin\{AdminController,
 };
 
 
+use App\Http\Controllers\Admin\PharmacySystem\{
+    CategoryController
+};
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Client\{BusTicketBookingClient\ClientHomeController};
 use App\Http\Middleware\AuthenticationMiddleware;
@@ -36,16 +38,13 @@ Route::prefix('admin')->name("admin.")->middleware(AuthenticationMiddleware::cla
     Route::post('test/form', [AdminController::class, "test_form_post"])->name("test.form.post");
 
     // Các chức năng chính dựa theo module (Đây là các module mẫu)
-    Route::resource("category", CategoryController::class);
+    // Route::resource("category", CategoryController::class);
     Route::resource("destination", DestinationController::class);
     Route::resource("tour", TourController::class);
     Route::resource("contact", ContactController::class)
         ->except("create", "show", "edit", "destroy", "store");
 
-    // BlogCategory
-    Route::resource("blogcategory", BlogCategoryController::class);
-    Route::resource("blog", BlogController::class);
-
+    Route::resource("category", CategoryController::class);
 });
 
 Route::any('/ckfinder/connector', '\CKSource\CKFinderBridge\Controller\CKFinderController@requestAction')
