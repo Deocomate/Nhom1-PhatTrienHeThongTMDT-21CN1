@@ -1,49 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import ProductCard from "@/components/ProductCard";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
-// Mảng chứa danh sách sản phẩm
-const products = [
-    {
-        title: "Cao dán Salonpas Pain Relief Patch 7cmx10cm giảm đau vai, đau cổ, đau lưng, đau khớp (hộp 3 miếng)",
-        price: "30.000 đ/Hộp",
-        favor: "Yêu thích 51.8k",
-        sale: "Đã bán 8.4k"
-    },
-    {
-        title: "Thuốc giảm đau hạ sốt Efferalgan 500mg - 16 viên",
-        price: "25.000 đ/Hộp",
-        favor: "Yêu thích 30.2k",
-        sale: "Đã bán 5.1k"
-    },
-    {
-        title: "Viên uống bổ sung Vitamin C 500mg giúp tăng đề kháng",
-        price: "80.000 đ/Lọ",
-        favor: "Yêu thích 10.8k",
-        sale: "Đã bán 3.2k"
-    },
-    {
-        title: "Gel trị mụn Decumar New - Giảm viêm, ngừa thâm",
-        price: "50.000 đ/Tuýp",
-        favor: "Yêu thích 25.4k",
-        sale: "Đã bán 7.9k"
-    },
-    {
-        title: "Siro ho bổ phế Bảo Thanh 125ml",
-        price: "60.000 đ/Chai",
-        favor: "Yêu thích 18.9k",
-        sale: "Đã bán 4.5k"
-    },
-    {
-        title: "Dầu gội trị gàu Nizoral 100ml",
-        price: "110.000 đ/Chai",
-        favor: "Yêu thích 12.3k",
-        sale: "Đã bán 2.1k"
-    }
-];
-
-// Hàm chia sản phẩm thành nhóm (mỗi nhóm có 5 sản phẩm)
 const chunkArray = (array, size) => {
     return Array.from({ length: Math.ceil(array.length / size) }, (_, index) =>
         array.slice(index * size, index * size + size)
@@ -51,13 +11,30 @@ const chunkArray = (array, size) => {
 };
 
 export default function Home() {
+    const [products, setProducts] = useState([]);
+
+    // Fetch dữ liệu từ JSON
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch("/data/products.json");
+                const data = await response.json();
+                setProducts(data);
+            } catch (error) {
+                console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
     // Chia nhóm sản phẩm (mỗi `CarouselItem` chứa 5 sản phẩm)
     const groupedProducts = chunkArray(products, 5);
 
     return (
-        <div className="w-full flex flex-col items-center">
-            <div className="max-w-screen-xl w-full p-4">
-                <h1 className="text-xl font-bold">Top bán chạy toàn quốc</h1>
+        <div className="w-full flex flex-col items-center bg-gradient-to-r my-2">
+            <div className="max-w-screen-xl w-full p-4 rounded-lg my-4">
+                <h1 className="text-xl font-bold text-black">Top bán chạy toàn quốc</h1>
                 <Carousel className="w-full">
                     <CarouselContent className="flex">
                         {groupedProducts.map((group, index) => (

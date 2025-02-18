@@ -15,6 +15,7 @@ import {
 import { List } from "@phosphor-icons/react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import {useState} from "react";
+import HDropdownMenu from "@/components/HorizontalDropdownMenu";
 
 const trendingSearches = ["Khẩu trang", "Giảm ho đau họng", "Collagen"];
 
@@ -65,7 +66,7 @@ export default function Header() {
             </div>
 
             {/* Phần dưới của header */}
-            <div className="w-full bg-gray-100 py-3">
+            <div className="w-full bg-green-700 pb-3">
                 <div className="max-w-screen-xl mx-auto px-4 flex items-start justify-start">
                     <DropdownMenu>
                         <DropdownMenuTrigger
@@ -74,10 +75,10 @@ export default function Header() {
                             Danh mục
                         </DropdownMenuTrigger>
                         <DropdownMenuContent
-                            className="mt-2 rounded-none w-screen h-full"
+                            className="mt-2 rounded-none w-screen h-96"
                         >
                             <div className="max-w-screen-xl mx-auto p-4 flex items-start justify-start">
-                                hello
+                                <HDropdownMenu/>
                             </div>
                         </DropdownMenuContent>
                     </DropdownMenu>
