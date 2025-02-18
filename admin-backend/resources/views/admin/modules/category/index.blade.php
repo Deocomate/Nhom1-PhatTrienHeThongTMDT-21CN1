@@ -1,14 +1,14 @@
 <?php
 /**
- * @var \App\Models\TourSystem\Category[] $categories
+ * @var \stdClass[] $categories
  */
 ?>
 @extends('admin.layouts.main')
-@section('title','Danh sách danh mục')
+@section('title','Danh sách Danh mục')
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Danh sách danh mục</h3>
+            <h3 class="card-title">Danh sách Danh mục</h3>
         </div>
         <div class="card-body">
             @if(session('success'))
@@ -16,13 +16,14 @@
                     {{ session('success') }}
                 </div>
             @endif
+            <a href="{{ route('admin.category.create') }}" class="btn btn-primary mb-3">Tạo mới</a>
             <table id="data-table" class="table table-bordered table-striped table-hover">
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Tiêu đề</th>
+                    <th>Tên</th>
                     <th>Ảnh</th>
-                    <th>Mô tả</th>
+                    <th>Danh mục cha</th>
                     <th>Thứ tự</th>
                     <th></th>
                 </tr>
@@ -31,16 +32,21 @@
                 @foreach($categories as $category)
                     <tr>
                         <td>{{ $category->id }}</td>
-                        <td>{{ $category->title }}</td>
+                        <td>{{ $category->name }}</td>
                         <td>
                             @if($category->thumbnail)
-                                <img src="{{ $category->thumbnail }}" alt="{{ $category->title }}"
+                                <img src="{{ $category->thumbnail }}" alt="{{ $category->name }}"
                                      style="max-width: 100px; max-height: 100px;">
                             @else
                                 Không có
                             @endif
                         </td>
-                        <td>{{ $category->description }}</td>
+                        <td>
+                            @php
+                                $parentCategory = DB::table('categories')->where('id', $category->parent_id)->first();
+                            @endphp
+                            {{ $parentCategory ? $parentCategory->name : 'Không có' }}
+                        </td>
                         <td>{{ $category->priority }}</td>
                         <td>
                             <a class="btn btn-warning"
@@ -64,10 +70,13 @@
 @push('scripts')
     <script>
         // Apply data table
-        $('#data-table').DataTable({
-            "responsive": true, "lengthChange": false, "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        })
-            .buttons().container().appendTo('#data-table_wrapper .col-md-6:eq(0)');
+        $(document).ready(function() {
+            $('#data-table').DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#data-table_wrapper .col-md-6:eq(0)');
+        });
     </script>
 @endpush
