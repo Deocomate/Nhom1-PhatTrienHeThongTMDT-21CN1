@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\PharmacySystem;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -12,7 +13,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return "Hello";
+        $categories = DB::table('categories')
+            ->leftJoin('categories as parents', 'categories.parent_id', '=', 'parents.id')
+            ->select('categories.*', 'parents.name as parent_name') // Lấy categories.* và parents.name
+            ->get();
+
+        return view('admin.modules.category.index', compact('categories'));
     }
 
     /**
@@ -21,7 +27,8 @@ class CategoryController extends Controller
     public function create()
     {
         $category = null;
-        return view('admin.modules.category.createOrEdit', compact('category'));
+        $categories = DB::table('categories')->get();
+        return view('admin.modules.category.createOrEdit', compact('category', 'categories'));
     }
 
     /**
@@ -29,7 +36,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|unique:categories|max:255',
+            'thumbnail' => 'nullable|max:255',
+            'priority' => 'nullable|integer',
+            'parent_id' => 'nullable|exists:categories,id',
+        ]);
+
+        DB::table('categories')->insert($validated);
+
+        return redirect()->route('admin.category.index')->with('success', 'Category created successfully!');
     }
 
     /**
@@ -37,7 +53,7 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // Không cần thiết cho CRUD cơ bản
     }
 
     /**
@@ -45,7 +61,12 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $category = DB::table('categories')->where('id', $id)->first();
+        if (!$category) {
+            abort(404);
+        }
+        $categories = DB::table('categories')->get();
+        return view('admin.modules.category.createOrEdit', compact('category', 'categories'));
     }
 
     /**
@@ -53,7 +74,16 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|unique:categories,name,' . $id . '|max:255',
+            'thumbnail' => 'nullable|max:255',
+            'priority' => 'nullable|integer',
+            'parent_id' => 'nullable|exists:categories,id',
+        ]);
+
+        DB::table('categories')->where('id', $id)->update($validated);
+
+        return redirect()->route('admin.category.index')->with('success', 'Category updated successfully!');
     }
 
     /**
@@ -61,6 +91,7 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        DB::table('categories')->where('id', $id)->delete();
+        return redirect()->route('admin.category.index')->with('success', 'Category deleted successfully!');
     }
 }

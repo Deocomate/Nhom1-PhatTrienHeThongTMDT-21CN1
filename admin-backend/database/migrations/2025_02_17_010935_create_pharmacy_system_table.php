@@ -121,6 +121,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('customers');
         Schema::dropIfExists('blogs');
         Schema::dropIfExists('blog_categories');
         Schema::dropIfExists('payments');
@@ -128,6 +129,6 @@ return new class extends Migration
         Schema::dropIfExists('orders');
         Schema::dropIfExists('products');
         Schema::dropIfExists('categories');
-        Schema::dropIfExists('customers');
+
     }
 };
