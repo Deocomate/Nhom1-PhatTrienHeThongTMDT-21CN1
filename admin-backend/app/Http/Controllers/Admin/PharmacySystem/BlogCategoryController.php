@@ -13,7 +13,7 @@ class BlogCategoryController extends Controller
     public function index()
     {
         $blogCategories = DB::table('blog_categories')->get();
-        return view('admin.modules.bclog_category.index', compact('blogCategories'));
+        return view('admin.modules.blog_category.index', compact('blogCategories'));
     }
 
     /**
