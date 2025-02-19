@@ -1,7 +1,4 @@
 <?php
-/**
- * @var \App\Models\TourSystem\Category|null $category
- */
 $isEdit = isset($category) && $category;
 ?>
 @extends('admin.layouts.main')
