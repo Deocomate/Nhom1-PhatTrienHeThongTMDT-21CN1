@@ -7,8 +7,6 @@ use App\Http\Controllers\Admin\{AdminController,
     TourSystem\TourController
 
 };
-
-
 use App\Http\Controllers\Admin\PharmacySystem\{
     CategoryController,
     BlogController,
@@ -49,6 +47,7 @@ Route::prefix('admin')->name("admin.")->middleware(AuthenticationMiddleware::cla
     // Route::resource("tour", TourController::class);
     // Route::resource("contact", ContactController::class)
     //     ->except("create", "show", "edit", "destroy", "store");
+
 
     // BlogCategory
     Route::resource("blogcategory", BlogCategoryController::class);
