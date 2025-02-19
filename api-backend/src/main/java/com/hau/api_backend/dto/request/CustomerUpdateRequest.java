@@ -1,19 +1,15 @@
 package com.hau.api_backend.dto.request;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 
-public class UserCreationRequest {
-    String username;
+public class CustomerUpdateRequest {
     String email;
     String password;
     String fullName;
@@ -21,5 +17,4 @@ public class UserCreationRequest {
     String phoneNumber;
     String address;
     String profilePic;
-
 }
