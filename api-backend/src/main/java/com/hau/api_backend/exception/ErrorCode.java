@@ -4,15 +4,15 @@ import lombok.Getter;
 
 @Getter
 public enum ErrorCode {
-    UNCATEGORIZED("Uncategorized error"),
-    EMAIL_EXISTED("Email already exists"),
-    PASSWORD_NOTNULL("Password ")
+    EMAIL_ALREADY_EXISTS("Email already exists"),
+    CUSTOMER_NOT_FOUND("Customer not found"),
+    PHONE_NUMBER_ALREADY_EXISTS("Phone Number already exists")
     ;
+
 
     private final String message;
 
     ErrorCode(String message) {
-
         this.message = message;
     }
 }
