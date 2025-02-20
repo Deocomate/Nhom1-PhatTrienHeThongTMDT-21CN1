@@ -109,10 +109,8 @@ public class GlobalExceptionHandler {
         // Create a list to hold the error details
         List<Map<String, String>> errorDetails = new ArrayList<>();
 
-        // Create a map for the specific error
-        Map<String, String> detail = new HashMap<>();
-        detail.put("field", ex.getErrorCode().name().toLowerCase()); // Use the ErrorCode name as field
-        detail.put("message", ex.getErrorCode().getMessage());
+
+        Map<String, String> detail = getStringStringMap(ex);
 
         // Add the error to the list
         errorDetails.add(detail);
@@ -125,6 +123,27 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    private static Map<String, String> getStringStringMap(AppException ex) {
+        Map<String, String> detail = new HashMap<>();
+        String field = null;
+
+        // Set field name based on the ErrorCode
+        if (ex.getErrorCode() == ErrorCode.EMAIL_ALREADY_EXISTS) {
+            field = "email";
+        } else if (ex.getErrorCode() == ErrorCode.PHONE_NUMBER_ALREADY_EXISTS) {
+            field = "phoneNumber";
+        }
+
+        // If the field is still null, it means the ErrorCode is not handled
+        if (field == null) {
+            field = "unknown"; // Or handle it in another way, e.g., log the error
+        }
+
+        detail.put("field", field); // Use the ErrorCode name as field
+        detail.put("message", ex.getErrorCode().getMessage());
+        return detail;
     }
 
     // 6. Xử lý tất cả các exception chưa được xử lý (fallback)
