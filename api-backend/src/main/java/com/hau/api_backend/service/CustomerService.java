@@ -79,22 +79,6 @@ public class CustomerService {
 
     public ApiResponse<CustomerResponse> updateCustomer(int id, CustomerUpdateRequest request) {
         Customer customer = findCustomerById(id);
-
-        // Kiểm tra và set các giá trị nếu chúng được cung cấp trong request
-        if (request.getPassword() != null) {
-            customer.setPassword(request.getPassword());
-        }
-        if (request.getFullName() != null) {
-            customer.setFullName(request.getFullName());
-        }
-        if (request.getPhoneNumber() != null) {
-            customer.setPhoneNumber(request.getPhoneNumber());
-        }
-        if (request.getAddress() != null) {
-            customer.setAddress(request.getAddress());
-        }
-
-
         customerMapper.updateCustomer(customer, request);
         Customer updateCustomer = customerRepository.save(customer);
         CustomerResponse customerResponse = customerMapper.toCustomerResponse(updateCustomer);

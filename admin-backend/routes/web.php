@@ -5,7 +5,6 @@ use App\Http\Controllers\Admin\{AdminController,
     TourSystem\ContactController,
     TourSystem\DestinationController,
     TourSystem\TourController
-    
 };
 
 
@@ -55,7 +54,6 @@ Route::prefix('admin')->name("admin.")->middleware(AuthenticationMiddleware::cla
     // BlogCategory
     Route::resource("blogcategory", BlogCategoryController::class);
     Route::resource("blog", BlogController::class);
-
     Route::resource("category", CategoryController::class);
 
 });
