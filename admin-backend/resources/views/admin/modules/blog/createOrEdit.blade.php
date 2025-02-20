@@ -1,7 +1,7 @@
 <?php
 /**
- * @var \App\Models\Blog|null $blog
- * @var \App\Models\BlogCategory[] $blogCategories
+ * @var \stdClass|null $blog
+ * @var \stdClass[] $blogCategories
  */
 $isEdit = isset($blog) && $blog;
 ?>
@@ -14,22 +14,22 @@ $isEdit = isset($blog) && $blog;
         </div>
         <div class="card-body">
             <form
-                action="{{ $isEdit ? route('admin.blog.update', ['blog' => $blog->id]) : route('admin.blog.store') }}"
+                action="{{ $isEdit ? route('admin.blog.update', ['blog' => $blog ? $blog->id : null]) : route('admin.blog.store') }}"
                 method="post">
                 @csrf
                 @if($isEdit)
                     @method('PUT')
                 @endif
 
-                <x-inputs.text label="Tiêu đề" name="title" :value="$blog?->title"/>
-                <x-inputs.editor label="Nội dung" name="content" :value="$blog?->content"/>
-                <x-inputs.image-link label="Ảnh đại diện" name="thumbnail" :value="$blog?->thumbnail"/>
+                <x-inputs.text label="Tiêu đề" name="title" :value="$blog ? $blog->title : ''"/>
+                <x-inputs.editor label="Nội dung" name="content" :value="$blog ? $blog->content : ''"/>
+                <x-inputs.image-link label="Ảnh đại diện" name="thumbnail" :value="$blog ? $blog->thumbnail : ''"/>
                 <x-inputs.number label="Thứ tự ưu tiên" name="priority"
-                                 :value="$blog?->priority"></x-inputs.number>
+                                 :value="$blog ? $blog->priority : ''"></x-inputs.number>
 
                 <x-inputs.select label="Danh mục Blog" name="blogcategory_id">
                     @foreach($blogCategories as $blogCategory)
-                        <option value="{{ $blogCategory->id }}" @if($blog?->blogcategory_id == $blogCategory->id) selected @endif>{{ $blogCategory->name }}</option>
+                        <option value="{{ $blogCategory->id }}" @if($blog && $blog->blogcategory_id == $blogCategory->id) selected @endif>{{ $blogCategory->name }}</option>
                     @endforeach
                 </x-inputs.select>
 

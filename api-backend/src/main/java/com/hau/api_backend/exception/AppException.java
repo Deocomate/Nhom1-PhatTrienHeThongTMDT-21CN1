@@ -1,7 +1,6 @@
-package com.hau.identity_service.exception;
+package com.hau.api_backend.exception;
 
 
-import com.hau.api_backend.exception.ErrorCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,4 +10,8 @@ import lombok.Setter;
 public class AppException extends RuntimeException {
     private ErrorCode errorCode;
 
+    public AppException(ErrorCode errorCode) {
+        super(errorCode.getMessage());
+        this.errorCode = errorCode;
+    }
 }

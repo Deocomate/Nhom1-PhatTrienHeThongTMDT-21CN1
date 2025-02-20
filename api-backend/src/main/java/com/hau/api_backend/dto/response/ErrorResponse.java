@@ -1,21 +1,20 @@
 package com.hau.api_backend.dto.response;
 
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ApiResponse<C> {
+public class ErrorResponse {
     int code;
     String message;
-    Object data;
+    Object error;
     LocalDateTime timestamp = LocalDateTime.now();
 }
