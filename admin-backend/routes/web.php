@@ -6,16 +6,12 @@ use App\Http\Controllers\Admin\{AdminController,
     TourSystem\DestinationController,
     TourSystem\TourController
 };
-
-
-
-
 use App\Http\Controllers\Admin\PharmacySystem\{
     CategoryController,
     BlogController,
     BlogCategoryController
 };
-
+use App\Http\Controllers\Admin\PharmacySystem\ProductController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Client\{BusTicketBookingClient\ClientHomeController};
@@ -26,8 +22,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/seeder', [SeederController::class, "index"]);
 
 // Client
-Route::get('/', [ClientHomeController::class, "index"])->name("client.index");
-Route::get('/', [ClientHomeController::class, "index"])->name("client.homepage");
+Route::get('/', function () {
+    return to_route("admin.index");
+})->name("client.index");
+//Route::get('/', [ClientHomeController::class, "index"])->name("client.homepage");
 
 // Admin
 
@@ -44,17 +42,17 @@ Route::prefix('admin')->name("admin.")->middleware(AuthenticationMiddleware::cla
 
     // Các chức năng chính dựa theo module (Đây là các module mẫu)
     // Route::resource("category", CategoryController::class);
-    Route::resource("destination", DestinationController::class);
-    Route::resource("tour", TourController::class);
-    Route::resource("contact", ContactController::class)
-        ->except("create", "show", "edit", "destroy", "store");
-
+    // Route::resource("destination", DestinationController::class);
+    // Route::resource("tour", TourController::class);
+    // Route::resource("contact", ContactController::class)
+    //     ->except("create", "show", "edit", "destroy", "store");
 
 
     // BlogCategory
     Route::resource("blogcategory", BlogCategoryController::class);
     Route::resource("blog", BlogController::class);
     Route::resource("category", CategoryController::class);
+    Route::resource("product", ProductController::class);
 
 });
 

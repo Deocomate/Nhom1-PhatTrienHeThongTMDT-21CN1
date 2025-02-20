@@ -7,7 +7,11 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
+
+        // // Contact Table
+
         // Contact Table
+        
         // Schema::create('contact', function (Blueprint $table) {
         //     $table->id();
         //     $table->string('company_name', 1000)->nullable();
@@ -30,6 +34,7 @@ return new class extends Migration {
         //     $table->json('images')->nullable();
         //     $table->timestamps();
         // });
+
 
         // // Destinations Table
         // Schema::create('destinations', function (Blueprint $table) {
@@ -80,6 +85,7 @@ return new class extends Migration {
         //     $table->integer('priority')->nullable();
         //     $table->timestamps();
         // });
+
     }
 
     public function down(): void
