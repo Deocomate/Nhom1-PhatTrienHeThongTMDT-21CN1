@@ -84,7 +84,7 @@ export default function Footer() {
                 <div className="grid grid-cols-1 gap-0 px-4 py-6 lg:py-8 md:grid-cols-4">
                     <div className="w-full md:w-full mb-6 md:mb-0 col-span-3">
                         <nav className="list-none md:block">
-                            <h3 className="font-semibold pb-3">Công Ty Cổ Phần Dược Phẩm Pharmacity</h3>
+                            <h3 className="font-semibold pb-3">Công Ty Cổ Phần Dược Phẩm An Khang</h3>
                             <li className="pb-1">
                                 Trụ sở: 248A Nơ Trang Long, P.12, Q.Bình Thạnh, TP.Hồ Chí Minh
                             </li>
@@ -92,7 +92,7 @@ export default function Footer() {
                                 Điện thoại: 1800 6821
                             </li>
                             <li className="pb-1">
-                                Email: cskh@pharmacity.vn
+                                Email: cskh@ankhang.vn
                             </li>
                             <li className="pb-1 underline pl-2">
                                 <a href="#">Click here for business information</a>

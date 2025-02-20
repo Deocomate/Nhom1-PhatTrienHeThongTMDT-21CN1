@@ -30,9 +30,9 @@ export default function Header() {
                 <div className="max-w-screen-xl mx-auto px-4 flex items-start justify-between">
                     {/* Logo */}
                     <img
-                        src="/pharmacity-logo.svg"
-                        alt="Pharmacity Logo"
-                        className="w-40 h-auto"
+                        src="https://placehold.co/100x50"
+                        alt="An Khang Logo"
+                        className="w-44 h-auto"
                     />
 
                     {/* Container chứa SearchBar và nhóm button */}

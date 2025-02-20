@@ -1,0 +1,23 @@
+export const categories = [
+  { id: 1, name: "Sức khỏe sinh sản", icon: "🧬" },
+  { id: 2, name: "Mắt", icon: "👁" },
+  { id: 3, name: "Tai - Mũi - Họng", icon: "👂" },
+  { id: 4, name: "Hô hấp", icon: "🌬" },
+  { id: 5, name: "Thuốc trị ký sinh trùng", icon: "🦠" },
+  { id: 6, name: "Tâm thần", icon: "🧠" },
+  { id: 7, name: "Cơ - Xương - Khớp", icon: "🦴" },
+  { id: 8, name: "Ung thư", icon: "🎗" },
+  { id: 9, name: "Truyền nhiễm", icon: "🦠" },
+  { id: 10, name: "Nội tiết - Chuyển hóa", icon: "🧬" },
+  { id: 11, name: "Thận - Tiết niệu", icon: "🩸" },
+  { id: 12, name: "Dị ứng", icon: "🤧" },
+  { id: 13, name: "Da - Tóc - Móng", icon: "💇" },
+  { id: 14, name: "Tim mạch", icon: "❤️" },
+  { id: 15, name: "Máu", icon: "🩸" },
+  { id: 16, name: "Vitamin - khoáng chất", icon: "💊" },
+  { id: 17, name: "Tiểu đường", icon: "🩺" },
+  { id: 18, name: "Răng - Hàm - Mặt", icon: "🦷" },
+  { id: 19, name: "Gan", icon: "🍀" },
+  { id: 20, name: "Tiêu hóa", icon: "🍽" },
+  { id: 21, name: "Khác", icon: "…" }
+];
