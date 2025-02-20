@@ -8,7 +8,9 @@ public enum SuccessMessage {
     UPDATE_CUSTOMER("Update customer success"),
     GET_ALL_CUSTOMER("Get all customer success"),
     GET_CUSTOMER_BY_ID("Get customer by id success"),
-    DELETE_CUSTOMER("Delete customer success");
+    DELETE_CUSTOMER("Delete customer success"),
+    GET_ALL_PRODUCT("Get all product success"),
+    GET_PRODUCT_BY_ID("Get customer by id success");
 
     private final String message;
 

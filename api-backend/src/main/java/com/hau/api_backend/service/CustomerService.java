@@ -1,7 +1,7 @@
 package com.hau.api_backend.service;
 
-import com.hau.api_backend.dto.request.CustomerCreationRequest;
-import com.hau.api_backend.dto.request.CustomerUpdateRequest;
+import com.hau.api_backend.dto.request.customerRequest.CustomerCreationRequest;
+import com.hau.api_backend.dto.request.customerRequest.CustomerUpdateRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.CustomerResponse;
 import com.hau.api_backend.entity.Customer;
@@ -79,7 +79,6 @@ public class CustomerService {
 
     public ApiResponse<CustomerResponse> updateCustomer(int id, CustomerUpdateRequest request) {
         Customer customer = findCustomerById(id);
-
         // Kiểm tra và set các giá trị nếu chúng được cung cấp trong request
         if (request.getPassword() != null) {
             customer.setPassword(request.getPassword());
@@ -95,7 +94,7 @@ public class CustomerService {
         }
 
 
-        customerMapper.updateCustomer(customer, request);
+//        customerMapper.updateCustomer(customer, request);
         Customer updateCustomer = customerRepository.save(customer);
         CustomerResponse customerResponse = customerMapper.toCustomerResponse(updateCustomer);
 

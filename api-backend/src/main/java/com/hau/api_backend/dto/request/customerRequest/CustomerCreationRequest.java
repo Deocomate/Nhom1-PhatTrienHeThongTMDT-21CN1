@@ -1,4 +1,4 @@
-package com.hau.api_backend.dto.request;
+package com.hau.api_backend.dto.request.customerRequest;
 
 
 import jakarta.validation.constraints.Email;
