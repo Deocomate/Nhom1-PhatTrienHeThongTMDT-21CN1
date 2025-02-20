@@ -4,6 +4,7 @@ package com.hau.api_backend.dto.request;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -15,7 +16,7 @@ import lombok.experimental.FieldDefaults;
 
 public class CustomerCreationRequest {
     @Email(message = "Invalid email format")
-    @NotBlank(message = "Email is required")
+    @Size(min = 1, max = 50, message = "Password must be between 1 and 30 characters long")
     String email;
     @NotBlank(message = "Password is required")
     String password;
@@ -27,5 +28,4 @@ public class CustomerCreationRequest {
     String phoneNumber;
     @NotBlank(message = "Address is required")
     String address;
-    String profilePic;
 }

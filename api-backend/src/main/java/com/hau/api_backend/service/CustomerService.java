@@ -32,12 +32,12 @@ public class CustomerService {
         //Check if email already exists before creating a customer
         Optional<Customer> existingCustomerWithEmail = customerRepository.findByEmail(request.getEmail());
         if (existingCustomerWithEmail.isPresent()) {
-            throw new IllegalArgumentException(ErrorCode.EMAIL_ALREADY_EXISTS.getMessage());
+            throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS);
         }
         // Check if phone number already exists
         Optional<Customer> existingCustomerWithPhoneNumber = customerRepository.findByPhoneNumber(request.getPhoneNumber());
         if (existingCustomerWithPhoneNumber.isPresent()) {
-            throw new IllegalArgumentException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS.getMessage());
+            throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
         }
 
         Customer customer = customerMapper.toCustomer(request);
@@ -80,6 +80,19 @@ public class CustomerService {
     public ApiResponse<CustomerResponse> updateCustomer(int id, CustomerUpdateRequest request) {
         Customer customer = findCustomerById(id);
 
+        // Kiểm tra và set các giá trị nếu chúng được cung cấp trong request
+        if (request.getPassword() != null) {
+            customer.setPassword(request.getPassword());
+        }
+        if (request.getFullName() != null) {
+            customer.setFullName(request.getFullName());
+        }
+        if (request.getPhoneNumber() != null) {
+            customer.setPhoneNumber(request.getPhoneNumber());
+        }
+        if (request.getAddress() != null) {
+            customer.setAddress(request.getAddress());
+        }
 
 
         customerMapper.updateCustomer(customer, request);

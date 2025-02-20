@@ -29,7 +29,6 @@ public class Customer {
     Gender gender;
     String phoneNumber;
     String address;
-    String profilePic;
     @CreationTimestamp
     LocalDateTime createdAt;
     @CreationTimestamp

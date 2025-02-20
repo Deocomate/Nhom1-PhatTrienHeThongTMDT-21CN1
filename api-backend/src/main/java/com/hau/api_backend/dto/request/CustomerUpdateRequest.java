@@ -2,6 +2,7 @@ package com.hau.api_backend.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -12,7 +13,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
 public class CustomerUpdateRequest {
-    @NotBlank(message = "Password is required")
+    @Size(min = 1, max = 50, message = "Password must be between 1 and 30 characters long")
     String password;
     @NotBlank(message = "Name is required")
     String fullName;
@@ -22,5 +23,4 @@ public class CustomerUpdateRequest {
     String phoneNumber;
     @NotBlank(message = "Address is required")
     String address;
-    String profilePic;
 }

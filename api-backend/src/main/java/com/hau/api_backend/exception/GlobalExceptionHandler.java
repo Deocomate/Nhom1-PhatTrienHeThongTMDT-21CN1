@@ -17,7 +17,6 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
     // 1. Handle Validation Exceptions (@Valid) - Handles both CustomerCreationRequest & CustomerUpdateRequest
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -49,7 +48,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
-                "Validation failed. See 'error' for details.", // Consistent message
+                "Data integrity violation. See 'error' for details.", // Consistent message
                 errorDetails,
                 LocalDateTime.now()
         );
@@ -104,7 +103,31 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    // 5. Xử lý tất cả các exception chưa được xử lý (fallback)
+    // 5. Xử lý AppException
+    @ExceptionHandler(AppException.class)
+    public ResponseEntity<ErrorResponse> handleAppException(AppException ex) {
+        // Create a list to hold the error details
+        List<Map<String, String>> errorDetails = new ArrayList<>();
+
+        // Create a map for the specific error
+        Map<String, String> detail = new HashMap<>();
+        detail.put("field", ex.getErrorCode().name().toLowerCase()); // Use the ErrorCode name as field
+        detail.put("message", ex.getErrorCode().getMessage());
+
+        // Add the error to the list
+        errorDetails.add(detail);
+
+        // Create the ErrorResponse with the list of errors
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "Validation failed. See 'error' for details.", // Consistent message
+                errorDetails,
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    // 6. Xử lý tất cả các exception chưa được xử lý (fallback)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
         ErrorResponse errorResponse = new ErrorResponse(

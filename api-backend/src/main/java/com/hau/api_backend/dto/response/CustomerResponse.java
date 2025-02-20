@@ -17,5 +17,4 @@ public class CustomerResponse {
     String gender;
     String phoneNumber;
     String address;
-    String profilePic;
 }
