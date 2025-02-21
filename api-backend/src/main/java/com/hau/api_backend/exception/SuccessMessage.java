@@ -10,7 +10,10 @@ public enum SuccessMessage {
     GET_CUSTOMER_BY_ID("Get customer by id success"),
     DELETE_CUSTOMER("Delete customer success"),
     GET_ALL_PRODUCT("Get all product success"),
-    GET_PRODUCT_BY_ID("Get customer by id success");
+    GET_PRODUCT_BY_ID("Get customer by id success"),
+    GET_ORDER_BY_ID("Get order by id success"),
+    GET_ALL_ORDER("Get all order success"),
+    CREATED_ORDER_SUCCESS("Created order success");
 
     private final String message;
 
