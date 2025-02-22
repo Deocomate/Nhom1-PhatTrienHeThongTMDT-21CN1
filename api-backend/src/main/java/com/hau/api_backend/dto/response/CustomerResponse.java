@@ -1,4 +1,5 @@
-package com.hau.api_backend.dto.request;
+package com.hau.api_backend.dto.response;
+
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,13 +9,12 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
-public class UserUpdateRequest {
+public class CustomerResponse {
+    int id;
     String email;
     String password;
     String fullName;
     String gender;
     String phoneNumber;
     String address;
-    String profilePic;
 }
