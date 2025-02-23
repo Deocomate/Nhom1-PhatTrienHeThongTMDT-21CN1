@@ -1,7 +1,7 @@
 package com.hau.api_backend.service;
 
-import com.hau.api_backend.dto.request.CustomerCreationRequest;
-import com.hau.api_backend.dto.request.CustomerUpdateRequest;
+import com.hau.api_backend.dto.request.customerRequest.CustomerCreationRequest;
+import com.hau.api_backend.dto.request.customerRequest.CustomerUpdateRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.CustomerResponse;
 import com.hau.api_backend.entity.Customer;

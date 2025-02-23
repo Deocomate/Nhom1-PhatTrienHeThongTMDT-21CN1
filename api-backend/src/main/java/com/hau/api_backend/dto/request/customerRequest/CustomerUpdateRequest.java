@@ -1,4 +1,4 @@
-package com.hau.api_backend.dto.request;
+package com.hau.api_backend.dto.request.customerRequest;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -19,7 +19,7 @@ public class CustomerUpdateRequest {
     String fullName;
     @Pattern(regexp = "^(male|female)$", message = "Invalid gender value. Must be male or female")
     String gender;
-    @NotBlank(message = "Phone Number is required")
+    @Size(min = 10, message = "Phone Number is required")
     String phoneNumber;
     @NotBlank(message = "Address is required")
     String address;
