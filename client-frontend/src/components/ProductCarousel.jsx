@@ -5,31 +5,22 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 
 export default function ProductCarousel({ title, products }) {
     // Hàm chia nhóm sản phẩm (5 sản phẩm mỗi nhóm)
-    const chunkArray = (array, size) => {
-        return Array.from({ length: Math.ceil(array.length / size) }, (_, index) =>
-            array.slice(index * size, index * size + size)
-        );
-    };
-
-    const groupedProducts = chunkArray(products, 5);
 
     return (
         <div className="max-w-screen-xl w-full p-4 rounded-lg my-4">
-            <h1 className="text-xl font-bold text-black">{title}</h1>
+            <h1 className="text-xl font-bold text-black mb-4">{title}</h1>
 
             <Carousel className="w-full">
                 <CarouselContent className="flex">
-                    {groupedProducts.map((group, index) => (
-                        <CarouselItem key={index} className="flex gap-8">
-                            {group.map((product, idx) => (
+                    {products.map((product, index) => (
+                        <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/5">
                                 <ProductCard
-                                    key={idx}
+                                    key={index}
                                     title={product.title}
                                     price={product.price}
                                     favor={product.favor}
                                     sale={product.sale}
                                 />
-                            ))}
                         </CarouselItem>
                     ))}
                 </CarouselContent>

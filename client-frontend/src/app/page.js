@@ -29,7 +29,7 @@ export default function Home() {
                 <>
                     <ProductCarousel title="Top bán chạy toàn quốc" products={products.slice(0, 15)} />
                     <ProductCarousel title="Sản phẩm giảm giá sốc" products={products.slice(0, 5)}
-                        className="bg-linear-to-r from-green-700 to-blue-600"
+                        className="bg-gradient-to-r from-green-700 to-blue-600"
                     />
                     <CategoryList/>
                     <ProductCarousel title="Sản phẩm bán chạy" products={products.slice(0, 10)} />
