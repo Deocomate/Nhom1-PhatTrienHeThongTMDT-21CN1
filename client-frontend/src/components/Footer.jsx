@@ -13,7 +13,7 @@ export default function Footer() {
             <div className="mx-auto w-full max-w-screen-xl">
                 <div className="grid grid-cols-1 gap-0 px-4 py-6 lg:py-8 md:grid-cols-4">
                     <div className="w-full md:w-full mb-6 md:mb-0">
-                        {/* Dropdown in mobile */}
+                        {/* Dropdown mobile */}
                         <div className="md:hidden w-full">
                             {/* Dropdown Button */}
                             <button className="w-full text-left font-semibold pb-3 flex items-center"
@@ -24,7 +24,7 @@ export default function Footer() {
                                 </svg>
                             </button>
 
-                            {/* Dropdown Content (Hidden by default) */}
+                            {/* Dropdown Content (Ẩn mặc định) */}
                             {openDropdown === 1 && (
                                 <div
                                     className={`${openDropdown === 1 ? "block" : "hidden"} w-full`}
@@ -38,10 +38,10 @@ export default function Footer() {
                                         <li className="pb-1 text-blue-500"><a href="#">Bệnh viện</a></li>
                                     </nav>
                                 </div>
-                            )}
+                                )}
                         </div>
 
-                        {/* Show full in desktop */}
+                        {/* Show full desktop */}
                         <nav className="list-none hidden md:block">
                             <h3 className="pb-3 font-semibold">Về An Khang Pharmacy</h3>
                             <li className="pb-1"><a href="#">Giới thiệu</a></li>
@@ -53,7 +53,7 @@ export default function Footer() {
                         </nav>
                     </div>
                     <div className="w-full md:w-full mb-6 md:mb-0">
-                        {/* Dropdown in mobile */}
+                        {/* Dropdown mobile */}
                         <div className="md:hidden w-full">
                             {/* Dropdown Button */}
                             <button className="w-full text-left font-semibold pb-3 flex items-center"
@@ -64,31 +64,31 @@ export default function Footer() {
                                 </svg>
                             </button>
 
-                            {/* Dropdown Content (Hidden by default) */}
+                            {/* Dropdown Content (Ẩn mặc định) */}
                             {openDropdown === 2 && (
                                 <div
                                     className={`${openDropdown === 2 ? "block" : "hidden"} w-full`}
                                 >
-                                    <nav className="list-none space-y-1">
-                                        <li className="pb-1"><a href='#'>Thuốc</a></li>
-                                        <li className="pb-1"><a href='#'>Tra cứu bệnh</a></li>
-                                        <li className="pb-1"><a href='#'>Thực phẩm chức năng</a></li>
-                                        <li className="pb-1"><a href='#'>Chăm sóc cá nhân</a></li>
-                                        <li className="pb-1"><a href='#'>Mẹ và Bé</a></li>
-                                        <li className="pb-1"><a href='#'>Chăm sóc sắc đẹp</a></li>
-                                        <li className="pb-1"><a href='#'>Thiết bị y tế</a></li>
-                                        <li className="pb-1"><a href='#'>Sản phẩm tiện lợi</a></li>
-                                        <li className="pb-1"><a href='#'>Doanh nghiệp</a></li>
-                                        <li className="pb-1"><a href='#'>Nhãn hàng An Khang</a></li>
-                                        <li className="pb-1"><a href='#'>Khuyến mãi HOT</a></li>
-                                        <li className="pb-1"><a href='#'>Góc sức khỏe</a></li>
-                                        <li className="pb-1"><a href='#'>Chăm sóc sức khỏe</a></li>
-                                    </nav>
-                                </div>
-                            )}
+                                <nav className="list-none space-y-1">
+                                    <li className="pb-1"><a href='#'>Thuốc</a></li>
+                                    <li className="pb-1"><a href='#'>Tra cứu bệnh</a></li>
+                                    <li className="pb-1"><a href='#'>Thực phẩm chức năng</a></li>
+                                    <li className="pb-1"><a href='#'>Chăm sóc cá nhân</a></li>
+                                    <li className="pb-1"><a href='#'>Mẹ và Bé</a></li>
+                                    <li className="pb-1"><a href='#'>Chăm sóc sắc đẹp</a></li>
+                                    <li className="pb-1"><a href='#'>Thiết bị y tế</a></li>
+                                    <li className="pb-1"><a href='#'>Sản phẩm tiện lợi</a></li>
+                                    <li className="pb-1"><a href='#'>Doanh nghiệp</a></li>
+                                    <li className="pb-1"><a href='#'>Nhãn hàng An Khang</a></li>
+                                    <li className="pb-1"><a href='#'>Khuyến mãi HOT</a></li>
+                                    <li className="pb-1"><a href='#'>Góc sức khỏe</a></li>
+                                    <li className="pb-1"><a href='#'>Chăm sóc sức khỏe</a></li>
+                                </nav>
+                            </div>
+                                )}
                         </div>
 
-                        {/* Show full in desktop */}
+                        {/* Show full desktop */}
                         <nav className="list-none hidden md:block">
                             <h3 className="pb-3 font-semibold">Danh mục</h3>
                             <li className="pb-1"><a href='#'>Thuốc</a></li>
@@ -107,7 +107,7 @@ export default function Footer() {
                         </nav>
                     </div>
                     <div className="w-full md:w-full mb-6 md:mb-0">
-                        {/* Dropdown in mobile */}
+                        {/* Dropdown mobile */}
                         <div className="md:hidden w-full">
                             {/* Dropdown Button */}
                             <button className="w-full text-left font-semibold pb-3 flex items-center"
@@ -118,24 +118,24 @@ export default function Footer() {
                                 </svg>
                             </button>
 
-                            {/* Dropdown Content (Hidden by default) */}
+                            {/* Dropdown Content (Ẩn mặc định) */}
                             {openDropdown === 3 && (
                                 <div
                                     className={`${openDropdown === 3 ? "block" : "hidden"} w-full`}
                                 >
-                                    <nav className="list-none space-y-1">
-                                        <li className="pb-1">Hỗ trợ đặt hàng</li>
-                                        <li className="pb-1"><a href='#' className="text-blue-500">1800 6821</a> (Nhánh 1)</li>
-                                        <li className="pb-1">Thông tin nhà thuốc, khuyến mãi</li>
-                                        <li className="pb-1"><a href='#' className="text-blue-500">1800 6821</a> (Nhánh 2)</li>
-                                        <li className="pb-1">Khiếu nại, góp ý</li>
-                                        <li className="pb-1"><a href='#' className="text-blue-500">1800 6821</a> (Nhánh 2)</li>
-                                    </nav>
-                                </div>
-                            )}
+                                <nav className="list-none space-y-1">
+                                    <li className="pb-1">Hỗ trợ đặt hàng</li>
+                                    <li className="pb-1"><a href='#' className="text-blue-500">1800 6821</a> (Nhánh 1)</li>
+                                    <li className="pb-1">Thông tin nhà thuốc, khuyến mãi</li>
+                                    <li className="pb-1"><a href='#' className="text-blue-500">1800 6821</a> (Nhánh 2)</li>
+                                    <li className="pb-1">Khiếu nại, góp ý</li>
+                                    <li className="pb-1"><a href='#' className="text-blue-500">1800 6821</a> (Nhánh 2)</li>
+                                </nav>
+                            </div>
+                                )}
                         </div>
 
-                        {/* Show full in desktop */}
+                        {/* Show full desktop */}
                         <nav className="list-none hidden md:block">
                             <h3 className="pb-3 font-semibold">Tổng đài miễn cước</h3>
                             <li className="pb-1">Hỗ trợ đặt hàng</li>
@@ -147,7 +147,7 @@ export default function Footer() {
                         </nav>
                     </div>
                     <div className="w-full md:w-full mb-6 md:mb-0">
-                        {/* Dropdown in mobile */}
+                        {/* Dropdown mobile */}
                         <div className="md:hidden w-full">
                             {/* Dropdown Button */}
                             <button className="w-full text-left font-semibold pb-3 flex items-center"
@@ -159,23 +159,23 @@ export default function Footer() {
                                 </svg>
                             </button>
 
-                            {/* Dropdown Content (Hidden by default) */}
+                            {/* Dropdown Content (Ẩn mặc định) */}
                             {openDropdown === 4 && (
                                 <div
                                     className={`${openDropdown === 4 ? "block" : "hidden"} w-full`}
                                 >
-                                    <nav className="list-none space-y-1">
-                                        <li className="pb-1"><a href='#'>Terms & Conditions</a></li>
-                                        <li className="pb-1"><a href='#'>Legal Information</a></li>
-                                        <li className="pb-1 text-blue-500"><a href='#'>Privacy Policy</a></li>
-                                        <li className="pb-1"><a href='#'>Email Collection Policy</a></li>
-                                        <li className="pb-1 text-blue-500"><a href='#'>Influencer Terms & Conditions</a></li>
-                                    </nav>
-                                </div>
-                            )}
+                                <nav className="list-none space-y-1">
+                                    <li className="pb-1"><a href='#'>Chính sách đổi trả và bảo hành</a></li>
+                                    <li className="pb-1"><a href='#'>Chính sách giao hàng</a></li>
+                                    <li className="pb-1"><a href='#'>Chính sách bảo mật</a></li>
+                                    <li className="pb-1 text-blue-500"><a href='#'>Chính sách bảo vệ dữ liệu cá nhân</a></li>
+                                    <li className="pb-1"><a href='#'>Chính sách thanh toán</a></li>
+                                </nav>
+                            </div>
+                                )}
                         </div>
 
-                        {/* Show full in desktop */}
+                        {/* Show full desktop */}
                         <nav className="list-none hidden md:block">
                             <h3 className="pb-3 font-semibold">Điều khoản và chính sách</h3>
                             <li className="pb-1"><a href='#'>Chính sách đổi trả và bảo hành</a></li>
