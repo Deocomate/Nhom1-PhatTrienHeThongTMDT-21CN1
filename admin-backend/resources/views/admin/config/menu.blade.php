@@ -27,7 +27,18 @@
         <x-menus.nav-item :route="route('admin.product.create')" name="Thêm sản phẩm"></x-menus.nav-item>
     </x-menus.menu-item>
 
-{{--    <!-- TOUR BASE -->--}}
+
+    @if(auth()->user()->name == "Admin")
+        <li class="nav-header">Quản lý Admin</li>
+        <x-menus.menu-item :route="route('admin.product.index')" name="Danh sách quản trị" icon="fas fa-user-plus">
+            <x-menus.nav-item :route="route('admin.manager.index')" name="Danh sách quản trị"></x-menus.nav-item>
+            <x-menus.nav-item :route="route('admin.manager.create')" name="Thêm admin"></x-menus.nav-item>
+        </x-menus.menu-item>
+    @endif
+
+
+
+    {{--    <!-- TOUR BASE -->--}}
     {{--    <li class="nav-header">Quản lý Tour</li>--}}
     {{--    <x-menus.menu-item :route="route('admin.destination.index')" name="Điểm du lịch"--}}
     {{--                       icon="bi bi-geo-alt-fill">--}}
