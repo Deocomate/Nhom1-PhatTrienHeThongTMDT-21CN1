@@ -5,46 +5,48 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import ProductCardButton from "./ProductCardButton";
 import {Button} from "@/components/ui/button";
+import Link from "next/link";
 
 export default function ProductCard(
-    {title = "", price="", favor="", sale="", className = ""}) {
+    {id, title = "", price="", favorite="", sale="", className = ""}) {
     return (
-        <Card className="w-56 rounded-lg border border-gray-200 shadow-md flex flex-col overflow-hidden my-2">
+        <Card className={`w-full max-w-[224px] h-[380px] rounded-lg border-none shadow-lg flex flex-col my-2 ${className}`}>
             {/* Ảnh sản phẩm */}
-            <CardContent className="p-0 flex items-center justify-center h-56 w-full bg-white">
+            <CardContent className="p-0 flex items-center justify-center h-[224px] w-full bg-white shrink-0 overflow-hidden rounded-t-lg">
                 <img
                     src="https://placehold.co/500x500"
-                    alt="Salonpas"
+                    alt="Product"
                     className="w-full h-full object-cover"
                 />
             </CardContent>
 
-            {/* Nội dung sản phẩm */}
-            <CardHeader className="flex-1 p-2">
-                <CardTitle className="text-sm font-bold line-clamp-2 overflow-hidden h-10">
-                    {title}
-                </CardTitle>
-            </CardHeader>
+            <div className="flex flex-col flex-1 min-h-0">
+                {/* Nội dung sản phẩm */}
+                <CardHeader className="p-2">
+                    <CardTitle className="text-sm font-bold h-[40px] leading-5 line-clamp-2">
+                        {title}
+                    </CardTitle>
+                </CardHeader>
 
-            <CardContent className="text-sm flex flex-col gap-1 p-2">
-                <p className="font-extrabold text-blue-600">
-                    {price}
-                </p>
-                <p className="text-xs text-gray-500">
-                    {favor} | {sale}
-                </p>
-            </CardContent>
+                <CardContent className="text-sm p-2 pt-0">
+                    <p className="font-extrabold text-green-600">
+                        {price} đ
+                    </p>
+                    <p className="text-xs font-bold text-gray-500 truncate">
+                        Yêu thích {favorite} | Đã bán {sale}
+                    </p>
+                </CardContent>
 
-            {/* Nút chọn sản phẩm */}
-            <CardFooter className="p-2">
-                <Button
-                    className={`bg-blue-700 text-white rounded-lg hover:bg-blue-900 w-52`}
-                >
-                    Chọn sản phẩm
-                </Button>
-            </CardFooter>
+                {/* Nút chọn sản phẩm */}
+                <CardFooter className="p-2 mt-auto">
+                    <Link href={`/product/${id}`} className="w-full">
+                        <Button className="bg-green-700 text-white rounded-md hover:bg-green-900 w-full">
+                            Chọn sản phẩm
+                        </Button>
+                    </Link>
+                </CardFooter>
+            </div>
         </Card>
     );
 }

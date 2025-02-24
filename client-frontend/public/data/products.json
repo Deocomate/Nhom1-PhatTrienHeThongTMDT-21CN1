@@ -1,74 +1,142 @@
 [
   {
-    "title": "Cao dán Salonpas",
-    "price": "30.000 đ/Hộp",
-    "favor": "Yêu thích 51.8k",
-    "sale": "Đã bán 8.4k"
+    "id": 1,
+    "title": "Panadol Extra - Giảm đau, hạ sốt",
+    "price": 20000,
+    "favorite": "10k",
+    "sale": "10k"
   },
   {
-    "title": "Thuốc giảm đau hạ sốt Efferalgan 500mg - 16 viên",
-    "price": "25.000 đ/Hộp",
-    "favor": "Yêu thích 30.2k",
-    "sale": "Đã bán 5.1k"
+    "id": 2,
+    "title": "Efferalgan 500mg - Giảm đau, hạ sốt",
+    "price": 22000,
+    "favorite": "9.5k",
+    "sale": "9.99k"
   },
   {
-    "title": "Viên uống bổ sung Vitamin C 500mg giúp tăng đề kháng",
-    "price": "80.000 đ/Lọ",
-    "favor": "Yêu thích 10.8k",
-    "sale": "Đã bán 3.2k"
+    "id": 3,
+    "title": "Decolgen - Cảm cúm, nghẹt mũi",
+    "price": 10000,
+    "favorite": "12k",
+    "sale": "10k"
   },
   {
-    "title": "Gel trị mụn Decumar New - Giảm viêm, ngừa thâm",
-    "price": "50.000 đ/Tuýp",
-    "favor": "Yêu thích 25.4k",
-    "sale": "Đã bán 7.9k"
+    "id": 4,
+    "title": "Strepsils Honey Lemon - Viên ngậm đau họng",
+    "price": 18000,
+    "favorite": "11k",
+    "sale": "10k"
   },
   {
-    "title": "Siro ho bổ phế Bảo Thanh 125ml",
-    "price": "60.000 đ/Chai",
-    "favor": "Yêu thích 18.9k",
-    "sale": "Đã bán 4.5k"
+    "id": 5,
+    "title": "Salonpas - Miếng dán giảm đau",
+    "price": 27000,
+    "favorite": "8k",
+    "sale": "10k"
   },
   {
-    "title": "Dầu gội trị gàu Nizoral 100ml",
-    "price": "110.000 đ/Chai",
-    "favor": "Yêu thích 12.3k",
-    "sale": "Đã bán 2.1k"
+    "id": 6,
+    "title": "Gel bôi trĩ Cotripro",
+    "price": 30000,
+    "favorite": "13k",
+    "sale": "10k"
   },
   {
-    "title": "Cao dán Salonpas Pain Relief Patch 7cmx10cm giảm đau vai, đau cổ, đau lưng, đau khớp (hộp 3 miếng)",
-    "price": "30.000 đ/Hộp",
-    "favor": "Yêu thích 51.8k",
-    "sale": "Đã bán 8.4k"
+    "id": 7,
+    "title": "Tatanol 500mg - Giảm đau, hạ sốt",
+    "price": 14000,
+    "favorite": "7k",
+    "sale": "10k"
   },
   {
-    "title": "Thuốc giảm đau hạ sốt Efferalgan 500mg - 16 viên",
-    "price": "25.000 đ/Hộp",
-    "favor": "Yêu thích 30.2k",
-    "sale": "Đã bán 5.1k"
+    "id": 8,
+    "title": "Nước muối sinh lý Natri Clorid 0.9%",
+    "price": 26000,
+    "favorite": "10.5k",
+    "sale": "9.99k"
   },
   {
-    "title": "Viên uống bổ sung Vitamin C 500mg giúp tăng đề kháng",
-    "price": "80.000 đ/Lọ",
-    "favor": "Yêu thích 10.8k",
-    "sale": "Đã bán 3.2k"
+    "id": 9,
+    "title": "C sủi Pharmacity - Bổ sung vitamin C",
+    "price": 12000,
+    "favorite": "9k",
+    "sale": "10k"
   },
   {
-    "title": "Gel trị mụn Decumar New - Giảm viêm, ngừa thâm",
-    "price": "50.000 đ/Tuýp",
-    "favor": "Yêu thích 25.4k",
-    "sale": "Đã bán 7.9k"
+    "id": 10,
+    "title": "Dầu gió xanh Con Ó",
+    "price": 35000,
+    "favorite": "11.5k",
+    "sale": "9.99k"
   },
   {
-    "title": "Siro ho bổ phế Bảo Thanh 125ml",
-    "price": "60.000 đ/Chai",
-    "favor": "Yêu thích 18.9k",
-    "sale": "Đã bán 4.5k"
+    "id": 11,
+    "title": "Kem đánh răng dược liệu Ngọc Châu",
+    "price": 21000,
+    "favorite": "14k",
+    "sale": "10k"
   },
   {
-    "title": "Dầu gội trị gàu Nizoral 100ml",
-    "price": "110.000 đ/Chai",
-    "favor": "Yêu thích 12.3k",
-    "sale": "Đã bán 2.1k"
+    "id": 12,
+    "title": "Xịt họng Eugica - Giảm ho, đau họng",
+    "price": 6000,
+    "favorite": "6k",
+    "sale": "9.99k"
+  },
+  {
+    "id": 13,
+    "title": "Vitamin D3 Pharmacity - Hỗ trợ xương khớp",
+    "price": 9000,
+    "favorite": "9.8k",
+    "sale": "10k"
+  },
+  {
+    "id": 14,
+    "title": "Dầu khuynh diệp OPC",
+    "price": 13000,
+    "favorite": "8.5k",
+    "sale": "10k"
+  },
+  {
+    "id": 15,
+    "title": "Berocca Performance - Bổ sung vitamin",
+    "price": 25000,
+    "favorite": "15k",
+    "sale": "10k"
+  },
+  {
+    "id": 16,
+    "title": "Siro ho Bổ Phế Nam Dược",
+    "price": 18000,
+    "favorite": "10.2k",
+    "sale": "9.99k"
+  },
+  {
+    "id": 17,
+    "title": "Viên uống bổ sung Canxi D3",
+    "price": 29000,
+    "favorite": "9.3k",
+    "sale": "10k"
+  },
+  {
+    "id": 18,
+    "title": "Tăm bông tiệt trùng Pharmacity",
+    "price": 20000,
+    "favorite": "12.5k",
+    "sale": "9.99k"
+  },
+  {
+    "id": 19,
+    "title": "Khẩu trang y tế Pharmacity 4 lớp",
+    "price": 16000,
+    "favorite": "8.2k",
+    "sale": "10k"
+  },
+  {
+    "id": 20,
+    "title": "Gel rửa tay khô Pharmacity",
+    "price": 15000,
+    "favorite": "11.8k",
+    "sale": "10k"
   }
 ]
