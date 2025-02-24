@@ -38,7 +38,7 @@ class ProductController extends Controller
             'brand' => 'required|max:255',
             'type' => 'required|max:255',
             'active_ingredient' => 'required|max:255',
-            'images' => 'required|json',
+            'images' => 'required|array',
             'indications' => 'required',
             'manufacturer' => 'required|max:255',
             'category_id' => 'required|exists:categories,id',
@@ -49,6 +49,8 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'registration_number' => 'required|unique:products|max:255',
         ]);
+
+        $validated["images"] = json_encode($request->images);
 
         DB::table('products')->insert($validated);
 
