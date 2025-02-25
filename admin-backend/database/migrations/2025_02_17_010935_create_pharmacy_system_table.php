@@ -1,12 +1,10 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -35,15 +33,22 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        // Create Brands table
+        Schema::create('brands', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->longText('description')->nullable();
+            $table->timestamps();
+        });
+
         // Create Products table
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->string('thumbnail');
-            $table->string('brand');
+            $table->foreignId('brand_id')->constrained('brands');
             $table->string('type');
             $table->string('active_ingredient');
-            $table->json('images');
             $table->text('indications');
             $table->string('manufacturer');
             $table->foreignId('category_id')->constrained('categories');
@@ -56,10 +61,44 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        // Create ProductImages table
+        Schema::create('product_images', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('product_id')->constrained('products');
+            $table->string('url');
+            $table->timestamps();
+        });
+
+        // Create Wishlists table
+        Schema::create('wishlists', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('product_id')->constrained('products');
+            $table->foreignId('customer_id')->constrained('customers');
+            $table->timestamps();
+        });
+
+        // Create Comments table
+        Schema::create('comments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('product_id')->constrained('products');
+            $table->foreignId('customer_id')->constrained('customers');
+            $table->text('content');
+            $table->timestamps();
+        });
+
+        // Create ReplyComments table
+        Schema::create('reply_comments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('comment_id')->constrained('comments');
+            $table->text('reply_content');
+            $table->timestamps();
+        });
+
         // Create Orders table
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained('customers');
+            $table->foreignId('user_id')->constrained('users');
             $table->enum('status', ['new', 'processing', 'shipped', 'cancelled'])->default('new');
             $table->enum('payment_method', ['online', 'offline']);
             $table->enum('payment_status', ['fail', 'pending', 'success'])->default('pending');
@@ -94,6 +133,7 @@ return new class extends Migration
             $table->integer('priority')->nullable();
             $table->timestamps();
         });
+
         // Create Blogs table
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
@@ -105,15 +145,16 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        DB::table('users')->delete();
-        $countUser = DB::table('users')->get()->count();
-        if ($countUser < 1) {
-            User::insert([
-                'name' => "Admin",
-                'email' => "admin@gmail.com",
-                'password' => bcrypt('admin')
-            ]);
-        }
+        // Create CustomerCares table
+        Schema::create('customer_cares', function (Blueprint $table) {
+            $table->id();
+            $table->string('fullname');
+            $table->string('email');
+            $table->string('phone_number');
+            $table->string('address');
+            $table->text('content');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -122,13 +163,18 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('customers');
+        Schema::dropIfExists('product_images');
+        Schema::dropIfExists('wishlists');
+        Schema::dropIfExists('comments');
+        Schema::dropIfExists('reply_comments');
+        Schema::dropIfExists('orders');
+        Schema::dropIfExists('order_details');
+        Schema::dropIfExists('payments');
+        Schema::dropIfExists('products');
+        Schema::dropIfExists('brands');
+        Schema::dropIfExists('categories');
         Schema::dropIfExists('blogs');
         Schema::dropIfExists('blog_categories');
-        Schema::dropIfExists('payments');
-        Schema::dropIfExists('order_details');
-        Schema::dropIfExists('orders');
-        Schema::dropIfExists('products');
-        Schema::dropIfExists('categories');
-
+        Schema::dropIfExists('customer_cares');
     }
 };
