@@ -10,7 +10,6 @@ public enum ErrorCode {
     PRODUCT_NOT_FOUND("Product not found"),
     ORDER_NOT_FOUND("Order not found");
 
-
     private final String message;
 
     ErrorCode(String message) {
