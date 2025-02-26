@@ -8,7 +8,8 @@ public enum ErrorCode {
     CUSTOMER_NOT_FOUND("Customer not found"),
     PHONE_NUMBER_ALREADY_EXISTS("Phone Number already exists"),
     PRODUCT_NOT_FOUND("Product not found"),
-    ORDER_NOT_FOUND("Order not found");
+    ORDER_NOT_FOUND("Order not found"),
+    INCORRECT_EMAIL_OR_PASSWORD("Incorrect email or password"),;
 
     private final String message;
 

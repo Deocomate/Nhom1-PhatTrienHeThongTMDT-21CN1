@@ -13,7 +13,8 @@ public enum SuccessMessage {
     GET_PRODUCT_BY_ID("Get product by id success"),
     GET_ORDER_BY_ID("Get order by id success"),
     GET_ALL_ORDER("Get all order success"),
-    CREATED_ORDER_SUCCESS("Created order success");
+    CREATED_ORDER_SUCCESS("Created order success"),
+    LOGIN_SUCCESS("Login successful");
 
     private final String message;
 
