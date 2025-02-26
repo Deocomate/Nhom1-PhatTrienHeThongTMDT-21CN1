@@ -16,6 +16,7 @@ public enum SuccessMessage {
     CREATED_ORDER_SUCCESS("Created order success"),
     LOGIN_SUCCESS("Login successful"),
     INTROSPECTION_SUCCESS("Token introspection successful"),
+    LOGOUT_SUCCESS("Logout successful")
     ;
 
     private final String message;

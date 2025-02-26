@@ -14,8 +14,9 @@ public enum ErrorCode {
     TOKEN_VERIFICATION_FAILED("Token verification failed"),
     TOKEN_PARSING_FAILED("Token parsing failed"),
     TOKEN_MISSING("Token is missing"),
-
-    ;
+    TOKEN_EXPIRED("Token is expired"),
+    INVALID_TOKEN("Invalid token"),
+    TOKEN_INVALIDATED("Invalid token"),;
 
     private final String message;
 
