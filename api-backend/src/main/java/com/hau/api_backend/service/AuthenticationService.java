@@ -2,13 +2,17 @@ package com.hau.api_backend.service;
 
 import com.hau.api_backend.dto.request.AuthenticationRequest;
 import com.hau.api_backend.dto.request.IntrospectRequest;
+import com.hau.api_backend.dto.request.LogoutRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.AuthenticationResponse;
 import com.hau.api_backend.dto.response.IntrospectResponse;
+import com.hau.api_backend.entity.InvalidatedToken;
+import com.hau.api_backend.exception.AppException;
 import com.hau.api_backend.exception.ErrorCode;
 import com.hau.api_backend.exception.SuccessMessage;
 import com.hau.api_backend.entity.Customer;
 import com.hau.api_backend.repository.CustomerRepository;
+import com.hau.api_backend.repository.InvalidatedRepository;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -20,6 +24,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,16 +34,20 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional; // Import Optional
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationService {
     CustomerRepository customerRepository;
+    InvalidatedRepository invalidatedRepository;
 
     @NonFinal
     @Value("${jwt.signerKey}")
-    protected String SINGER_KEY;
+    String SINGER_KEY;
 
     public ApiResponse<AuthenticationResponse> login(AuthenticationRequest request) {
         Customer customer = customerRepository.findByEmail(request.getEmail()).orElse(null);
@@ -64,6 +73,51 @@ public class AuthenticationService {
                 SuccessMessage.LOGIN_SUCCESS.getMessage(), token);
     }
 
+    public ApiResponse<Void> logout(LogoutRequest request) {
+        try {
+            SignedJWT signToken = verifyToken(request.getToken());
+
+            String jit = signToken.getJWTClaimsSet().getJWTID();
+            Date expiryTime = signToken.getJWTClaimsSet().getExpirationTime();
+
+            InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+                    .id(jit)
+                    .expiryTime(expiryTime)
+                    .build();
+            invalidatedRepository.save(invalidatedToken);
+
+            return ApiResponse.<Void>builder()
+                    .code(HttpStatus.OK.value())
+                    .message(SuccessMessage.LOGOUT_SUCCESS.getMessage())
+                    .timestamp(LocalDateTime.now())
+                    .build();
+
+        } catch (AppException e) {
+            return createLogoutErrorResponse(e.getErrorCode().getMessage());
+        } catch (ParseException | JOSEException e) {
+            // Xử lý lỗi parsing và JOSE exceptions
+            return createLogoutErrorResponse(ErrorCode.INVALID_TOKEN.getMessage());
+        }
+    }
+
+    SignedJWT verifyToken(String token) throws ParseException, JOSEException {
+        JWSVerifier verifier = new MACVerifier(SINGER_KEY.getBytes());
+        SignedJWT signedJWT = SignedJWT.parse(token);
+        Date expirationTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+
+        boolean verified = signedJWT.verify(verifier); // xác minh chữ ký
+        // Nếu chữ ký không hợp lệ, trả về lỗi "Token verification failed"
+        if (!verified) {
+            throw new AppException(ErrorCode.TOKEN_VERIFICATION_FAILED);
+        }
+
+        boolean isValid = expirationTime.after(new Date()); // xác thực token
+        if (!isValid) {
+            throw new AppException(ErrorCode.TOKEN_EXPIRED);
+        }
+        return signedJWT;
+    }
+
     String generateToken(String email) throws JOSEException {
         JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS512);
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
@@ -73,6 +127,7 @@ public class AuthenticationService {
                 .expirationTime(new Date(
                         Instant.now().plus(30, ChronoUnit.MINUTES).toEpochMilli()
                 ))
+                .jwtID(UUID.randomUUID().toString())
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
@@ -98,21 +153,19 @@ public class AuthenticationService {
     public ApiResponse<IntrospectResponse> introspect(IntrospectRequest request) {
         try {
             String token = request.getToken();
-
-            JWSVerifier verifier = new MACVerifier(SINGER_KEY.getBytes());
             SignedJWT signedJWT = SignedJWT.parse(token);
-            Date expirationTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+            String jti = signedJWT.getJWTClaimsSet().getJWTID();
 
-            boolean verified = signedJWT.verify(verifier); // xác minh chữ ký
-            boolean isValid = verified && expirationTime.after(new Date()); // xác thực token
-
-            // Nếu chữ ký không hợp lệ, trả về lỗi "Token verification failed"
-            if (!verified) {
-                return createIntrospectErrorResponse(ErrorCode.TOKEN_VERIFICATION_FAILED.getMessage());
+            // Check if the token is invalidated
+            Optional<InvalidatedToken> invalidatedToken = invalidatedRepository.findById(jti);
+            if (invalidatedToken.isPresent()) {
+                // Token is invalidated
+                return createIntrospectErrorResponse(ErrorCode.TOKEN_INVALIDATED.getMessage());
             }
-            // Nếu token hợp lệ, trả về kết quả thành công
+
+            verifyToken(token);
             IntrospectResponse introspectResponse = IntrospectResponse.builder()
-                    .valid(isValid)
+                    .valid(true)
                     .build();
 
             return ApiResponse.<IntrospectResponse>builder()
@@ -122,6 +175,8 @@ public class AuthenticationService {
                     .timestamp(LocalDateTime.now())
                     .build();
 
+        } catch (AppException e) {
+            return createIntrospectErrorResponse(e.getErrorCode().getMessage());
         } catch (JOSEException e) {
             // Xử lý lỗi xảy ra trong quá trình xác minh chữ ký của token
             return createIntrospectErrorResponse(ErrorCode.TOKEN_VERIFICATION_FAILED.getMessage());
@@ -134,7 +189,7 @@ public class AuthenticationService {
         }
     }
 
-    private ApiResponse<IntrospectResponse> createIntrospectErrorResponse(String message) {
+    ApiResponse<IntrospectResponse> createIntrospectErrorResponse(String message) {
         return ApiResponse.<IntrospectResponse>builder()
                 .code(HttpStatus.BAD_REQUEST.value())
                 .message(message)
@@ -144,4 +199,19 @@ public class AuthenticationService {
                 .timestamp(LocalDateTime.now())
                 .build();
     }
+    private ApiResponse<Void> createLogoutErrorResponse(String message) {
+        return ApiResponse.<Void>builder()
+                .code(HttpStatus.BAD_REQUEST.value())
+                .message(message)
+                .timestamp(LocalDateTime.now())
+                .build();
     }
+
+    @Scheduled(fixedRate = 600000) // Run every 600 seconds - 10 minute
+    public void cleanupExpiredTokens() {
+        LocalDateTime now = LocalDateTime.now();
+        List<InvalidatedToken> expiredTokens = invalidatedRepository.findByExpiryTimeBefore(now);
+        invalidatedRepository.deleteAll(expiredTokens);
+        System.out.println("Cleaned up " + expiredTokens.size() + " expired tokens.");
+    }
+}
