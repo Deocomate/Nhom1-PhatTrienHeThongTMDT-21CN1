@@ -1,6 +1,6 @@
 package com.hau.api_backend.service;
 
-import com.hau.api_backend.dto.request.customerRequest.OrderCreationRequest;
+import com.hau.api_backend.dto.request.OrderCreationRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.OrderResponse;
 import com.hau.api_backend.entity.Customer;
@@ -8,7 +8,6 @@ import com.hau.api_backend.entity.Order;
 import com.hau.api_backend.exception.AppException;
 import com.hau.api_backend.exception.ErrorCode;
 import com.hau.api_backend.exception.SuccessMessage;
-import com.hau.api_backend.mapper.CustomerMapper;
 import com.hau.api_backend.mapper.OrderMapper;
 import com.hau.api_backend.repository.CustomerRepository;
 import com.hau.api_backend.repository.OrderRepository;
@@ -17,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDateTime;
 import java.util.List;
