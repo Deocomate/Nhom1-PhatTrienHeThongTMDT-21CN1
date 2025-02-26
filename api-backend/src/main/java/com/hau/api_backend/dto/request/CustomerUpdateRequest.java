@@ -1,4 +1,4 @@
-package com.hau.api_backend.dto.request.customerRequest;
+package com.hau.api_backend.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
