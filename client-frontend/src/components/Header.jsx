@@ -17,10 +17,31 @@ import {
     HoverCardContent,
     HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
+    const router = useRouter();
+    const [searchQuery, setSearchQuery] = useState('');
     const [openDropdown, setOpenDropdown] = useState(null);
-    const categories = ['Thuốc', 'Tra cứu bệnh', 'Thực phẩm chức năng', 'Mẹ và bé', 'Chăm sóc cá nhân', 'Chăm sóc sắc đẹp', 'Thiết bị y tế'];
+    
+    // Define categories array
+    const categories = [
+        'Thuốc',
+        'Tra cứu bệnh',
+        'Thực phẩm chức năng',
+        'Mẹ và bé',
+        'Chăm sóc cá nhân',
+        'Chăm sóc sắc đẹp',
+        'Thiết bị y tế'
+    ];
+    
+    // Add search handler
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (searchQuery.trim()) {
+            router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+        }
+    };
 
     return (
         <header className="border-b pb-2">
@@ -34,13 +55,25 @@ export default function Header() {
 
                     {/* Search Bar */}
                     <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-center lg:px-6">
-                        <div className="w-full max-w-lg">
-                            <Input
-                                type="search"
-                                placeholder="Tên thuốc, triệu chứng, vitamin và thực phẩm chức năng"
-                                className="w-full h-8 rounded-full px-8"
-                            />
-                        </div>
+                        <form onSubmit={handleSearch} className="w-full max-w-lg">
+                            <div className="relative">
+                                <Input
+                                    type="search"
+                                    placeholder="Tên thuốc, triệu chứng, vitamin và thực phẩm chức năng"
+                                    className="w-full h-8 rounded-full px-8"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
+                                <Button 
+                                    type="submit"
+                                    size="icon"
+                                    variant="ghost"
+                                    className="absolute right-2 top-1/2 -translate-y-1/2"
+                                >
+                                    <Search className="h-4 w-4" />
+                                </Button>
+                            </div>
+                        </form>
                     </div>
 
                     {/* Action Buttons */}
@@ -60,7 +93,6 @@ export default function Header() {
                                 </div>
                             </HoverCardContent>
                         </HoverCard>
-
                         <HoverCard>
                             <HoverCardTrigger asChild>
                                 <Button variant="ghost" size="icon" className="rounded-full">
@@ -76,14 +108,28 @@ export default function Header() {
                                 </div>
                             </HoverCardContent>
                         </HoverCard>
-
-                        <Button variant="ghost" className="hidden lg:flex rounded-full">
-                            <User className="mr-2 h-5 w-5" />
-                            Đăng nhập/Đăng ký
-                        </Button>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" className="rounded-full flex items-center">
+                                    <User className="h-5 w-5" />
+                                    <span className="ml-2 hidden lg:inline">Tài khoản</span>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-auto">
+                                <Link href="/auth/login">
+                                    <DropdownMenuItem>
+                                        Đăng nhập
+                                    </DropdownMenuItem>
+                                </Link>
+                                <Link href="/auth/register">
+                                    <DropdownMenuItem>
+                                        Đăng ký
+                                    </DropdownMenuItem>
+                                </Link>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                 </div>
-
                 {/* Desktop Category Menu */}
                 <div className="hidden lg:block">
                     <div className="px-4 py-2">
@@ -113,13 +159,24 @@ export default function Header() {
 
                 {/* Mobile Search and Categories */}
                 <div className="lg:hidden">
-                    <div className="p-4">
-                        <Input
-                            type="search"
-                            placeholder="Tên thuốc, triệu chứng, vitamin và thực phẩm chức năng"
-                            className="w-full h-8 rounded-full px-8"
-                        />
-                    </div>
+                <form onSubmit={handleSearch} className="p-4">
+                        <div className="relative">
+                            <Input
+                                type="search"
+                                placeholder="Tên thuốc, triệu chứng, vitamin và thực phẩm chức năng"
+                                className="w-full h-8 rounded-full px-8"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                            <Button 
+                                type="submit"
+                                variant="ghost"
+                                className="absolute right-2 top-1/2 -translate-y-1/2"
+                            >
+                                <Search className="h-4 w-4 " />
+                            </Button>
+                        </div>
+                    </form>
                     <div className="overflow-x-auto">
                         <div className="flex gap-2 px-4 pb-4 whitespace-nowrap">
                             {categories.map((category) => (

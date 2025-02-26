@@ -11,12 +11,12 @@ export default function ProductsPage() {
     useEffect(() => {
         axios.get("/data/products.json")
             .then((response) => {
-                console.log("Dữ liệu từ JSON:", response.data); // 🛠 Kiểm tra dữ liệu console
-                setProducts(Array.isArray(response.data) ? response.data : []); // ✅ Đảm bảo là mảng
+                console.log("Dữ liệu từ JSON:", response.data);
+                setProducts(Array.isArray(response.data) ? response.data : []);
             })
             .catch((error) => {
                 console.error("Lỗi tải sản phẩm:", error);
-                setProducts([]); // 🚨 Tránh products bị null
+                setProducts([]);
             });
     }, []);
 

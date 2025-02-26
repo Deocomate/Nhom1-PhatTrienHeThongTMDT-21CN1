@@ -13,7 +13,7 @@ export default function Footer() {
             <div className="mx-auto w-full max-w-screen-xl">
                 <div className="grid grid-cols-1 gap-0 px-4 py-6 lg:py-8 md:grid-cols-4">
                     <div className="w-full md:w-full mb-6 md:mb-0">
-                        {/* Dropdown mobile */}
+                        {/* Dropdown in mobile */}
                         <div className="md:hidden w-full">
                             {/* Dropdown Button */}
                             <button className="w-full text-left font-semibold pb-3 flex items-center"
@@ -24,7 +24,7 @@ export default function Footer() {
                                 </svg>
                             </button>
 
-                            {/* Dropdown Content (Ẩn mặc định) */}
+                            {/* Dropdown Content (Hidden by default) */}
                             {openDropdown === 1 && (
                                 <div
                                     className={`${openDropdown === 1 ? "block" : "hidden"} w-full`}
@@ -41,7 +41,7 @@ export default function Footer() {
                                 )}
                         </div>
 
-                        {/* Show full desktop */}
+                        {/* Show full in desktop */}
                         <nav className="list-none hidden md:block">
                             <h3 className="pb-3 font-semibold">Về An Khang Pharmacy</h3>
                             <li className="pb-1"><a href="#">Giới thiệu</a></li>
@@ -53,7 +53,7 @@ export default function Footer() {
                         </nav>
                     </div>
                     <div className="w-full md:w-full mb-6 md:mb-0">
-                        {/* Dropdown mobile */}
+                        {/* Dropdown in mobile */}
                         <div className="md:hidden w-full">
                             {/* Dropdown Button */}
                             <button className="w-full text-left font-semibold pb-3 flex items-center"
@@ -64,7 +64,7 @@ export default function Footer() {
                                 </svg>
                             </button>
 
-                            {/* Dropdown Content (Ẩn mặc định) */}
+                            {/* Dropdown Content (Hidden by default) */}
                             {openDropdown === 2 && (
                                 <div
                                     className={`${openDropdown === 2 ? "block" : "hidden"} w-full`}
@@ -88,7 +88,7 @@ export default function Footer() {
                                 )}
                         </div>
 
-                        {/* Show full desktop */}
+                        {/* Show full in desktop */}
                         <nav className="list-none hidden md:block">
                             <h3 className="pb-3 font-semibold">Danh mục</h3>
                             <li className="pb-1"><a href='#'>Thuốc</a></li>
@@ -107,7 +107,7 @@ export default function Footer() {
                         </nav>
                     </div>
                     <div className="w-full md:w-full mb-6 md:mb-0">
-                        {/* Dropdown mobile */}
+                        {/* Dropdown in mobile */}
                         <div className="md:hidden w-full">
                             {/* Dropdown Button */}
                             <button className="w-full text-left font-semibold pb-3 flex items-center"
@@ -118,7 +118,7 @@ export default function Footer() {
                                 </svg>
                             </button>
 
-                            {/* Dropdown Content (Ẩn mặc định) */}
+                            {/* Dropdown Content (Hidden by default) */}
                             {openDropdown === 3 && (
                                 <div
                                     className={`${openDropdown === 3 ? "block" : "hidden"} w-full`}
@@ -135,7 +135,7 @@ export default function Footer() {
                                 )}
                         </div>
 
-                        {/* Show full desktop */}
+                        {/* Show full in desktop */}
                         <nav className="list-none hidden md:block">
                             <h3 className="pb-3 font-semibold">Tổng đài miễn cước</h3>
                             <li className="pb-1">Hỗ trợ đặt hàng</li>
@@ -147,7 +147,7 @@ export default function Footer() {
                         </nav>
                     </div>
                     <div className="w-full md:w-full mb-6 md:mb-0">
-                        {/* Dropdown mobile */}
+                        {/* Dropdown in mobile */}
                         <div className="md:hidden w-full">
                             {/* Dropdown Button */}
                             <button className="w-full text-left font-semibold pb-3 flex items-center"
@@ -159,7 +159,7 @@ export default function Footer() {
                                 </svg>
                             </button>
 
-                            {/* Dropdown Content (Ẩn mặc định) */}
+                            {/* Dropdown Content (Hidden by default) */}
                             {openDropdown === 4 && (
                                 <div
                                     className={`${openDropdown === 4 ? "block" : "hidden"} w-full`}
@@ -175,7 +175,7 @@ export default function Footer() {
                                 )}
                         </div>
 
-                        {/* Show full desktop */}
+                        {/* Show full in desktop */}
                         <nav className="list-none hidden md:block">
                             <h3 className="pb-3 font-semibold">Điều khoản và chính sách</h3>
                             <li className="pb-1"><a href='#'>Chính sách đổi trả và bảo hành</a></li>

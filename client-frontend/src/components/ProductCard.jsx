@@ -15,7 +15,7 @@ export default function ProductCard(
             {/* Ảnh sản phẩm */}
             <CardContent className="p-0 flex items-center justify-center h-[224px] w-full bg-white shrink-0 overflow-hidden rounded-t-lg">
                 <img
-                    src="https://placehold.co/500x500"
+                    src="/500x500.svg"
                     alt="Product"
                     className="w-full h-full object-cover"
                 />
@@ -40,7 +40,7 @@ export default function ProductCard(
 
                 {/* Nút chọn sản phẩm */}
                 <CardFooter className="p-2 mt-auto">
-                    <Link href={`/product/${id}`} className="w-full">
+                    <Link href={`/products/${id}`} className="w-full">
                         <Button className="bg-green-700 text-white rounded-md hover:bg-green-900 w-full">
                             Chọn sản phẩm
                         </Button>
