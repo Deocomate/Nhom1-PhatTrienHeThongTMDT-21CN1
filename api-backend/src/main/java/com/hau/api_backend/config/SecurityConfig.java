@@ -22,7 +22,7 @@ public class SecurityConfig {
 
     private final String[] PUBLIC_POST_ENDPOINTS = {"/api/auth/login", "/api/auth/logout", "/api/auth/introspect", "/api/customers"};
 
-    private final String[] PUBLIC_GET_ENDPOINTS = {"/api/orders"};
+    private final String[] PUBLIC_GET_ENDPOINTS = {"/api/orders", "/api/products"};
 
     @Value("${jwt.signerKey}")
     private String signerKey;
