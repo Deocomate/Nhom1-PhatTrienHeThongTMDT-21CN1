@@ -20,6 +20,7 @@ use App\Http\Middleware\AuthenticationMiddleware;
 
 // Development
 Route::get('/seeder', [SeederController::class, "index"]);
+Route::get('/test', [SeederController::class, "seed_pharmacy_database"]);
 
 // Client
 Route::get('/', function () {
