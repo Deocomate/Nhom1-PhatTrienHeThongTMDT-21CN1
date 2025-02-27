@@ -1,23 +1,22 @@
 <?php
 
-use App\Http\Controllers\Admin\{AdminController,
-    SeederController,
-    TourSystem\ContactController,
-    TourSystem\DestinationController,
-    TourSystem\TourController
-};
-use App\Http\Controllers\Admin\PharmacySystem\{
-    CategoryController,
-    BlogController,
-    BlogCategoryController
-};
+use Illuminate\Support\Facades\Route;
+
+// Admin default and Seeder
+use App\Http\Controllers\Admin\SeederController;
+use App\Http\Controllers\Admin\AdminController;
+
+// Use Module Controller
+use App\Http\Controllers\Admin\PharmacySystem\CategoryController;
+use App\Http\Controllers\Admin\PharmacySystem\BlogController;
 use App\Http\Controllers\Admin\PharmacySystem\ProductController;
 use App\Http\Controllers\Admin\PharmacySystem\AdminManagerController;
+use App\Http\Controllers\Admin\PharmacySystem\BlogCategoryController;
+use App\Http\Controllers\Admin\PharmacySystem\BrandController;
 
+// Authenticate and Middleware auth
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Client\{BusTicketBookingClient\ClientHomeController};
 use App\Http\Middleware\AuthenticationMiddleware;
-use Illuminate\Support\Facades\Route;
 
 // Development
 Route::get('/seeder', [SeederController::class, "index"]);
@@ -41,6 +40,7 @@ Route::prefix('admin')->name("admin.")->middleware(AuthenticationMiddleware::cla
     Route::post('test/form', [AdminController::class, "test_form_post"])->name("test.form.post");
 
     // Quản lý nhà thuốc
+    Route::resource("brand", BrandController::class);
     Route::resource("blogcategory", BlogCategoryController::class);
     Route::resource("blog", BlogController::class);
     Route::resource("category", CategoryController::class);

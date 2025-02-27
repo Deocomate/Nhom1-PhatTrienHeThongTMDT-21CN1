@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('password');
             $table->string('full_name');
             $table->enum('gender', ['male', 'female']);
-            $table->string('phone_number')->unique();
+            $table->string('phone_number');
             $table->string('address');
             $table->string('profile_pic')->nullable();
             $table->timestamps();
@@ -28,6 +28,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name')->unique();
             $table->string('thumbnail')->nullable();
+            $table->string('slug')->unique();
             $table->integer('priority')->nullable();
             $table->foreignId('parent_id')->nullable()->constrained('categories');
             $table->timestamps();
@@ -37,6 +38,7 @@ return new class extends Migration {
         Schema::create('brands', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug')->unique();
             $table->longText('description')->nullable();
             $table->timestamps();
         });
@@ -58,6 +60,7 @@ return new class extends Migration {
             $table->integer('quantity')->default(0);
             $table->decimal('price', 10, 2);
             $table->string('registration_number')->unique();
+            $table->string('slug')->unique();
             $table->timestamps();
         });
 
@@ -131,6 +134,7 @@ return new class extends Migration {
             $table->string('name')->unique();
             $table->string('thumbnail')->nullable();
             $table->integer('priority')->nullable();
+            $table->string('slug')->unique();
             $table->timestamps();
         });
 
@@ -142,6 +146,7 @@ return new class extends Migration {
             $table->string('thumbnail')->nullable();
             $table->integer('priority')->nullable();
             $table->foreignId('blogcategory_id')->constrained('blog_categories');
+            $table->string('slug')->unique();
             $table->timestamps();
         });
 
