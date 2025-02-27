@@ -1,7 +1,7 @@
 package com.hau.api_backend.service;
 
-import com.hau.api_backend.dto.request.customerRequest.CustomerCreationRequest;
-import com.hau.api_backend.dto.request.customerRequest.CustomerUpdateRequest;
+import com.hau.api_backend.dto.request.CustomerCreationRequest;
+import com.hau.api_backend.dto.request.CustomerUpdateRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.CustomerResponse;
 import com.hau.api_backend.entity.Customer;
@@ -14,6 +14,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -41,6 +43,9 @@ public class CustomerService {
         }
 
         Customer customer = customerMapper.toCustomer(request);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        customer.setPassword(passwordEncoder.encode(request.getPassword()));
+
         Customer saveCustomer = customerRepository.save(customer);
         CustomerResponse customerResponse = customerMapper.toCustomerResponse(saveCustomer);
 

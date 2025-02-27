@@ -1,6 +1,7 @@
 package com.hau.api_backend.dto.response;
 
 
+import com.hau.api_backend.entity.ProductImage;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -15,10 +16,9 @@ public class ProductResponse {
     int id;
     String title;
     String thumbnail;
-    String brand;
+    int brandId;
     String type;
     String activeIngredient;
-    List<String> images;
     String indications;
     String manufacturer;
     Long categoryId;
@@ -28,5 +28,5 @@ public class ProductResponse {
     Integer quantity;
     Double price;
     String registrationNumber;
-
+    List<ProductImageResponse> productImagesResponses;
 }

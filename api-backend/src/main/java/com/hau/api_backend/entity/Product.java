@@ -22,20 +22,19 @@ public class Product {
 
     String title;
     String thumbnail;
-    String brand;
+
+    int brandId;
     String type;
 
     @Column(name = "active_ingredient")
     String activeIngredient;
 
-    @Column(columnDefinition = "TEXT")
-    @Convert(converter = StringListConverter.class)
-    List<String> images; // Lưu danh sách URL ảnh dưới dạng chuỗi (phân tách bằng dấu phẩy)
+    String manufacturer;
 
     @Column(columnDefinition = "TEXT")
     String indications;
 
-    String manufacturer;
+
 
     @Column(name = "category_id")
     int categoryId;
@@ -60,4 +59,8 @@ public class Product {
 
     @CreationTimestamp
     LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "productId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    List<ProductImage> productImages;
+
 }

@@ -117,12 +117,12 @@ public class GlobalExceptionHandler {
 
         // Create the ErrorResponse with the list of errors
         ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.BAD_REQUEST.value(),
-                "Validation failed. See 'error' for details.", // Consistent message
+                HttpStatus.UNAUTHORIZED.value(),
+                "Authentication failed. See 'error' for details.",
                 errorDetails,
                 LocalDateTime.now()
         );
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
     private static Map<String, String> getStringStringMap(AppException ex) {
@@ -134,6 +134,8 @@ public class GlobalExceptionHandler {
             field = "email";
         } else if (ex.getErrorCode() == ErrorCode.PHONE_NUMBER_ALREADY_EXISTS) {
             field = "phoneNumber";
+        } else if (ex.getErrorCode() == ErrorCode.TOKEN_INVALIDATED) {
+            field = "token";
         }
 
         // If the field is still null, it means the ErrorCode is not handled

@@ -1,9 +1,8 @@
 package com.hau.api_backend.controller;
 
-import com.hau.api_backend.dto.request.customerRequest.OrderCreationRequest;
+import com.hau.api_backend.dto.request.OrderCreationRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.OrderResponse;
-import com.hau.api_backend.entity.Order;
 import com.hau.api_backend.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
