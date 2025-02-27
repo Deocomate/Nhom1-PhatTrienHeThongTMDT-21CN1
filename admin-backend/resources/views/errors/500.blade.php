@@ -3,7 +3,7 @@
 @section("content")
     <div class="container py-4">
         <h1>404 Không tìm thấy trang này</h1>
-        <a id="redirect_button" href="{{ route('client.homepage') }}" class="btn btn-warning btn-lg">Quay về trang
+        <a id="redirect_button" href="/" class="btn btn-warning btn-lg">Quay về trang
             chủ</a>
     </div>
     @push('scripts')
