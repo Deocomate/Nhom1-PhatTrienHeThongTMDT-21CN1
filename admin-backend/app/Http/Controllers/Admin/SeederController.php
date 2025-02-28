@@ -414,7 +414,7 @@ class SeederController extends Controller
         $productIds = DB::table('products')->pluck('id')->toArray();
 
         // Order status options
-        $statuses = ['new', 'processing', 'shipped', 'cancelled'];
+        $statuses = ['waiting', 'processing', 'shipped', 'admin_cancelled', 'customer_cancelled'];
         $paymentMethods = ['online', 'offline'];
         $paymentStatuses = ['fail', 'pending', 'success'];
         $paymentGateways = ['PayPal', 'Stripe', 'MoMo', 'VNPay', 'Bank Transfer', 'Cash on Delivery'];
@@ -427,7 +427,10 @@ class SeederController extends Controller
             $paymentStatus = $paymentStatuses[array_rand($paymentStatuses)];
 
             // If status is 'cancelled', payment status should be 'fail'
-            if ($status === 'cancelled') {
+            if ($status === 'admin_cancelled') {
+                $paymentStatus = 'fail';
+            }
+            if ($status === 'customer_cancelled') {
                 $paymentStatus = 'fail';
             }
 
