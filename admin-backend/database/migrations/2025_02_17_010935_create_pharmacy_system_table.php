@@ -19,7 +19,6 @@ return new class extends Migration {
             $table->enum('gender', ['male', 'female']);
             $table->string('phone_number');
             $table->string('address');
-            $table->string('profile_pic')->nullable();
             $table->timestamps();
         });
 
@@ -58,7 +57,7 @@ return new class extends Migration {
             $table->text('noted')->nullable();
             $table->text('description');
             $table->integer('quantity')->default(0);
-            $table->decimal('price', 10, 2);
+            $table->integer('price');
             $table->string('registration_number')->unique();
             $table->string('slug')->unique();
             $table->timestamps();

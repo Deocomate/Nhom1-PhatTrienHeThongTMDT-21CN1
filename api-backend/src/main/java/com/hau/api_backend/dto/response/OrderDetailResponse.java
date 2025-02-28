@@ -8,11 +8,12 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderResponse {
+public class OrderDetailResponse {
     int id;
-    int customerId;
-    String status;
-    String paymentMethod;
-    String paymentStatus;
+    int productId;
+    String productTitle;
+    int orderId;
+    int quantity;
+    int price;
     int totalPrice;
 }
