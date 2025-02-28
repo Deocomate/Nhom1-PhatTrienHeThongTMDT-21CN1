@@ -1,7 +1,7 @@
 package com.hau.api_backend.service;
 
 
-import com.hau.api_backend.dto.request.OrderCreationRequest;
+import com.hau.api_backend.dto.request.order.OrderCreationRequest;
 import com.hau.api_backend.dto.request.OrderUpdateRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.OrderResponse;
