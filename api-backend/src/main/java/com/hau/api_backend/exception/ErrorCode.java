@@ -6,7 +6,7 @@ import lombok.Getter;
 public enum ErrorCode {
     EMAIL_ALREADY_EXISTS("Email already exists"),
     CUSTOMER_NOT_FOUND("Customer not found"),
-    PHONE_NUMBER_ALREADY_EXISTS("Phone Number already exists"),
+    USER_NOT_FOUND("User not found"),
     PRODUCT_NOT_FOUND("Product not found"),
     ORDER_NOT_FOUND("Order not found"),
     ORDER_NOT_FOUND_FOR_CUSTOMER("Order not found for Customer"),
@@ -20,6 +20,8 @@ public enum ErrorCode {
     TOKEN_INVALIDATED("Invalid token"),
     CUSTOMER_CARE_NOT_FOUND("Contact not found"),
     COMMENT_NOT_FOUND("comment not found")
+    INSUFFICIENT_QUANTITY("Insufficient quantity"),
+    OUT_OF_STOCK("Out of stock"),
     ;
 
     private final String message;

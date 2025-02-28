@@ -34,13 +34,10 @@ public class CustomerService {
         //Check if email already exists before creating a customer
         Optional<Customer> existingCustomerWithEmail = customerRepository.findByEmail(request.getEmail());
         if (existingCustomerWithEmail.isPresent()) {
-            throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS);
+            throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS, "email");
         }
-        // Check if phone number already exists
-        Optional<Customer> existingCustomerWithPhoneNumber = customerRepository.findByPhoneNumber(request.getPhoneNumber());
-        if (existingCustomerWithPhoneNumber.isPresent()) {
-            throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
-        }
+
+
 
         Customer customer = customerMapper.toCustomer(request);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
@@ -98,7 +95,7 @@ public class CustomerService {
 
     public ApiResponse<Void> deleteCustomer(int id) {
         if (!customerRepository.existsById(id)) {
-            throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND);
+            throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND, "customerId");
         }
         customerRepository.deleteById(id);
         return ApiResponse.<Void>builder()
@@ -111,7 +108,7 @@ public class CustomerService {
 
     public Customer findCustomerById(int id) {
         return customerRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND, "customerId"));
     }
 
 

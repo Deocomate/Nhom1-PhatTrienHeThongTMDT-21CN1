@@ -1,6 +1,8 @@
 package com.hau.api_backend.controller;
 
-import com.hau.api_backend.dto.request.order.OrderCreationRequest;
+
+import com.hau.api_backend.dto.request.OrderCreationRequest;
+import com.hau.api_backend.dto.request.OrderUpdateRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.OrderResponse;
 import com.hau.api_backend.service.OrderService;
@@ -37,10 +39,17 @@ public class OrderController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    // get all order by id
+    // get all order by customer id
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<ApiResponse<List<OrderResponse>>> getOrdersByCustomerId(@PathVariable int customerId) {
         ApiResponse<List<OrderResponse>> apiResponse = orderService.getOrdersByCustomerId(customerId);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    // update
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<OrderResponse>> updateOrder(@PathVariable int id, @Valid @RequestBody OrderUpdateRequest request) {
+        ApiResponse<OrderResponse> apiResponse = orderService.updateOrder(id, request);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }

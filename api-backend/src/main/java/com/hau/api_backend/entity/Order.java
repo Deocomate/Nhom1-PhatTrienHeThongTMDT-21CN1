@@ -22,6 +22,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     int customerId;
+    int userId;
     @Enumerated(EnumType.STRING)
     Status status;
     @Enumerated(EnumType.STRING)
@@ -42,7 +43,7 @@ public class Order {
     }
 
     public enum Status{
-        waiting, processing, shipped, cancelled
+        waiting, processing, shipped, admin_cancelled, customer_cancelled
     };
 
 }

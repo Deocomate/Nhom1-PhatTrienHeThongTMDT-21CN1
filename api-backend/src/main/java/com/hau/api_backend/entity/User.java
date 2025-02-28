@@ -7,38 +7,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "customers")
-
-public class Customer {
+@Table(name = "users")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
+    String name;
     String email;
+    LocalDateTime email_verified_at;
     String password;
-    String fullName;
-    @Enumerated(EnumType.STRING)
-    Gender gender;
-    String phoneNumber;
-    String address;
+    String remember_token;
     @CreationTimestamp
-    LocalDateTime createdAt;
-    @CreationTimestamp
-    LocalDateTime updatedAt;
-
-    public enum Gender {
-        male, female
-    }
-
-    @OneToMany(mappedBy = "customerId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    List<Order> orders;
+    LocalDateTime created_at;
+    @UpdateTimestamp
+    LocalDateTime updated_at;
 }

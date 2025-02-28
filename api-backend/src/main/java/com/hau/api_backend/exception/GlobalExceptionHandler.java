@@ -64,9 +64,6 @@ public class GlobalExceptionHandler {
         if (ex.getMessage().contains("customers_email_unique")) {
             field = "email";
             message = "Email already exists";
-        } else if (ex.getMessage().contains("customers_phone_number_unique")) {
-            field = "phoneNumber";
-            message = "Phone number already exists";
         }
 
         detail.put("field", field); // Add field information
@@ -106,44 +103,29 @@ public class GlobalExceptionHandler {
     // 5. Xử lý AppException
     @ExceptionHandler(AppException.class)
     public ResponseEntity<ErrorResponse> handleAppException(AppException ex) {
-        // Create a list to hold the error details
         List<Map<String, String>> errorDetails = new ArrayList<>();
-
-
         Map<String, String> detail = getStringStringMap(ex);
-
-        // Add the error to the list
         errorDetails.add(detail);
 
-        // Create the ErrorResponse with the list of errors
         ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.UNAUTHORIZED.value(),
-                "Authentication failed. See 'error' for details.",
+                HttpStatus.BAD_REQUEST.value(),
+                "Processing failed",
                 errorDetails,
                 LocalDateTime.now()
         );
-        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     private static Map<String, String> getStringStringMap(AppException ex) {
         Map<String, String> detail = new HashMap<>();
-        String field = null;
+        String field = ex.getField(); // Lấy field từ AppException
 
-        // Set field name based on the ErrorCode
-        if (ex.getErrorCode() == ErrorCode.EMAIL_ALREADY_EXISTS) {
-            field = "email";
-        } else if (ex.getErrorCode() == ErrorCode.PHONE_NUMBER_ALREADY_EXISTS) {
-            field = "phoneNumber";
-        } else if (ex.getErrorCode() == ErrorCode.TOKEN_INVALIDATED) {
-            field = "token";
-        }
-
-        // If the field is still null, it means the ErrorCode is not handled
+        // Nếu field vẫn là null, mặc định là "unknown"
         if (field == null) {
-            field = "unknown"; // Or handle it in another way, e.g., log the error
+            field = "unknown";
         }
 
-        detail.put("field", field); // Use the ErrorCode name as field
+        detail.put("field", field);
         detail.put("message", ex.getErrorCode().getMessage());
         return detail;
     }

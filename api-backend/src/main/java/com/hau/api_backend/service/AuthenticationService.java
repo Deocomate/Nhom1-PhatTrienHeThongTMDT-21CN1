@@ -108,12 +108,12 @@ public class AuthenticationService {
         boolean verified = signedJWT.verify(verifier); // xác minh chữ ký
         // Nếu chữ ký không hợp lệ, trả về lỗi "Token verification failed"
         if (!verified) {
-            throw new AppException(ErrorCode.TOKEN_VERIFICATION_FAILED);
+            throw new AppException(ErrorCode.TOKEN_VERIFICATION_FAILED, "token");
         }
 
         boolean isValid = expirationTime.after(new Date()); // xác thực token
         if (!isValid) {
-            throw new AppException(ErrorCode.TOKEN_EXPIRED);
+            throw new AppException(ErrorCode.TOKEN_EXPIRED, "token");
         }
         return signedJWT;
     }
