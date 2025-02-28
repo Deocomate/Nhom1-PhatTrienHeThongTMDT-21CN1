@@ -22,6 +22,7 @@ use App\Http\Middleware\AuthenticationMiddleware;
 Route::get('/seeder', [SeederController::class, "index"]);
 Route::get('/test', [SeederController::class, "seed_pharmacy_database"]);
 
+Route::get('/abc', [SeederController::class, "index"])->name("client.homepage");
 // Client
 Route::get('/', function () {
     return to_route("admin.index");

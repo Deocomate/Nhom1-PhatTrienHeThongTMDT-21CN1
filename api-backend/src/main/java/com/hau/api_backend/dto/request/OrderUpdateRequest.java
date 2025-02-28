@@ -1,4 +1,4 @@
-package com.hau.api_backend.dto.request.order;
+package com.hau.api_backend.dto.request;
 
 
 import jakarta.validation.constraints.NotBlank;
@@ -11,13 +11,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class OrderCreationRequest {
-    @NotNull
-    int customerId;
-    String status = "waiting";
+public class OrderUpdateRequest {
     @NotBlank
-    String paymentMethod;
-    @NotBlank
-    String paymentStatus = "pending";
-    int totalPrice;
+    String paymentStatus;
 }

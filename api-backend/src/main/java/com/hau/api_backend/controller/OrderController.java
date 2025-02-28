@@ -30,9 +30,17 @@ public class OrderController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    // get order id
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<OrderResponse>> getOrderById(@PathVariable int id) {
         ApiResponse<OrderResponse> apiResponse = orderService.getOrderById(id);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    // get all order by id
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<ApiResponse<List<OrderResponse>>> getOrdersByCustomerId(@PathVariable int customerId) {
+        ApiResponse<List<OrderResponse>> apiResponse = orderService.getOrdersByCustomerId(customerId);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }

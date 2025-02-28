@@ -102,7 +102,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('customer_id')->constrained('customers');
             $table->foreignId('user_id')->constrained('users');
-            $table->enum('status', ['new', 'processing', 'shipped', 'cancelled'])->default('new');
+            $table->enum('status', ['waiting', 'processing', 'shipped', 'admin_cancelled', 'customer_cancelled'])->default('waiting');
             $table->enum('payment_method', ['online', 'offline']);
             $table->enum('payment_status', ['fail', 'pending', 'success'])->default('pending');
             $table->integer('total_price');
@@ -159,6 +159,11 @@ return new class extends Migration {
             $table->string('address');
             $table->text('content');
             $table->timestamps();
+        });
+
+        Schema::create('invalidated_token', function (Blueprint $table) {
+            $table->string("id")->primary(); // Đặt 'id' làm primary key
+            $table->string("expiry_time");
         });
     }
 

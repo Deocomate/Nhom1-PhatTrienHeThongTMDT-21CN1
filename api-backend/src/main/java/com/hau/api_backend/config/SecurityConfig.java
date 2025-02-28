@@ -22,7 +22,7 @@ public class SecurityConfig {
 
 
     private final String[] PUBLIC_GET_ENDPOINTS = {"/api/products", "/api/products/{productId}/thumbnail", "/api/products/{productId}/images",
-            "/api/products/{id}", "/api/images/{id}", "/api/customerCares"
+            "/api/products/{id}", "/api/orders/customer/{customerId}",
     };
 
     @Value("${jwt.signerKey}")
