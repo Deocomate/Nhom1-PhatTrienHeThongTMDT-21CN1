@@ -95,6 +95,6 @@ public class ProductService {
 
     public Product findProductById(int id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND, "productId"));
     }
 }
