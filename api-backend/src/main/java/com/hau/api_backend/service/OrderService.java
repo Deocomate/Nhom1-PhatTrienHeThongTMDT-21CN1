@@ -49,11 +49,7 @@ public class OrderService {
                 .build();
 
     }
-
-    public ApiResponse<OrderResponse> updateOrder(){
-
-    }
-
+    
     // get all order of all customer
     public ApiResponse<List<OrderResponse>> getAllOrders() {
         List<Order> orders = orderRepository.findAll();
