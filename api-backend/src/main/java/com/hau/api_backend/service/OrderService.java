@@ -1,6 +1,6 @@
 package com.hau.api_backend.service;
 
-import com.hau.api_backend.dto.request.OrderCreationRequest;
+import com.hau.api_backend.dto.request.order.OrderCreationRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.OrderResponse;
 import com.hau.api_backend.entity.Customer;
@@ -36,7 +36,7 @@ public class OrderService {
             throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND);
         }
 
-        Order order = OrderMapper.INSTANCE.toOrder(request);
+        Order order = orderMapper.toOrder(request);
         Order saveOrder = orderRepository.save(order);
         OrderResponse orderResponse = orderMapper.toOrderResponse(saveOrder);
 

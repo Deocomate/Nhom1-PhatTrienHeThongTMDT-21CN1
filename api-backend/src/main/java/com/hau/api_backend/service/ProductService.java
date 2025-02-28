@@ -71,26 +71,26 @@ public class ProductService {
                 .build();
     }
 
-    public ApiResponse<List<ProductImageResponse>> getProductImages(int id) {
-        Product product = findProductById(id);
-        List<ProductImageResponse> productImageResponses = product.getProductImages().stream()
-                .map(image -> {
-                    // Tạo URL đầy đủ
-                    return ProductImageResponse.builder()
-                            .id(image.getId())
-                            .productId(image.getProductId())
-                            .url(appBaseUrl + "/" + imageBasePath + "/" + image.getUrl()) // Tạo URL đầy đủ
-                            .build();
-                })
-                .collect(Collectors.toList());
-
-        return ApiResponse.<List<ProductImageResponse>>builder()
-                .code(HttpStatus.OK.value())
-                .message("Get product images success")
-                .data(productImageResponses)
-                .timestamp(LocalDateTime.now())
-                .build();
-    }
+//    public ApiResponse<List<ProductImageResponse>> getProductImages(int id) {
+//        Product product = findProductById(id);
+//        List<ProductImageResponse> productImageResponses = product.getProductImages().stream()
+//                .map(image -> {
+//                    // Tạo URL đầy đủ
+//                    return ProductImageResponse.builder()
+//                            .id(image.getId())
+//                            .productId(image.getProductId())
+//                            .url(appBaseUrl + "/" + imageBasePath + "/" + image.getUrl()) // Tạo URL đầy đủ
+//                            .build();
+//                })
+//                .collect(Collectors.toList());
+//
+//        return ApiResponse.<List<ProductImageResponse>>builder()
+//                .code(HttpStatus.OK.value())
+//                .message("Get product images success")
+//                .data(productImageResponses)
+//                .timestamp(LocalDateTime.now())
+//                .build();
+//    }
 
 
     public Product findProductById(int id) {

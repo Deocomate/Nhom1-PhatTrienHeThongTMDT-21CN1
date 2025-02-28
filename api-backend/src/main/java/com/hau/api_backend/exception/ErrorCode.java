@@ -16,7 +16,9 @@ public enum ErrorCode {
     TOKEN_MISSING("Token is missing"),
     TOKEN_EXPIRED("Token is expired"),
     INVALID_TOKEN("Invalid token"),
-    TOKEN_INVALIDATED("Invalid token"),;
+    TOKEN_INVALIDATED("Invalid token"),
+    CUSTOMER_CARE_NOT_FOUND("Contact not found")
+    ;
 
     private final String message;
 
