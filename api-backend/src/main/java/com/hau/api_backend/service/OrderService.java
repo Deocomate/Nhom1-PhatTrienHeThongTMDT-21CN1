@@ -27,28 +27,33 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class OrderService {
     OrderRepository orderRepository;
-    OrderMapper orderMapper;
+    OrderMapper orderMapper; // Đã được inject bởi Spring
     CustomerRepository customerRepository;
 
     public ApiResponse<OrderResponse> createOrder(OrderCreationRequest request) {
         Optional<Customer> existingCustomerWithId = customerRepository.findById(request.getCustomerId());
-        if(existingCustomerWithId.isEmpty()) {
+        if (existingCustomerWithId.isEmpty()) {
             throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND);
         }
 
-        Order order = OrderMapper.INSTANCE.toOrder(request);
+        Order order = orderMapper.toOrder(request); // Sử dụng mapper được inject
         Order saveOrder = orderRepository.save(order);
         OrderResponse orderResponse = orderMapper.toOrderResponse(saveOrder);
 
         return ApiResponse.<OrderResponse>builder()
                 .code(HttpStatus.CREATED.value())
-                .message(SuccessMessage.CREATED_CUSTOMER.getMessage())
+                .message(SuccessMessage.CREATED_ORDER.getMessage())  // Đã sửa message
                 .data(orderResponse)
                 .timestamp(LocalDateTime.now())
                 .build();
 
     }
 
+    public ApiResponse<OrderResponse> updateOrder(){
+
+    }
+
+    // get all order of all customer
     public ApiResponse<List<OrderResponse>> getAllOrders() {
         List<Order> orders = orderRepository.findAll();
         List<OrderResponse> orderResponses = orders.stream()
@@ -56,7 +61,7 @@ public class OrderService {
                 .collect(Collectors.toList());
 
         return ApiResponse.<List<OrderResponse>>builder()
-                .code(HttpStatus.CREATED.value())
+                .code(HttpStatus.OK.value())
                 .message(SuccessMessage.GET_ALL_ORDER.getMessage())
                 .data(orderResponses)
                 .timestamp(LocalDateTime.now())
@@ -69,9 +74,36 @@ public class OrderService {
         OrderResponse orderResponse = orderMapper.toOrderResponse(order);
 
         return ApiResponse.<OrderResponse>builder()
-                .code(HttpStatus.CREATED.value())
+                .code(HttpStatus.OK.value())
                 .message(SuccessMessage.GET_ORDER_BY_ID.getMessage())
                 .data(orderResponse)
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
+
+    public ApiResponse<List<OrderResponse>> getOrdersByCustomerId(int customerId) {
+        // kiểm tra customerID có tồn tại không
+        if (!customerRepository.existsById(customerId)) {
+            throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND);
+        }
+
+        List<Order> orders = orderRepository.findByCustomerIdOrderByIdDesc(customerId);
+        List<OrderResponse> orderResponses = orders.stream()
+                .map(orderMapper::toOrderResponse)
+                .toList();
+        if (orderResponses.isEmpty()) {
+            return ApiResponse.<List<OrderResponse>>builder()
+                    .code(HttpStatus.NOT_FOUND.value())
+                    .message(ErrorCode.ORDER_NOT_FOUND_FOR_CUSTOMER.getMessage())
+                    .data(orderResponses)
+                    .timestamp(LocalDateTime.now())
+                    .build();
+        }
+
+        return ApiResponse.<List<OrderResponse>>builder()
+                .code(HttpStatus.OK.value())
+                .message(SuccessMessage.GET_ORDER_BY_CUSTOMER_ID.getMessage())
+                .data(orderResponses)
                 .timestamp(LocalDateTime.now())
                 .build();
     }

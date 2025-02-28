@@ -9,6 +9,7 @@ public enum ErrorCode {
     PHONE_NUMBER_ALREADY_EXISTS("Phone Number already exists"),
     PRODUCT_NOT_FOUND("Product not found"),
     ORDER_NOT_FOUND("Order not found"),
+    ORDER_NOT_FOUND_FOR_CUSTOMER("Order not found for Customer"),
     INCORRECT_EMAIL_OR_PASSWORD("Incorrect email or password"),
     FAILED_TO_GENERATE_TOKEN("Failed to generate token"),
     TOKEN_VERIFICATION_FAILED("Token verification failed"),

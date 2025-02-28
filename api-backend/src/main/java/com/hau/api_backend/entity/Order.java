@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -43,7 +42,7 @@ public class Order {
     }
 
     public enum Status{
-        processing, shipped, cancelled
+        waiting, processing, shipped, cancelled
     };
 
 }
