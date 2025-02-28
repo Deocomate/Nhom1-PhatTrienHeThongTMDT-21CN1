@@ -14,7 +14,7 @@ import lombok.experimental.FieldDefaults;
 public class OrderCreationRequest {
     @NotNull
     int customerId;
-    String status = "processing";
+    String status = "waiting";
     @NotBlank
     String paymentMethod;
     @NotBlank

@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum SuccessMessage {
     CREATED_CUSTOMER("Created customer success"),
+    CREATED_ORDER("Created order success"),
     UPDATE_CUSTOMER("Update customer success"),
     GET_ALL_CUSTOMER("Get all customer success"),
     GET_CUSTOMER_BY_ID("Get customer by id success"),
@@ -12,6 +13,7 @@ public enum SuccessMessage {
     GET_ALL_PRODUCT("Get all product success"),
     GET_PRODUCT_BY_ID("Get product by id success"),
     GET_ORDER_BY_ID("Get order by id success"),
+    GET_ORDER_BY_CUSTOMER_ID("Get all order by customer id success"),
     GET_ALL_ORDER("Get all order success"),
     CREATED_ORDER_SUCCESS("Created order success"),
     LOGIN_SUCCESS("Login successful"),
