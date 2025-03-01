@@ -1,6 +1,6 @@
 package com.hau.api_backend.service;
 
-import com.hau.api_backend.dto.request.OrderDetailCreationRequest;
+import com.hau.api_backend.dto.request.orderdetail.OrderDetailCreationRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.OrderDetailResponse;
 import com.hau.api_backend.entity.Order;
