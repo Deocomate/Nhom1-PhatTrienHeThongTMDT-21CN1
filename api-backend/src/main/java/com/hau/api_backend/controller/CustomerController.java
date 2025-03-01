@@ -40,15 +40,4 @@ public class CustomerController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<ApiResponse<List<CustomerResponse>>> getAllCustomers() {
-        ApiResponse<List<CustomerResponse>> apiResponse = customerService.getAllCustomers();
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteCustomer(@PathVariable int id) {
-        ApiResponse<Void> apiResponse = customerService.deleteCustomer(id);
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-    }
 }

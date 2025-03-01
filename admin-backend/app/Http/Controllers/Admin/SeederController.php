@@ -321,7 +321,7 @@ class SeederController extends Controller
 
         for ($i = 0; $i < $count; $i++) {
             $data[] = [
-                'fullname' => fake()->name(),
+                'full_name' => fake()->name(),
                 'email' => fake()->email(),
                 'phone_number' => fake()->phoneNumber(),
                 'address' => fake()->address(),

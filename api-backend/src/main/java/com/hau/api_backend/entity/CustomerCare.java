@@ -22,10 +22,11 @@ public class CustomerCare {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-    String fullname;
+    String fullName;
     String email;
-    String phone_number;
+    String phoneNumber;
     String address;
+    @Column(columnDefinition = "TEXT")
     String content;
     @CreationTimestamp
     LocalDateTime createdAt;

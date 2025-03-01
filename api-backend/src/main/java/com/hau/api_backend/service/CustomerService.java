@@ -19,9 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,20 +52,6 @@ public class CustomerService {
                 .build();
     }
 
-    public ApiResponse<List<CustomerResponse>> getAllCustomers() {
-        List<Customer> customers = customerRepository.findAll();
-        List<CustomerResponse> customerResponses = customers.stream()
-                .map(customerMapper::toCustomerResponse)
-                .collect(Collectors.toList());
-
-        return ApiResponse.<List<CustomerResponse>>builder()
-                .code(HttpStatus.OK.value())
-                .message(SuccessMessage.GET_ALL_CUSTOMER.getMessage())
-                .data(customerResponses)
-                .timestamp(LocalDateTime.now())
-                .build();
-    }
-
     public ApiResponse<CustomerResponse> getCustomerById(int id) {
         Customer customer = findCustomerById(id);
         CustomerResponse customerResponse = customerMapper.toCustomerResponse(customer);
@@ -89,18 +73,6 @@ public class CustomerService {
                 .code(HttpStatus.OK.value())
                 .message(SuccessMessage.UPDATE_CUSTOMER.getMessage())
                 .data(customerResponse)
-                .timestamp(LocalDateTime.now())
-                .build();
-    }
-
-    public ApiResponse<Void> deleteCustomer(int id) {
-        if (!customerRepository.existsById(id)) {
-            throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND, "customerId");
-        }
-        customerRepository.deleteById(id);
-        return ApiResponse.<Void>builder()
-                .code(HttpStatus.NO_CONTENT.value())
-                .message(SuccessMessage.DELETE_CUSTOMER.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
     }
