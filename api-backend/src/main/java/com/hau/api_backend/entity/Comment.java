@@ -21,7 +21,12 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     int productId;
+    @Column(name = "customer_id")
     int customerId;
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id", insertable = false, updatable = false)
+    Customer customer;
+
     String content;
     @CreationTimestamp
     LocalDateTime createdAt;

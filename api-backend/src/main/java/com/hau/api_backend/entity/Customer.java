@@ -18,7 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "customers")
-
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

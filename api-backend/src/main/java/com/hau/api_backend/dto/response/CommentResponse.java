@@ -12,5 +12,6 @@ public class CommentResponse {
     int id;
     int productId;
     int customerId;
+    String customerName;
     String content;
 }

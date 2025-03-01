@@ -1,13 +1,16 @@
 package com.hau.api_backend.service;
 
+import com.hau.api_backend.dto.request.comment.CommentCreationRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.CommentResponse;
 import com.hau.api_backend.entity.Comment;
+import com.hau.api_backend.entity.Customer;
 import com.hau.api_backend.exception.AppException;
 import com.hau.api_backend.exception.ErrorCode;
 import com.hau.api_backend.exception.SuccessMessage;
 import com.hau.api_backend.mapper.CommentMapper;
 import com.hau.api_backend.repository.CommentRepository;
+import com.hau.api_backend.repository.CustomerRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -24,6 +27,7 @@ import java.util.stream.Collectors;
 public class CommentService {
     CommentRepository commentRepository;
     CommentMapper commentMapper;
+    CustomerRepository customerRepository;
 
     public ApiResponse<List<CommentResponse>> getAllComment() {
         List<Comment> comments = commentRepository.findAll();
@@ -55,6 +59,29 @@ public class CommentService {
                 .timestamp(LocalDateTime.now())
                 .build();
     }
+
+    public ApiResponse<CommentResponse> createComment(CommentCreationRequest request) {
+        // 🆕 Tìm Customer theo customerId
+        System.out.println(request.getCustomerId());
+        System.out.println(request.getProductId());
+        Customer customer = customerRepository.findById(request.getCustomerId())
+                .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND));
+
+        Comment comment = commentMapper.toComment(request);
+        comment.setCustomer(customer); // Set customer object
+
+        Comment saveComment = commentRepository.save(comment);
+
+        CommentResponse commentResponse = commentMapper.toCommentResponse(saveComment);
+
+        return ApiResponse.<CommentResponse>builder()
+                .code(HttpStatus.CREATED.value())
+                .message(SuccessMessage.CREATED_CUSTOMER.getMessage())
+                .data(commentResponse)
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
+
 
 
 

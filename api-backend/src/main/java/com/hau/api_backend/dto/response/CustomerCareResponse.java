@@ -18,4 +18,5 @@ public class CustomerCareResponse {
     String phone_number;
     String address;
     String content;
+    CustomerResponse customerResponse;
 }

@@ -12,7 +12,9 @@ public interface CommentMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    Comment toComment(CommentCreationRequest order);
+    @Mapping(target = "customer", ignore = true)
+    Comment toComment(CommentCreationRequest request);
 
+    @Mapping(source = "customer.fullName", target = "customerName")
     CommentResponse toCommentResponse(Comment comment);
 }
