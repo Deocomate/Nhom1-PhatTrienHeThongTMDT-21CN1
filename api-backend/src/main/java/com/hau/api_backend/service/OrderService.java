@@ -1,7 +1,8 @@
 package com.hau.api_backend.service;
 
-import com.hau.api_backend.dto.request.OrderCreationRequest;
-import com.hau.api_backend.dto.request.OrderUpdateRequest;
+
+import com.hau.api_backend.dto.request.order.OrderCreationRequest;
+import com.hau.api_backend.dto.request.order.OrderUpdateRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.OrderResponse;
 import com.hau.api_backend.entity.Order;
@@ -36,6 +37,7 @@ public class OrderService {
         if (!customerRepository.existsById(request.getCustomerId())) {
             throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND, "customerId");
         }
+
 
         if (!userRepository.existsById(request.getUserId())) {
             throw new AppException(ErrorCode.USER_NOT_FOUND, "userId");

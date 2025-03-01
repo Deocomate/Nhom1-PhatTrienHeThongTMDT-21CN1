@@ -19,7 +19,12 @@ public enum SuccessMessage {
     CREATED_ORDER_SUCCESS("Created order success"),
     LOGIN_SUCCESS("Login successful"),
     INTROSPECTION_SUCCESS("Token introspection successful"),
-    LOGOUT_SUCCESS("Logout successful")
+    LOGOUT_SUCCESS("Logout successful"),
+    CREATED_CUSTOMER_CARE("Created contact success"),
+    GET_ALL_CUSTOMER_CARE("Get contact success"),
+    SEND_COMMENT_SUCCESS("Send comment success"),
+    GET_COMMENT_BY_PRODUCT_ID_SUCCESS("Get comment by id success"),
+    GET_COMMENT_SUCCESS("Get comment success")
     ;
 
     private final String message;

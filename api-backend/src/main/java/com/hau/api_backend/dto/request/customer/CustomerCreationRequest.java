@@ -1,5 +1,7 @@
-package com.hau.api_backend.dto.request;
+package com.hau.api_backend.dto.request.customer;
 
+
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -9,18 +11,21 @@ import lombok.experimental.FieldDefaults;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 
-public class CustomerUpdateRequest {
+public class CustomerCreationRequest {
+    @Email(message = "Invalid email format")
     @Size(min = 1, max = 50, message = "Password must be between 1 and 30 characters long")
+    String email;
+    @NotBlank
     String password;
     @NotBlank
     String fullName;
     @NotBlank
     @Pattern(regexp = "^(male|female)$", message = "Invalid gender value. Must be male or female")
     String gender;
-    @Size(min = 10, message = "Phone Number is required")
+    @NotBlank
     String phoneNumber;
     @NotBlank
     String address;

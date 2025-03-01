@@ -18,6 +18,8 @@ public enum ErrorCode {
     TOKEN_EXPIRED("Token is expired"),
     INVALID_TOKEN("Invalid token"),
     TOKEN_INVALIDATED("Invalid token"),
+    CUSTOMER_CARE_NOT_FOUND("Contact not found"),
+    COMMENT_NOT_FOUND("comment not found"),
     INSUFFICIENT_QUANTITY("Insufficient quantity"),
     OUT_OF_STOCK("Out of stock"),
     ;

@@ -32,9 +32,9 @@ public class ProductController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}/images")
-    public ResponseEntity<ApiResponse<List<ProductImageResponse>>> getProductImages(@PathVariable int id) {
-        ApiResponse<List<ProductImageResponse>> apiResponse = productService.getProductImages(id);
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-    }
+//    @GetMapping("/{id}/images")
+//    public ResponseEntity<ApiResponse<List<ProductImageResponse>>> getProductImages(@PathVariable int id) {
+//        ApiResponse<List<ProductImageResponse>> apiResponse = productService.getProductImages(id);
+//        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+//    }
 }
