@@ -89,7 +89,7 @@ public class OrderService {
 
         return ApiResponse.<OrderResponse>builder()
                 .code(HttpStatus.CREATED.value())
-                .message(SuccessMessage.CREATED_ORDER_SUCCESS.getMessage())
+                .message(SuccessMessage.CREATED_ORDER.getMessage())
                 .data(orderResponse)
                 .timestamp(LocalDateTime.now())
                 .build();
