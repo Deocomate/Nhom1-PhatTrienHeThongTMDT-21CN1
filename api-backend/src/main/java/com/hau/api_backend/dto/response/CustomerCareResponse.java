@@ -13,9 +13,9 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CustomerCareResponse {
     int id;
-    String fullname;
+    String fullName;
     String email;
-    String phone_number;
+    String phoneNumber;
     String address;
     String content;
     CustomerResponse customerResponse;

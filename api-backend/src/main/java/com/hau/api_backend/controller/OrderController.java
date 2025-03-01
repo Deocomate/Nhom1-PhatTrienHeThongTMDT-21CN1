@@ -1,6 +1,5 @@
 package com.hau.api_backend.controller;
 
-
 import com.hau.api_backend.dto.request.order.OrderCreationRequest;
 import com.hau.api_backend.dto.request.order.OrderUpdateRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
@@ -21,15 +20,9 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<OrderResponse>> createOrder(@Valid @RequestBody OrderCreationRequest order) {
-        ApiResponse<OrderResponse> apiResponse = orderService.createOrder(order);
+    public ResponseEntity<ApiResponse<OrderResponse>> createOrderWithDetails(@Valid @RequestBody OrderCreationRequest orderRequest) {
+        ApiResponse<OrderResponse> apiResponse = orderService.createOrderWithDetails(orderRequest);
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
-    }
-
-    @GetMapping
-    public ResponseEntity<ApiResponse<List<OrderResponse>>> getOrders() {
-        ApiResponse<List<OrderResponse>> apiResponse = orderService.getAllOrders();
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     // get order id

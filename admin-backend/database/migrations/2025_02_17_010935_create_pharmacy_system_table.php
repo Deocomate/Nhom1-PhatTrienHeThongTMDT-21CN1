@@ -152,7 +152,7 @@ return new class extends Migration {
         // Create CustomerCares table
         Schema::create('customer_cares', function (Blueprint $table) {
             $table->id();
-            $table->string('fullname');
+            $table->string('full_name');
             $table->string('email');
             $table->string('phone_number');
             $table->string('address');

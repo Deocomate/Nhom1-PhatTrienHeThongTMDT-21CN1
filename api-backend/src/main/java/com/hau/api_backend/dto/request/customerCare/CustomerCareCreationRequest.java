@@ -14,11 +14,11 @@ public class CustomerCareCreationRequest {
     @NotNull
     int id;
     @NotBlank
-    String fullname;
+    String fullName;
     @NotBlank
     String email;
     @NotBlank
-    String phone_number;
+    String phoneNumber;
     @NotBlank
     String address;
     @NotBlank

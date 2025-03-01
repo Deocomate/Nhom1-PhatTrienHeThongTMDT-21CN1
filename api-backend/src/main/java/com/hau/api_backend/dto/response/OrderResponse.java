@@ -1,7 +1,11 @@
 package com.hau.api_backend.dto.response;
 
+import com.hau.api_backend.dto.request.orderdetail.OrderDetailCreationRequest;
+import jakarta.validation.Valid;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -15,4 +19,6 @@ public class OrderResponse {
     String paymentMethod;
     String paymentStatus;
     int totalPrice;
+    @Valid
+    List<OrderDetailResponse> orderDetails;
 }
