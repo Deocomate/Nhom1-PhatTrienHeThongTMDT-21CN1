@@ -1,8 +1,8 @@
 package com.hau.api_backend.controller;
 
-import com.hau.api_backend.dto.request.AuthenticationRequest;
-import com.hau.api_backend.dto.request.IntrospectRequest;
-import com.hau.api_backend.dto.request.LogoutRequest;
+import com.hau.api_backend.dto.request.authentication.AuthenticationRequest;
+import com.hau.api_backend.dto.request.authentication.IntrospectRequest;
+import com.hau.api_backend.dto.request.authentication.LogoutRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.AuthenticationResponse;
 import com.hau.api_backend.dto.response.IntrospectResponse;

@@ -1,4 +1,4 @@
-package com.hau.api_backend.dto.request;
+package com.hau.api_backend.dto.request.orderdetail;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
