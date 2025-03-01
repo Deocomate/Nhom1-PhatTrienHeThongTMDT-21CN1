@@ -18,5 +18,4 @@ public class OrderUpdateRequest {
     @Pattern(regexp = "^(fail|pending|success)$", message = "Invalid payment status value. Must be fail, pending or success")
     @NotBlank
     String paymentStatus;
-    int totalPrice;
 }
