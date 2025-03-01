@@ -18,11 +18,11 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final String[] PUBLIC_POST_ENDPOINTS = {"/api/auth/login", "/api/auth/logout", "/api/auth/introspect", "/api/customers", "/api/orders", "/api/customerCares", "/api/comments"};
+    private final String[] PUBLIC_POST_ENDPOINTS = {"/api/auth/login", "/api/auth/logout", "/api/auth/introspect", "/api/customers", "/api/orders", "/api/customerCares", "/api/comments", "/api/replyComments"};
 
 
     private final String[] PUBLIC_GET_ENDPOINTS = {"/api/products", "/api/products/{productId}/thumbnail", "/api/products/{productId}/images",
-            "/api/products/{id}", "/api/orders/customer/{customerId}", "/api/comments", "api/comments/product/{id}",
+            "/api/products/{id}", "/api/orders/customer/{customerId}", "/api/comments", "/api/comments/product/{id}", "/api/replyComments",
     };
 
     @Value("${jwt.signerKey}")

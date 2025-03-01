@@ -7,32 +7,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
+@Entity
+@Table(name = "reply_comments")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "comments")
-@Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Comment {
+public class ReplyComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-    int productId;
-    @Column(name = "customer_id")
-    int customerId;
-    @ManyToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "id", insertable = false, updatable = false)
-    Customer customer;
 
-    String content;
+    int commentId;
+    String replyContent;
     @CreationTimestamp
     LocalDateTime createdAt;
     @CreationTimestamp
     LocalDateTime updatedAt;
-    @OneToMany(mappedBy = "commentId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    List<ReplyComment> replyComments;
 }

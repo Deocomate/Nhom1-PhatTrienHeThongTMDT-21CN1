@@ -37,7 +37,7 @@ public class CommentService {
                 .collect(Collectors.toList());
         return ApiResponse.<List<CommentResponse>>builder()
                 .code(HttpStatus.OK.value())
-                .message(SuccessMessage.GET_ALL_CUSTOMER.getMessage())
+                .message(SuccessMessage.GET_COMMENT_SUCCESS.getMessage())
                 .data(commentResponses)
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -54,7 +54,7 @@ public class CommentService {
 
         return ApiResponse.<List<CommentResponse>>builder()
                 .code(HttpStatus.OK.value())
-                .message(SuccessMessage.GET_ALL_CUSTOMER.getMessage())
+                .message(SuccessMessage.GET_COMMENT_BY_PRODUCT_ID_SUCCESS.getMessage())
                 .data(commentResponses)
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -76,7 +76,7 @@ public class CommentService {
 
         return ApiResponse.<CommentResponse>builder()
                 .code(HttpStatus.CREATED.value())
-                .message(SuccessMessage.CREATED_CUSTOMER.getMessage())
+                .message(SuccessMessage.SEND_COMMENT_SUCCESS.getMessage())
                 .data(commentResponse)
                 .timestamp(LocalDateTime.now())
                 .build();

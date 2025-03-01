@@ -1,7 +1,10 @@
 package com.hau.api_backend.dto.response;
 
+import com.hau.api_backend.entity.Comment;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -14,4 +17,5 @@ public class CommentResponse {
     int customerId;
     String customerName;
     String content;
+    List<ReplyCommentResponse> replyCommentResponses;
 }

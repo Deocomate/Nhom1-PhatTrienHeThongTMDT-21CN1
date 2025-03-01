@@ -38,7 +38,6 @@ public class CustomerService {
         }
 
 
-
         Customer customer = customerMapper.toCustomer(request);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         customer.setPassword(passwordEncoder.encode(request.getPassword()));
