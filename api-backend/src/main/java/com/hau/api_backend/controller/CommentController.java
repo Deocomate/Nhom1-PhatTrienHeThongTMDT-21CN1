@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +22,12 @@ public class CommentController {
     @GetMapping
     public ResponseEntity<ApiResponse<List<CommentResponse>>> getAllComment() {
         ApiResponse<List<CommentResponse>> apiResponse = commentService.getAllComment();
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/product/{productId}")
+    public ResponseEntity<ApiResponse<List<CommentResponse>>> getCommentByProductId(@PathVariable int productId) {
+        ApiResponse<List<CommentResponse>> apiResponse = commentService.findCommentByProductId(productId);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }
