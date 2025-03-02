@@ -2,6 +2,7 @@
   {
     "id": 1,
     "title": "Panadol Extra - Giảm đau, hạ sốt",
+    "brand": "Panadol",
     "price": 20000,
     "favorite": "10k",
     "sale": "10k"
@@ -9,6 +10,7 @@
   {
     "id": 2,
     "title": "Efferalgan 500mg - Giảm đau, hạ sốt",
+    "brand": "Efferalgan",
     "price": 22000,
     "favorite": "9.5k",
     "sale": "9.99k"
@@ -16,6 +18,7 @@
   {
     "id": 3,
     "title": "Decolgen - Cảm cúm, nghẹt mũi",
+    "brand": "Decolgen",
     "price": 10000,
     "favorite": "12k",
     "sale": "10k"
@@ -23,6 +26,7 @@
   {
     "id": 4,
     "title": "Strepsils Honey Lemon - Viên ngậm đau họng",
+    "brand": "Strepsils",
     "price": 18000,
     "favorite": "11k",
     "sale": "10k"
@@ -30,6 +34,7 @@
   {
     "id": 5,
     "title": "Salonpas - Miếng dán giảm đau",
+    "brand": "Salonpas",
     "price": 27000,
     "favorite": "8k",
     "sale": "10k"
@@ -37,6 +42,7 @@
   {
     "id": 6,
     "title": "Gel bôi trĩ Cotripro",
+    "brand": "Cotripro",
     "price": 30000,
     "favorite": "13k",
     "sale": "10k"
@@ -44,6 +50,7 @@
   {
     "id": 7,
     "title": "Tatanol 500mg - Giảm đau, hạ sốt",
+    "brand": "Tatanol",
     "price": 14000,
     "favorite": "7k",
     "sale": "10k"
@@ -51,6 +58,7 @@
   {
     "id": 8,
     "title": "Nước muối sinh lý Natri Clorid 0.9%",
+    "brand": "Natri Clorid",
     "price": 26000,
     "favorite": "10.5k",
     "sale": "9.99k"
@@ -58,6 +66,7 @@
   {
     "id": 9,
     "title": "C sủi Pharmacity - Bổ sung vitamin C",
+    "brand": "Pharmacity",
     "price": 12000,
     "favorite": "9k",
     "sale": "10k"
@@ -65,6 +74,7 @@
   {
     "id": 10,
     "title": "Dầu gió xanh Con Ó",
+    "brand": "Con Ó",
     "price": 35000,
     "favorite": "11.5k",
     "sale": "9.99k"
@@ -72,6 +82,7 @@
   {
     "id": 11,
     "title": "Kem đánh răng dược liệu Ngọc Châu",
+    "brand": "Ngọc Châu",
     "price": 21000,
     "favorite": "14k",
     "sale": "10k"
@@ -79,6 +90,7 @@
   {
     "id": 12,
     "title": "Xịt họng Eugica - Giảm ho, đau họng",
+    "brand": "Eugica",
     "price": 6000,
     "favorite": "6k",
     "sale": "9.99k"
@@ -86,6 +98,7 @@
   {
     "id": 13,
     "title": "Vitamin D3 Pharmacity - Hỗ trợ xương khớp",
+    "brand": "Pharmacity",
     "price": 9000,
     "favorite": "9.8k",
     "sale": "10k"
@@ -93,6 +106,7 @@
   {
     "id": 14,
     "title": "Dầu khuynh diệp OPC",
+    "brand": "OPC",
     "price": 13000,
     "favorite": "8.5k",
     "sale": "10k"
@@ -100,6 +114,7 @@
   {
     "id": 15,
     "title": "Berocca Performance - Bổ sung vitamin",
+    "brand": "Berocca",
     "price": 25000,
     "favorite": "15k",
     "sale": "10k"
@@ -107,6 +122,7 @@
   {
     "id": 16,
     "title": "Siro ho Bổ Phế Nam Dược",
+    "brand": "Nam Dược",
     "price": 18000,
     "favorite": "10.2k",
     "sale": "9.99k"
@@ -114,6 +130,7 @@
   {
     "id": 17,
     "title": "Viên uống bổ sung Canxi D3",
+    "brand": "D3 Calcium",
     "price": 29000,
     "favorite": "9.3k",
     "sale": "10k"
@@ -121,6 +138,7 @@
   {
     "id": 18,
     "title": "Tăm bông tiệt trùng Pharmacity",
+    "brand": "Pharmacity",
     "price": 20000,
     "favorite": "12.5k",
     "sale": "9.99k"
@@ -128,6 +146,7 @@
   {
     "id": 19,
     "title": "Khẩu trang y tế Pharmacity 4 lớp",
+    "brand": "Pharmacity",
     "price": 16000,
     "favorite": "8.2k",
     "sale": "10k"
@@ -135,6 +154,7 @@
   {
     "id": 20,
     "title": "Gel rửa tay khô Pharmacity",
+    "brand": "Pharmacity",
     "price": 15000,
     "favorite": "11.8k",
     "sale": "10k"

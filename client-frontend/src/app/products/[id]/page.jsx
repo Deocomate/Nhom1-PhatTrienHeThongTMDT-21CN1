@@ -141,9 +141,7 @@ export default function ProductDetail() {
                 <TabsContent value="description" className="mt-4">
                     <Card className="p-4">
                         <p>
-                            Khẩu trang y tế 3 lớp màu xanh Pharmacity là loại khẩu trang y tế đạt tiêu chuẩn, 
-                            được sản xuất từ chất liệu an toàn, giá thành hợp lý và khách hàng luôn hài lòng 
-                            với sản phẩm của thương hiệu Pharmacity cung cấp.
+                            Mô tả sản phẩm
                         </p>
                     </Card>
                 </TabsContent>
