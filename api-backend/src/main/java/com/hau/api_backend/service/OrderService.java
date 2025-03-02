@@ -163,5 +163,9 @@ public class OrderService {
         return orderResponse;
     }
 
-
+    // findById
+    public Order findOrderById(int id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND, "orderId"));
+    }
 }

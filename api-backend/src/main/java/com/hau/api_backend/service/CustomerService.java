@@ -81,6 +81,4 @@ public class CustomerService {
         return customerRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND, "customerId"));
     }
-
-
 }
