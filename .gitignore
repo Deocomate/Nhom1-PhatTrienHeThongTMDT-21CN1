@@ -1,2 +1,7 @@
 .vscode
 .idea
+
+# Ignore application.yml and pom.xml
+application.yml
+pom.xml
+api-backend/src/main/resources/application.yml

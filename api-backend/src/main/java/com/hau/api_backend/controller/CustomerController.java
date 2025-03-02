@@ -1,7 +1,7 @@
 package com.hau.api_backend.controller;
 
-import com.hau.api_backend.dto.request.CustomerCreationRequest;
-import com.hau.api_backend.dto.request.CustomerUpdateRequest;
+import com.hau.api_backend.dto.request.customer.CustomerCreationRequest;
+import com.hau.api_backend.dto.request.customer.CustomerUpdateRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.CustomerResponse;
 import com.hau.api_backend.service.CustomerService;
@@ -40,15 +40,4 @@ public class CustomerController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<ApiResponse<List<CustomerResponse>>> getAllCustomers() {
-        ApiResponse<List<CustomerResponse>> apiResponse = customerService.getAllCustomers();
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteCustomer(@PathVariable int id) {
-        ApiResponse<Void> apiResponse = customerService.deleteCustomer(id);
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-    }
 }

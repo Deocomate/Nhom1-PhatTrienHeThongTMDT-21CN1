@@ -1,10 +1,10 @@
 package com.hau.api_backend.entity;
 
-import com.hau.api_backend.converter.StringListConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int Id;
+    int id;
 
     String title;
     String thumbnail;
@@ -33,7 +33,6 @@ public class Product {
 
     @Column(columnDefinition = "TEXT")
     String indications;
-
 
 
     @Column(name = "category_id")
