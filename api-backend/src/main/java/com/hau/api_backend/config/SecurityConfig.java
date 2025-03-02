@@ -24,7 +24,7 @@ public class SecurityConfig {
 
     private final String[] PUBLIC_GET_ENDPOINTS = {"/api/products", "/api/products/{productId}/thumbnail", "/api/products/{productId}/images",
             "/api/products/{id}", "/api/orders/customer/{customerId}", "/api/comments", "/api/comments/product/{id}", "/api/replyComments",
-            "/api/wishlists", "/api/wishlists/products/{productId}", "/api/wishlists/customers/{customerId}",
+            "/api/wishlists", "/api/wishlists/products/{productId}", "/api/wishlists/customers/{customerId}", "/api/products/slug/{slug}",
     };
 
     private final String[] PUBLIC_DELETE_ENDPOINTS = {"/api/wishlists/{customerId}/{productId}"};

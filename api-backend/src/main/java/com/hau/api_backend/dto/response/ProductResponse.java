@@ -28,5 +28,6 @@ public class ProductResponse {
     Integer quantity;
     Double price;
     String registrationNumber;
+    String slug;
     List<ProductImageResponse> productImagesResponses;
 }

@@ -53,6 +53,9 @@ public class Product {
     @Column(name = "registration_number")
     String registrationNumber;
 
+    @Column(name = "slug")
+    String slug;
+
     @CreationTimestamp
     LocalDateTime createdAt;
 
