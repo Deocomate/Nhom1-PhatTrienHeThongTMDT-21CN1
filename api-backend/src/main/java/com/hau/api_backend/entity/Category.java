@@ -26,7 +26,7 @@ public class Category {
     String thumbnail;
     String slug;
     int priority;
-    int parentId;
+    Integer parentId;
     @CreationTimestamp
     LocalDateTime createdAt;
     @CreationTimestamp

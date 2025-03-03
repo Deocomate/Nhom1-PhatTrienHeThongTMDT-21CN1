@@ -8,5 +8,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
-    Optional<List<Category>> findByParentId(int parentId);
+    Optional<List<Category>> findByParentId(Integer parentId);
 }
