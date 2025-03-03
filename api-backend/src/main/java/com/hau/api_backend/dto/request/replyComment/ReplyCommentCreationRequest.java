@@ -1,5 +1,4 @@
-package com.hau.api_backend.dto.request;
-
+package com.hau.api_backend.dto.request.replyComment;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,13 +10,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class OrderCreationRequest {
+public class ReplyCommentCreationRequest {
     @NotNull
-    int customerId;
-    String status = "processing";
-    @NotBlank
-    String paymentMethod;
-    @NotBlank
-    String paymentStatus = "pending";
-    int totalPrice;
+    int commentId;
+    @NotBlank(message = "Content is blank")
+    String replyContent;
 }

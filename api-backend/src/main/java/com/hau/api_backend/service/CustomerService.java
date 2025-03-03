@@ -1,7 +1,7 @@
 package com.hau.api_backend.service;
 
-import com.hau.api_backend.dto.request.CustomerCreationRequest;
-import com.hau.api_backend.dto.request.CustomerUpdateRequest;
+import com.hau.api_backend.dto.request.customer.CustomerCreationRequest;
+import com.hau.api_backend.dto.request.customer.CustomerUpdateRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.CustomerResponse;
 import com.hau.api_backend.entity.Customer;
@@ -19,9 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,13 +32,9 @@ public class CustomerService {
         //Check if email already exists before creating a customer
         Optional<Customer> existingCustomerWithEmail = customerRepository.findByEmail(request.getEmail());
         if (existingCustomerWithEmail.isPresent()) {
-            throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS);
+            throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS, "email");
         }
-        // Check if phone number already exists
-        Optional<Customer> existingCustomerWithPhoneNumber = customerRepository.findByPhoneNumber(request.getPhoneNumber());
-        if (existingCustomerWithPhoneNumber.isPresent()) {
-            throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
-        }
+
 
         Customer customer = customerMapper.toCustomer(request);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
@@ -53,20 +47,6 @@ public class CustomerService {
                 .code(HttpStatus.CREATED.value())
                 .message(SuccessMessage.CREATED_CUSTOMER.getMessage())
                 .data(customerResponse)
-                .timestamp(LocalDateTime.now())
-                .build();
-    }
-
-    public ApiResponse<List<CustomerResponse>> getAllCustomers() {
-        List<Customer> customers = customerRepository.findAll();
-        List<CustomerResponse> customerResponses = customers.stream()
-                .map(customerMapper::toCustomerResponse)
-                .collect(Collectors.toList());
-
-        return ApiResponse.<List<CustomerResponse>>builder()
-                .code(HttpStatus.OK.value())
-                .message(SuccessMessage.GET_ALL_CUSTOMER.getMessage())
-                .data(customerResponses)
                 .timestamp(LocalDateTime.now())
                 .build();
     }
@@ -96,23 +76,9 @@ public class CustomerService {
                 .build();
     }
 
-    public ApiResponse<Void> deleteCustomer(int id) {
-        if (!customerRepository.existsById(id)) {
-            throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND);
-        }
-        customerRepository.deleteById(id);
-        return ApiResponse.<Void>builder()
-                .code(HttpStatus.NO_CONTENT.value())
-                .message(SuccessMessage.DELETE_CUSTOMER.getMessage())
-                .timestamp(LocalDateTime.now())
-                .build();
-    }
-
 
     public Customer findCustomerById(int id) {
         return customerRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND, "customerId"));
     }
-
-
 }

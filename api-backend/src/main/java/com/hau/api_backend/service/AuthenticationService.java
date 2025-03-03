@@ -1,8 +1,8 @@
 package com.hau.api_backend.service;
 
-import com.hau.api_backend.dto.request.AuthenticationRequest;
-import com.hau.api_backend.dto.request.IntrospectRequest;
-import com.hau.api_backend.dto.request.LogoutRequest;
+import com.hau.api_backend.dto.request.authentication.AuthenticationRequest;
+import com.hau.api_backend.dto.request.authentication.IntrospectRequest;
+import com.hau.api_backend.dto.request.authentication.LogoutRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.AuthenticationResponse;
 import com.hau.api_backend.dto.response.IntrospectResponse;
@@ -108,12 +108,12 @@ public class AuthenticationService {
         boolean verified = signedJWT.verify(verifier); // xác minh chữ ký
         // Nếu chữ ký không hợp lệ, trả về lỗi "Token verification failed"
         if (!verified) {
-            throw new AppException(ErrorCode.TOKEN_VERIFICATION_FAILED);
+            throw new AppException(ErrorCode.TOKEN_VERIFICATION_FAILED, "token");
         }
 
         boolean isValid = expirationTime.after(new Date()); // xác thực token
         if (!isValid) {
-            throw new AppException(ErrorCode.TOKEN_EXPIRED);
+            throw new AppException(ErrorCode.TOKEN_EXPIRED, "token");
         }
         return signedJWT;
     }

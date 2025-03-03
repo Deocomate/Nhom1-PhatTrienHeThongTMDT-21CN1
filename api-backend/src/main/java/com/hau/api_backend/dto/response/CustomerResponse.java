@@ -12,7 +12,6 @@ import lombok.experimental.FieldDefaults;
 public class CustomerResponse {
     int id;
     String email;
-    String password;
     String fullName;
     String gender;
     String phoneNumber;

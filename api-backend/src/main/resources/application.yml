@@ -7,9 +7,16 @@ spring:
     username: root
     password: root
   jpa:
-    hibernate:
-      ddl-auto: update
+#    hibernate:
+#      ddl-auto: update
     show-sql: true
 
 jwt:
   signerKey: "AwpJB9BWN0oaxL8ePNzR+0O8Y8QtdwJnghwSxm3nAoZTilvw8IHhjHy/WJiiiX0L"
+
+vnpay:
+  payUrl: "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"
+  returnUrl: "http://localhost:8080/api/vnpay/vnpay_return" # Endpoint của bạn trong Spring Boot
+  tmnCode: "TY24L0SC" # Thay bằng mã cửa hàng của bạn
+  secretKey: "OLLNHDCEMOEUUO6KJ12C1F9B9GMX4A3N" # Thay bằng secret key của bạn
+  apiUrl: "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction"

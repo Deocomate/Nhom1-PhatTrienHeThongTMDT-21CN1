@@ -196,7 +196,6 @@ class SeederController extends Controller
     private function seedCustomers($count)
     {
         $data = [];
-        $imageUrl = 'https://thumbs.dreamstime.com/b/pharmacy-logo-letter-p-pharmacy-cross-icon-isolated-dark-green-background-pharmacy-logo-letter-p-pharmacy-cross-130130949.jpg';
 
         for ($i = 0; $i < $count; $i++) {
             $gender = fake()->randomElement(['male', 'female']);
@@ -211,7 +210,6 @@ class SeederController extends Controller
                 'gender' => $gender,
                 'phone_number' => fake()->phoneNumber(),
                 'address' => fake()->address(),
-                'profile_pic' => $imageUrl,
                 'created_at' => fake()->dateTimeBetween('-1 year', 'now'),
                 'updated_at' => now()
             ];
@@ -244,7 +242,7 @@ class SeederController extends Controller
         for ($i = 0; $i < $count; $i++) {
             $title = fake()->words(rand(2, 5), true);
             $slug = \Str::slug($title);
-            $price = fake()->randomFloat(2, 5, 500);
+            $price = fake()->numberBetween(50, 500) * 1000;
 
             $data[] = [
                 'title' => $title,
@@ -323,7 +321,7 @@ class SeederController extends Controller
 
         for ($i = 0; $i < $count; $i++) {
             $data[] = [
-                'fullname' => fake()->name(),
+                'full_name' => fake()->name(),
                 'email' => fake()->email(),
                 'phone_number' => fake()->phoneNumber(),
                 'address' => fake()->address(),
