@@ -38,14 +38,14 @@
                         <td>{{ $product->id }}</td>
                         <td>{{ $product->title }}</td>
                         <td>
-                            @if($product->thumbnail)
-                                <img src="{{ $product->thumbnail }}" alt="{{ $product->title }}"
+                            @if(isset($product->thumbnail) && $product->thumbnail)
+                                <img src="{{ $product->thumbnail }}" alt="{{ $product->title }}" 
                                      style="max-width: 100px; max-height: 100px;">
                             @else
                                 Không có
                             @endif
                         </td>
-                        <td>{{ $product->brand }}</td>
+                        <td>{{ $product->brand_name}}</td>
                         <td>{{ $product->type }}</td>
                         <td>{{ $product->active_ingredient }}</td>
                         <td>{{ $product->manufacturer }}</td>
