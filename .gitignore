@@ -1,2 +1,6 @@
 .vscode
 .idea
+mobile/.vscode
+admin-backend/.vscode
+api-backend/.vscode
+client-frontend/.vscode
