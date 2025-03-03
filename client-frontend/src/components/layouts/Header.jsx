@@ -61,7 +61,7 @@ export default function Header() {
                 {/* Main Header Content */}
                 <div className="flex items-center justify-between px-4 py-4">
                     {/* Logo */}
-                    <Link href="/" className="text-2xl font-bold">
+                    <Link href="/public" className="text-2xl font-bold">
                         AN KHANG PHARMACY
                     </Link>
 

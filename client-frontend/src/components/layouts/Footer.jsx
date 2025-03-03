@@ -209,9 +209,9 @@ export default function Footer() {
                     <div className="w-full md:w-full mb-6 md:mb-0">
                         <nav className="list-none md:block">
                             <nav className="pb-5 flex space-x-5 pt-2">
-                                <a href=""><img src="/favicon.ico" alt=""
+                                <a href=""><img src="/public/favicon.ico" alt=""
                                                 className="size-7"></img></a>
-                                <a href=""><img src="/favicon.ico" alt=""
+                                <a href=""><img src="/public/favicon.ico" alt=""
                                                 className="size-7"></img></a>
                             </nav>
                             <nav className="list-none">

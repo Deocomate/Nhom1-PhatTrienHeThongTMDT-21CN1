@@ -26,6 +26,14 @@ public enum SuccessMessage {
     GET_COMMENT_SUCCESS("Get comment success"),
     GET_ALL_REPLY_COMMENT_SUCCESS("Get reply comment success"),
     SENT_REPLY_COMMENT("Send reply comment success"),
+    GET_ALL_WISHLIST_SUCCESS("Get all wishlist success"),
+    CREATED_WISHLIST("Created wishlist success"),
+    DELETED_WISHLIST("Wishlist deleted"),
+    GET_WISHLIST_BY_PRODUCTID("Get wishlist by productId success"),
+    GET_WISHLIST_BY_CUSTOMER("Get wishlist by customerId success"),
+    GET_ALL_CATETORY("Get all category success"),
+    GET_CATEGORY_BY_PARRENTID("Get categories by parrentId"),
+
     ;
 
     private final String message;

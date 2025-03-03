@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import ProductCard from '@/components/ProductCard';
+import ProductCard from '@/components/products/ProductCard';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import axios from 'axios';
-import ProductFilterSidebar from '@/components/ProductFilterSidebar';
+import ProductFilterSidebar from '@/components/products/ProductFilterSidebar';
 
 export default function SearchPage() {
     const searchParams = useSearchParams();
