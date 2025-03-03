@@ -22,10 +22,15 @@
         <x-menus.nav-item :route="route('admin.category.index')" name="Danh sách"></x-menus.nav-item>
         <x-menus.nav-item :route="route('admin.category.create')" name="Thêm danh mục"></x-menus.nav-item>
     </x-menus.menu-item>
+    <x-menus.menu-item :route="route('admin.brand.index')" name="Thương hiệu" icon="fas fa-capsules">
+        <x-menus.nav-item :route="route('admin.brand.index')" name="Danh sách"></x-menus.nav-item>
+        <x-menus.nav-item :route="route('admin.brand.create')" name="Thêm thương hiệu"></x-menus.nav-item>
+    </x-menus.menu-item>
     <x-menus.menu-item :route="route('admin.product.index')" name="Sản phẩm" icon="fas fa-capsules">
         <x-menus.nav-item :route="route('admin.product.index')" name="Danh sách"></x-menus.nav-item>
         <x-menus.nav-item :route="route('admin.product.create')" name="Thêm sản phẩm"></x-menus.nav-item>
     </x-menus.menu-item>
+    
 
 
     @if(auth()->user()->name == "Admin")
