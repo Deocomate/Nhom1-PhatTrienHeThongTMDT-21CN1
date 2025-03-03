@@ -22,6 +22,8 @@ public enum ErrorCode {
     INSUFFICIENT_QUANTITY("Insufficient quantity"),
     OUT_OF_STOCK("Out of stock"),
     WISHLIST_NOT_FOUND("wishlist not found"),
+    CATEGORY_NOT_FOUND("Categoy not found"),
+
     ;
 
     private final String message;

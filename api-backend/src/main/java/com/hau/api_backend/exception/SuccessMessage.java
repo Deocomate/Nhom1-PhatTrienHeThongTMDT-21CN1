@@ -31,6 +31,8 @@ public enum SuccessMessage {
     DELETED_WISHLIST("Wishlist deleted"),
     GET_WISHLIST_BY_PRODUCTID("Get wishlist by productId success"),
     GET_WISHLIST_BY_CUSTOMER("Get wishlist by customerId success"),
+    GET_ALL_CATETORY("Get all category success"),
+    GET_CATEGORY_BY_PARRENTID("Get categories by parrentId"),
 
     ;
 
