@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import ProductCarousel from "@/components/ProductCarousel";
+import ProductCarousel from "@/components/products/ProductCarousel";
 import { Minus, Plus, Heart } from "lucide-react";
 
 export default function ProductDetail() {
