@@ -1,16 +1,21 @@
 package com.hau.api_backend.service;
 
 import com.hau.api_backend.config.PaymentConfig;
+import com.hau.api_backend.dto.request.PaymentCreationRequest;
+import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.entity.Order;
+import com.hau.api_backend.entity.Order.PaymentStatus;
 import com.hau.api_backend.entity.Payment;
 import com.hau.api_backend.exception.AppException;
 import com.hau.api_backend.exception.ErrorCode;
+import com.hau.api_backend.mapper.PaymentMapper;
 import com.hau.api_backend.repository.OrderRepository;
 import com.hau.api_backend.repository.PaymentRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,16 +35,18 @@ public class PaymentService {
     private final PaymentConfig paymentConfig;
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
+    private final PaymentMapper paymentMapper;
+    private final OrderService orderService; // Inject OrderService
     private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
 
     public String createPaymentURL(Order order, HttpServletRequest request, String bankCode) {
         if (order == null || !order.getPaymentMethod().toString().equalsIgnoreCase("ONLINE")) {
-            throw new AppException(ErrorCode.ORDER_NOT_FOUND, "Order không hợp lệ hoặc không phải thanh toán online.");
+            throw new AppException(ErrorCode.ORDER_NOT_SUPPORTED, "orderId");
         }
 
-        String vnp_TxnRef = String.valueOf(order.getId()); // Sử dụng order ID làm mã giao dịch
+        String vnp_TxnRef = String.valueOf(order.getId());
         String vnp_IpAddr = getIpAddress(request);
-        long amount = order.getTotalPrice() * 100L; // VNPAY yêu cầu số tiền tính bằng xu
+        long amount = order.getTotalPrice() * 100L;
 
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", "2.1.0");
@@ -68,14 +75,14 @@ public class PaymentService {
         String vnp_ExpireDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
 
-        List fieldNames = new ArrayList(vnp_Params.keySet());
+        List<String> fieldNames = new ArrayList<>(vnp_Params.keySet());
         Collections.sort(fieldNames);
         StringBuilder hashData = new StringBuilder();
         StringBuilder query = new StringBuilder();
-        Iterator itr = fieldNames.iterator();
+        Iterator<String> itr = fieldNames.iterator();
         while (itr.hasNext()) {
-            String fieldName = (String) itr.next();
-            String fieldValue = (String) vnp_Params.get(fieldName);
+            String fieldName = itr.next();
+            String fieldValue = vnp_Params.get(fieldName);
             if ((fieldValue != null) && (!fieldValue.isEmpty())) {
                 //Build hash data
                 hashData.append(fieldName);
@@ -98,73 +105,106 @@ public class PaymentService {
     }
 
     @Transactional
-    public void transactionSuccess(HttpServletRequest request) {
-        logger.info("transactionSuccess() called");
+    public ApiResponse<String> processVnPayReturn(HttpServletRequest request) {
+        // 1. Kiểm tra chữ ký
         Map<String, String> fields = new HashMap<>();
         for (Enumeration<String> params = request.getParameterNames(); params.hasMoreElements();) {
             String fieldName = params.nextElement();
             String fieldValue = request.getParameter(fieldName);
             if (fieldValue != null && !fieldValue.isEmpty()) {
                 fields.put(fieldName, fieldValue);
-                logger.info("Parameter - {}: {}", fieldName, fieldValue);
             }
         }
 
         String vnp_SecureHash = request.getParameter("vnp_SecureHash");
-
         fields.remove("vnp_SecureHashType");
         fields.remove("vnp_SecureHash");
-
         String signValue = hashAllFields(fields);
-        if (signValue.equals(vnp_SecureHash)) {
-            logger.info("Signature is valid");
-            String vnpAmount = request.getParameter("vnp_Amount");
-            String vnpOrderInfo = request.getParameter("vnp_OrderInfo");
-            String vnpPayDate = request.getParameter("vnp_PayDate");
-            String vnpTransactionStatus = request.getParameter("vnp_TransactionStatus");
-            String vnpTxnRef = request.getParameter("vnp_TxnRef");
 
-            int orderId = Integer.parseInt(vnpTxnRef);
-
-            Order order = orderRepository.findById(orderId)
-                    .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND, "orderId"));
-            Payment payment = new Payment();
-            payment.setVnpAmount(vnpAmount);
-            payment.setVnpOrderInfo(vnpOrderInfo);
-            payment.setVnpPayDate(vnpPayDate);
-            payment.setVnpTransactionStatus(vnpTransactionStatus);
-            payment.setVnpTxnRef(vnpTxnRef);
-            payment.setOrder(order);
-            paymentRepository.save(payment);
-            logger.info("Payment information saved successfully for orderId: {}", orderId);
-
-        } else {
+        if (!signValue.equals(vnp_SecureHash)) {
             logger.warn("Invalid signature");
+            return ApiResponse.<String>builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message("Invalid signature")
+                    .data(null)
+                    .timestamp(LocalDateTime.now())
+                    .build();
         }
 
+        // 2. Lấy các tham số
+        String vnpResponseCode = request.getParameter("vnp_ResponseCode");
+        String vnpTransactionStatus = request.getParameter("vnp_TransactionStatus");
+        String vnpTxnRef = request.getParameter("vnp_TxnRef");
+        int orderId = Integer.parseInt(vnpTxnRef);
+
+        // 3. Tìm Order
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND, "orderId"));
+
+        // 4. Xử lý kết quả giao dịch
+        if ("00".equals(vnpResponseCode) && "00".equals(vnpTransactionStatus)) {
+            // Giao dịch thành công
+            order.setPaymentStatus(PaymentStatus.success);
+            orderService.updateOrder(order.getId(), null); // Sử dụng OrderService để cập nhật
+
+            // Tạo và lưu Payment
+
+
+            PaymentCreationRequest paymentCreationRequest = PaymentCreationRequest.builder()
+                    .vnpAmount(request.getParameter("vnp_Amount"))
+                    .vnpOrderInfo(request.getParameter("vnp_OrderInfo"))
+                    .vnpPayDate(request.getParameter("vnp_PayDate"))
+                    .vnpTransactionStatus(request.getParameter("vnp_TransactionStatus"))
+                    .vnpTxnRef(vnpTxnRef)
+                    .orderId(orderId)
+                    .build();
+
+            Payment payment = paymentMapper.toPayment(paymentCreationRequest);
+            payment.setOrder(order);
+            paymentRepository.save(payment);
+
+            return ApiResponse.<String>builder()
+                    .code(HttpStatus.OK.value())
+                    .message("Thanh toán thành công")
+                    .data("Thanh toán thành công")  // Trả về thông báo, hoặc có thể trả về paymentResponse
+                    .timestamp(LocalDateTime.now())
+                    .build();
+        } else {
+            // Giao dịch thất bại
+            order.setPaymentStatus(PaymentStatus.fail);
+            orderService.updateOrder(order.getId(), null); // Sử dụng OrderService để cập nhật
+
+            return ApiResponse.<String>builder()
+                    .code(HttpStatus.BAD_REQUEST.value())
+                    .message("Thanh toán thất bại")
+                    .data(null)
+                    .timestamp(LocalDateTime.now())
+                    .build();
+        }
     }
 
-    //Util for VNPAY
-    public String hashAllFields(Map fields) {
-        List fieldNames = new ArrayList(fields.keySet());
+    // *** Hàm hashAllFields (đã sửa để encode bằng US-ASCII) ***
+    public String hashAllFields(Map<String, String> fields) {
+        List<String> fieldNames = new ArrayList<>(fields.keySet());
         Collections.sort(fieldNames);
         StringBuilder sb = new StringBuilder();
-        Iterator itr = fieldNames.iterator();
+        Iterator<String> itr = fieldNames.iterator();
         while (itr.hasNext()) {
-            String fieldName = (String) itr.next();
-            String fieldValue = (String) fields.get(fieldName);
+            String fieldName = itr.next();
+            String fieldValue = fields.get(fieldName);
             if ((fieldValue != null) && (!fieldValue.isEmpty())) {
+                // *Sửa ở đây*: Encode *tất cả* các trường bằng US-ASCII
                 sb.append(fieldName);
                 sb.append("=");
-                sb.append(fieldValue);
+                sb.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII)); // Dùng US-ASCII
             }
             if (itr.hasNext()) {
                 sb.append("&");
             }
         }
-        return hmacSHA512(paymentConfig.getSecretKey(),sb.toString());
+        logger.info("Data before hash: {}", sb); // Log chuỗi hash
+        return hmacSHA512(paymentConfig.getSecretKey(), sb.toString());
     }
-
     public String hmacSHA512(final String key, final String data) {
         try {
 
@@ -200,5 +240,4 @@ public class PaymentService {
         }
         return ipAdress;
     }
-
 }
