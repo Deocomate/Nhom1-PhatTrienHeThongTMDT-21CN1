@@ -29,7 +29,7 @@ public class SecurityConfig {
             "/api/wishlists", "/api/wishlists/products/{productId}", "/api/wishlists/customers/{customerId}", "/api/products/slug/{slug}",
             "/api/pagination/products",
             "/api/pagination/orders", "/api/pagination/comments",
-            "/api/categories", "api/categories/parent",
+            "/api/categories", "/api/categories/parent", "/api/categories/slug/{parentSlug}",
 
     };
 

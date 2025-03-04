@@ -74,4 +74,30 @@ public class CategoryService {
                 .build();
 
     }
+
+    public ApiResponse<List<CategoryResponse>> getCategoryByParentSlug(String slug){
+        Category parentCategory = categoryRepository.findBySlug(slug)
+                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+
+        List<Category> categories = categoryRepository.findByParentId(parentCategory.getId())
+                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+
+        List<CategoryResponse> categoryResponses = categories.stream()
+                .map(category -> {
+                    CategoryResponse response = categoryMapper.toCategoryResponse(category);
+                    if(response.getThumbnail() != null) {
+                        response.setThumbnail(appBaseUrl + "/" + imageBasePath + "/" + response.getThumbnail());
+                    }
+
+                    return response;
+                })
+                .collect(Collectors.toList());
+
+        return ApiResponse.<List<CategoryResponse>>builder()
+                .code(HttpStatus.OK.value())
+                .message(SuccessMessage.GET_CATEGORY_BY_PARRENT_ID.getMessage())
+                .data(categoryResponses)
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
 }

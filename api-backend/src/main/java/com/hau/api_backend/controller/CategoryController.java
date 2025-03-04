@@ -4,6 +4,7 @@ import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.CategoryResponse;
 import com.hau.api_backend.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.usertype.LoggableUserType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,12 @@ public class CategoryController {
     @GetMapping("/parent")
     public ResponseEntity<ApiResponse<List<CategoryResponse>>> getCategoryByParentId(@RequestParam(value = "parentId", required = false) Integer parentId) {
         ApiResponse<List<CategoryResponse>> apiResponse = categoryService.getCategoryByParentId(parentId);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/slug/{parentSlug}")
+    public ResponseEntity<ApiResponse<List<CategoryResponse>>> getCategoryByParentSlug(@PathVariable String parentSlug) {
+        ApiResponse<List<CategoryResponse>> apiResponse = categoryService.getCategoryByParentSlug(parentSlug);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
  }
