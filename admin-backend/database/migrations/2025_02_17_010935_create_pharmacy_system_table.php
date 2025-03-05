@@ -29,7 +29,7 @@ return new class extends Migration {
             $table->string('thumbnail')->nullable();
             $table->string('slug')->unique();
             $table->integer('priority')->nullable();
-            $table->foreignId('parent_id')->nullable()->constrained('categories');
+            $table->foreignId('parent_id')->nullable()->constrained('categories')->onDelete('cascade');
             $table->timestamps();
         });
 
@@ -47,12 +47,12 @@ return new class extends Migration {
             $table->id();
             $table->string('title');
             $table->string('thumbnail');
-            $table->foreignId('brand_id')->constrained('brands');
+            $table->foreignId('brand_id')->constrained('brands')->onDelete('cascade');
             $table->string('type');
             $table->string('active_ingredient');
             $table->text('indications');
             $table->string('manufacturer');
-            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->string('dosage_form');
             $table->text('noted')->nullable();
             $table->text('description');
@@ -66,7 +66,7 @@ return new class extends Migration {
         // Create ProductImages table
         Schema::create('product_images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained('products');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->string('url');
             $table->timestamps();
         });
@@ -74,16 +74,16 @@ return new class extends Migration {
         // Create Wishlists table
         Schema::create('wishlists', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained('products');
-            $table->foreignId('customer_id')->constrained('customers');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
             $table->timestamps();
         });
 
         // Create Comments table
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained('products');
-            $table->foreignId('customer_id')->constrained('customers');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
             $table->text('content');
             $table->timestamps();
         });
@@ -91,7 +91,7 @@ return new class extends Migration {
         // Create ReplyComments table
         Schema::create('reply_comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('comment_id')->constrained('comments');
+            $table->foreignId('comment_id')->constrained('comments')->onDelete('cascade');
             $table->text('reply_content');
             $table->timestamps();
         });
@@ -99,8 +99,8 @@ return new class extends Migration {
         // Create Orders table
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id')->constrained('customers');
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->enum('status', ['waiting', 'processing', 'shipped', 'admin_cancelled', 'customer_cancelled'])->default('waiting');
             $table->enum('payment_method', ['online', 'offline']);
             $table->enum('payment_status', ['fail', 'pending', 'success'])->default('pending');
@@ -111,19 +111,22 @@ return new class extends Migration {
         // Create OrderDetails table
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained('products');
-            $table->foreignId('order_id')->constrained('orders');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
             $table->integer('quantity');
             $table->integer('price_at_order');
             $table->timestamps();
         });
 
-        // Create Payments table
+        // Create Payments table with the new structure
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('orders');
-            $table->string('payment_gateway');
-            $table->enum('payment_status', ['fail', 'pending', 'success'])->default('pending');
+            $table->integer('vnp_amount');
+            $table->string('vnp_order_info');
+            $table->string('vnp_pay_date');
+            $table->integer('vnp_transaction_status');
+            $table->integer('vnp_txn_ref');
+            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
             $table->timestamps();
         });
 
@@ -144,7 +147,7 @@ return new class extends Migration {
             $table->text('content')->nullable();
             $table->string('thumbnail')->nullable();
             $table->integer('priority')->nullable();
-            $table->foreignId('blogcategory_id')->constrained('blog_categories');
+            $table->foreignId('blogcategory_id')->constrained('blog_categories')->onDelete('cascade');
             $table->string('slug')->unique();
             $table->timestamps();
         });
@@ -171,19 +174,20 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('customers');
-        Schema::dropIfExists('product_images');
-        Schema::dropIfExists('wishlists');
-        Schema::dropIfExists('comments');
-        Schema::dropIfExists('reply_comments');
-        Schema::dropIfExists('orders');
-        Schema::dropIfExists('order_details');
+        Schema::dropIfExists('invalidated_token');
+        Schema::dropIfExists('customer_cares');
+        Schema::dropIfExists('blogs');
+        Schema::dropIfExists('blog_categories');
         Schema::dropIfExists('payments');
+        Schema::dropIfExists('order_details');
+        Schema::dropIfExists('orders');
+        Schema::dropIfExists('reply_comments');
+        Schema::dropIfExists('comments');
+        Schema::dropIfExists('wishlists');
+        Schema::dropIfExists('product_images');
         Schema::dropIfExists('products');
         Schema::dropIfExists('brands');
         Schema::dropIfExists('categories');
-        Schema::dropIfExists('blogs');
-        Schema::dropIfExists('blog_categories');
-        Schema::dropIfExists('customer_cares');
+        Schema::dropIfExists('customers');
     }
 };

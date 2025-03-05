@@ -12,7 +12,6 @@ class SeederController extends Controller
     public function index()
     {
         $this->user_init();
-        $this->seed_pharmacy_database();
         return "Seeder successfully";
     }
 
