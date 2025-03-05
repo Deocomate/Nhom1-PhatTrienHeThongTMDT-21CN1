@@ -17,16 +17,19 @@ public class ProductResponse {
     String title;
     String thumbnail;
     int brandId;
+    String brandName;
     String type;
     String activeIngredient;
     String indications;
     String manufacturer;
     Long categoryId;
+    String categoryName;
     String dosageForm;
     String noted;
     String description;
     Integer quantity;
     Double price;
     String registrationNumber;
+    String slug;
     List<ProductImageResponse> productImagesResponses;
 }

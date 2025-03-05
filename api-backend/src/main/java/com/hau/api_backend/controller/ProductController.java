@@ -32,6 +32,12 @@ public class ProductController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    @GetMapping("/slug/{slug:[a-zA-Z0-9-]+}")
+    public ResponseEntity<ApiResponse<ProductResponse>> getProductBySlug(@PathVariable String slug) {
+        ApiResponse<ProductResponse> apiResponse = productService.getProductBySlug(slug);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
 //    @GetMapping("/{id}/images")
 //    public ResponseEntity<ApiResponse<List<ProductImageResponse>>> getProductImages(@PathVariable int id) {
 //        ApiResponse<List<ProductImageResponse>> apiResponse = productService.getProductImages(id);

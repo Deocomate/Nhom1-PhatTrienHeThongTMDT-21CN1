@@ -1,7 +1,9 @@
 .vscode
 .idea
-
-# Ignore application.yml and pom.xml
+mobile/.vscode
+admin-backend/.vscode
+api-backend/.vscode
+client-frontend/.vscode
 application.yml
 pom.xml
 api-backend/src/main/resources/application.yml
