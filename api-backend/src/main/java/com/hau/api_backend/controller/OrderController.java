@@ -45,4 +45,10 @@ public class OrderController {
         ApiResponse<OrderResponse> apiResponse = orderService.updateOrder(id, request);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+
+    @PutMapping("/cancel/{id}")
+    public ResponseEntity<ApiResponse<OrderResponse>> cancelOrder(@PathVariable int id) {
+        ApiResponse<OrderResponse> apiResponse = orderService.cancelOrder(id);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
 }
