@@ -4,6 +4,7 @@ package com.hau.api_backend.service;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.CategoryResponse;
 import com.hau.api_backend.entity.Category;
+import com.hau.api_backend.entity.Product;
 import com.hau.api_backend.exception.AppException;
 import com.hau.api_backend.exception.ErrorCode;
 import com.hau.api_backend.exception.SuccessMessage;
@@ -77,10 +78,10 @@ public class CategoryService {
 
     public ApiResponse<List<CategoryResponse>> getCategoryByParentSlug(String slug){
         Category parentCategory = categoryRepository.findBySlug(slug)
-                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND, "slug"));
 
         List<Category> categories = categoryRepository.findByParentId(parentCategory.getId())
-                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND, "categoryId"));
 
         List<CategoryResponse> categoryResponses = categories.stream()
                 .map(category -> {
@@ -100,4 +101,7 @@ public class CategoryService {
                 .timestamp(LocalDateTime.now())
                 .build();
     }
+
+
+
 }
