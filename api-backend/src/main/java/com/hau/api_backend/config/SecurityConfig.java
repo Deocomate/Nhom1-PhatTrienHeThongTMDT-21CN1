@@ -30,7 +30,8 @@ public class SecurityConfig {
             "/api/pagination/products",
             "/api/pagination/orders", "/api/pagination/comments",
             "/api/categories", "/api/categories/parent", "/api/categories/slug/{parentSlug}",
-            "/api/categories/productWithCategory",
+            "/api/categories/productWithCategory", "/api/categories/productWithCategory/{categorySlug}",
+
 
     };
 

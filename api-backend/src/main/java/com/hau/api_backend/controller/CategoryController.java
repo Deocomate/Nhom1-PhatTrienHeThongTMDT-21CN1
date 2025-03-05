@@ -49,4 +49,11 @@ public class CategoryController {
         return ResponseEntity.ok(productWithCategoryService.getPagedProductsWithCategories(page));
     }
 
+    @GetMapping("/productWithCategory/{categorySlug}")
+    public ResponseEntity<ApiResponse<ProductWithCategoryResponse>> getProductsWithCategories(
+           @PathVariable String categorySlug,
+           @RequestParam(defaultValue = "1") int page) {
+        return ResponseEntity.ok(productWithCategoryService.getPagedProductWithCategorySlugFiltered(categorySlug, page));
+    }
+
  }
