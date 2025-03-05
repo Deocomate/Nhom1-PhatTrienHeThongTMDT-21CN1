@@ -2,6 +2,7 @@ package com.hau.api_backend.service;
 
 import com.hau.api_backend.config.PaymentConfig;
 import com.hau.api_backend.dto.request.PaymentCreationRequest;
+import com.hau.api_backend.dto.request.order.OrderUpdateRequest; // Import OrderUpdateRequest
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.entity.Order;
 import com.hau.api_backend.entity.Order.PaymentStatus;
@@ -144,12 +145,16 @@ public class PaymentService {
         // 4. Xử lý kết quả giao dịch
         if ("00".equals(vnpResponseCode) && "00".equals(vnpTransactionStatus)) {
             // Giao dịch thành công
-            order.setPaymentStatus(PaymentStatus.success);
-            orderService.updateOrder(order.getId(), null); // Sử dụng OrderService để cập nhật
+            // Tạo OrderUpdateRequest để cập nhật paymentStatus
+            OrderUpdateRequest orderUpdateRequest = OrderUpdateRequest.builder()
+                    .paymentStatus("success")
+                    .status(order.getStatus().toString()) // Giữ nguyên trạng thái đơn hàng
+                    .build();
+
+            // Cập nhật order bằng orderService
+            orderService.updateOrder(order.getId(), orderUpdateRequest);
 
             // Tạo và lưu Payment
-
-
             PaymentCreationRequest paymentCreationRequest = PaymentCreationRequest.builder()
                     .vnpAmount(request.getParameter("vnp_Amount"))
                     .vnpOrderInfo(request.getParameter("vnp_OrderInfo"))
@@ -171,9 +176,14 @@ public class PaymentService {
                     .build();
         } else {
             // Giao dịch thất bại
-            order.setPaymentStatus(PaymentStatus.fail);
-            orderService.updateOrder(order.getId(), null); // Sử dụng OrderService để cập nhật
+            // Tạo OrderUpdateRequest để cập nhật paymentStatus
+            OrderUpdateRequest orderUpdateRequest = OrderUpdateRequest.builder()
+                    .paymentStatus("fail")
+                    .status(order.getStatus().toString()) // Giữ nguyên trạng thái đơn hàng
+                    .build();
 
+            // Cập nhật order bằng orderService
+            orderService.updateOrder(order.getId(), orderUpdateRequest);
             return ApiResponse.<String>builder()
                     .code(HttpStatus.BAD_REQUEST.value())
                     .message("Thanh toán thất bại")

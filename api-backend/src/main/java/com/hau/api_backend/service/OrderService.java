@@ -6,6 +6,7 @@ import com.hau.api_backend.dto.request.orderdetail.OrderDetailCreationRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.OrderDetailResponse;
 import com.hau.api_backend.dto.response.OrderResponse;
+import com.hau.api_backend.entity.Customer;
 import com.hau.api_backend.entity.Order;
 import com.hau.api_backend.entity.OrderDetail;
 import com.hau.api_backend.entity.Product;
@@ -22,6 +23,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import jakarta.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,6 +43,7 @@ public class OrderService {
     OrderMapper orderMapper;
     OrderDetailMapper orderDetailMapper;
     OrderDetailService orderDetailService;
+    EmailService emailService; // Inject EmailService
 
     @Transactional
     public ApiResponse<OrderResponse> createOrderWithDetails(OrderCreationRequest orderRequest) {
@@ -87,6 +91,11 @@ public class OrderService {
 
         OrderResponse orderResponse = createOrderResponseWithDetails(savedOrder);
 
+        // Gửi email xác nhận nếu phương thức thanh toán là offline
+        if (orderRequest.getPaymentMethod().equalsIgnoreCase("offline")) {
+            findByIdCustomer(savedOrder, savedOrder, orderRequest.getCustomerId());
+        }
+
         return ApiResponse.<OrderResponse>builder()
                 .code(HttpStatus.CREATED.value())
                 .message(SuccessMessage.CREATED_ORDER.getMessage())
@@ -94,7 +103,6 @@ public class OrderService {
                 .timestamp(LocalDateTime.now())
                 .build();
     }
-
     @Transactional
     public ApiResponse<OrderResponse> updateOrder(int id, OrderUpdateRequest request) {
         Order order = orderRepository.findById(id)
@@ -105,12 +113,29 @@ public class OrderService {
 
         OrderResponse orderResponse = createOrderResponseWithDetails(updatedOrder);
 
+        // Gửi email xác nhận nếu thanh toán online thành công và trạng thái order đã được cập nhật
+        if (request != null && request.getPaymentStatus() != null && request.getPaymentStatus().equalsIgnoreCase("success")) {
+            findByIdCustomer(order, updatedOrder, order.getCustomerId());
+        }
+
         return ApiResponse.<OrderResponse>builder()
                 .code(HttpStatus.OK.value())
                 .message(SuccessMessage.UPDATE_ORDER.getMessage())
                 .data(orderResponse)
                 .timestamp(LocalDateTime.now())
                 .build();
+    }
+
+    private void findByIdCustomer(Order order, Order updatedOrder, int customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND, "customerId"));
+        List<OrderDetail> orderDetailsList = orderDetailRepository.findByOrderId(order.getId());
+
+        try {
+            emailService.sendOrderConfirmationEmail(updatedOrder, customer, orderDetailsList);
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            System.err.println("Failed to send email: " + e.getMessage());
+        }
     }
 
     // get all order of all customer
