@@ -43,6 +43,8 @@ class CategoryController extends Controller
             'parent_id' => 'nullable|exists:categories,id',
         ]);
 
+        $validated["slug"] = \Str::slug($validated["name"], '-') . rand(1, 1000);
+
         DB::table('categories')->insert($validated);
 
         return redirect()->route('admin.category.index')->with('success', 'Category created successfully!');

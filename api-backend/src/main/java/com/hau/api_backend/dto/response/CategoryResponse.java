@@ -16,5 +16,4 @@ public class CategoryResponse {
     int priority;
     Integer parentId;
 
-
 }

@@ -2,7 +2,9 @@ package com.hau.api_backend.controller;
 
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.CategoryResponse;
+import com.hau.api_backend.dto.response.ProductWithCategoryResponse;
 import com.hau.api_backend.service.CategoryService;
+import com.hau.api_backend.service.ProductWithCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.usertype.LoggableUserType;
 import org.springframework.http.HttpStatus;
@@ -17,12 +19,17 @@ import java.util.List;
 
 public class CategoryController {
     private final CategoryService categoryService;
+    private final ProductWithCategoryService productWithCategoryService;
+//    @GetMapping
+//    public ResponseEntity<ApiResponse<List<CategoryResponse>>> getAllCategory() {
+//        ApiResponse<List<CategoryResponse>> apiResponse = categoryService.getAllCategory();
+//        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+//    }
     @GetMapping
-    public ResponseEntity<ApiResponse<List<CategoryResponse>>> getAllCategory() {
-        ApiResponse<List<CategoryResponse>> apiResponse = categoryService.getAllCategory();
+    public ResponseEntity<ApiResponse<ProductWithCategoryResponse>>getAllProductWithCategory() {
+        ApiResponse<ProductWithCategoryResponse> apiResponse = productWithCategoryService.getAllProductsWithCategories();
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
-
 
     @GetMapping("/parent")
     public ResponseEntity<ApiResponse<List<CategoryResponse>>> getCategoryByParentId(@RequestParam(value = "parentId", required = false) Integer parentId) {
@@ -35,4 +42,11 @@ public class CategoryController {
         ApiResponse<List<CategoryResponse>> apiResponse = categoryService.getCategoryByParentSlug(parentSlug);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+
+    @GetMapping("/productWithCategory")
+    public ResponseEntity<ApiResponse<ProductWithCategoryResponse>> getProductsWithCategories(
+            @RequestParam(defaultValue = "1") int page) {
+        return ResponseEntity.ok(productWithCategoryService.getPagedProductsWithCategories(page));
+    }
+
  }

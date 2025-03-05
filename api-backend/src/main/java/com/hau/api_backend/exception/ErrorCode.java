@@ -9,6 +9,7 @@ public enum ErrorCode {
     USER_NOT_FOUND("User not found"),
     PRODUCT_NOT_FOUND("Product not found"),
     ORDER_NOT_FOUND("Order not found"),
+    ORDER_NOT_SUPPORTED("Order does not support online payment"),
     ORDER_NOT_FOUND_FOR_CUSTOMER("Order not found for Customer"),
     INCORRECT_EMAIL_OR_PASSWORD("Incorrect email or password"),
     FAILED_TO_GENERATE_TOKEN("Failed to generate token"),
