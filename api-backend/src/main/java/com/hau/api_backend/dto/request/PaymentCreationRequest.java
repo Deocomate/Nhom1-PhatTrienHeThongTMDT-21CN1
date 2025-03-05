@@ -1,7 +1,8 @@
 package com.hau.api_backend.dto.request;
 
+import lombok.Builder;
 import lombok.Data;
-
+@Builder
 @Data
 public class PaymentCreationRequest {
     private String vnpAmount;
