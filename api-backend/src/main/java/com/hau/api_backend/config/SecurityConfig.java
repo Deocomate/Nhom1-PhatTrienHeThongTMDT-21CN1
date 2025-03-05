@@ -18,13 +18,23 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final String[] PUBLIC_POST_ENDPOINTS = {"/api/auth/login", "/api/auth/logout", "/api/auth/introspect", "/api/customers", "/api/orders", "/api/customerCares", "/api/comments", "/api/replyComments"};
+    private final String[] PUBLIC_POST_ENDPOINTS = {"/api/auth/login", "/api/auth/logout", "/api/auth/introspect", "/api/customers", "/api/orders",
+            "/api/customerCares", "/api/comments", "/api/replyComments", "/api/wishlists",
+
+    };
 
 
     private final String[] PUBLIC_GET_ENDPOINTS = {"/api/products", "/api/products/{productId}/thumbnail", "/api/products/{productId}/images",
             "/api/products/{id}", "/api/orders/customer/{customerId}", "/api/comments", "/api/comments/product/{id}", "/api/replyComments",
-            "/api/vnpay/vnpay_return"
+            "/api/vnpay/vnpay_return",
+            "/api/wishlists", "/api/wishlists/products/{productId}", "/api/wishlists/customers/{customerId}", "/api/products/slug/{slug}",
+            "/api/pagination/products",
+            "/api/pagination/orders", "/api/pagination/comments",
+            "/api/categories", "/api/categories/parent", "/api/categories/slug/{parentSlug}",
+
     };
+
+    private final String[] PUBLIC_DELETE_ENDPOINTS = {"/api/wishlists/{customerId}/{productId}"};
 
     @Value("${jwt.signerKey}")
     private String signerKey;
@@ -40,6 +50,7 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(request ->
                 request.requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.DELETE, PUBLIC_DELETE_ENDPOINTS).permitAll()
                         .anyRequest().authenticated());
 
         httpSecurity.oauth2ResourceServer(oauth2 ->

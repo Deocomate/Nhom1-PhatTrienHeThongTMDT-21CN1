@@ -22,8 +22,11 @@ public class Product {
 
     String title;
     String thumbnail;
-
+    @Column(name = "brand_id")
     int brandId;
+    @ManyToOne
+    @JoinColumn(name = "brand_id",  referencedColumnName = "id", insertable = false, updatable = false)
+    Brand brand;
     String type;
 
     @Column(name = "active_ingredient")
@@ -37,6 +40,10 @@ public class Product {
 
     @Column(name = "category_id")
     int categoryId;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "id", insertable = false, updatable = false)
+    Category category;
 
     @Column(name = "dosage_form")
     String dosageForm;
@@ -52,6 +59,9 @@ public class Product {
 
     @Column(name = "registration_number")
     String registrationNumber;
+
+    @Column(name = "slug")
+    String slug;
 
     @CreationTimestamp
     LocalDateTime createdAt;

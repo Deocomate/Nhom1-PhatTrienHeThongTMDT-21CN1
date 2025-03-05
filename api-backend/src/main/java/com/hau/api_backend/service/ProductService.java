@@ -71,6 +71,18 @@ public class ProductService {
                 .build();
     }
 
+    public ApiResponse<ProductResponse> getProductBySlug(String slug) {
+        Product product = productRepository.findProductBySlug(slug).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        ProductResponse productResponse = productMapper.toProductResponse(product);
+
+        return ApiResponse.<ProductResponse>builder()
+                .code(HttpStatus.OK.value())
+                .message(SuccessMessage.GET_PRODUCT_BY_ID.getMessage())
+                .data(productResponse)
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
+
 //    public ApiResponse<List<ProductImageResponse>> getProductImages(int id) {
 //        Product product = findProductById(id);
 //        List<ProductImageResponse> productImageResponses = product.getProductImages().stream()
@@ -97,4 +109,6 @@ public class ProductService {
         return productRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND, "productId"));
     }
+
+
 }

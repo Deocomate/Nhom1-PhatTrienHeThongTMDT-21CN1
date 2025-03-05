@@ -18,6 +18,8 @@ public interface ProductMapper {
     @Mapping(source = "id", target = "id")
     @Mapping(source = "brandId", target = "brandId")
     @Mapping(source = "productImages", target = "productImagesResponses", qualifiedByName = "mapProductImagesToResponses")
+    @Mapping(source = "brand.name", target = "brandName")
+    @Mapping(target = "categoryName", source = "category.name")
     ProductResponse toProductResponse(Product product);
 
     @Named("mapProductImagesToResponses")
