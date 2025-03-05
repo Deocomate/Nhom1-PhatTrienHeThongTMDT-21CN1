@@ -1,5 +1,7 @@
 package com.hau.api_backend.controller;
 
+import com.hau.api_backend.dto.response.ApiResponse;
+import com.hau.api_backend.dto.response.ProductWithCategoryResponse;
 import com.hau.api_backend.entity.Comment;
 import com.hau.api_backend.entity.Order;
 import com.hau.api_backend.entity.Product;
@@ -7,8 +9,10 @@ import com.hau.api_backend.repository.CommentRepository;
 import com.hau.api_backend.repository.OrderRepository;
 import com.hau.api_backend.repository.ProductRepository;
 import com.hau.api_backend.service.BasePaginationService;
+import com.hau.api_backend.service.ProductWithCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +40,8 @@ public class PaginationController {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private ProductWithCategoryService productWithCategoryService;
     @GetMapping("/products")
     public Page<Product> getProductsByPaginate(@RequestParam(defaultValue = "1") int page) {
         return productPaginationService.getPagedData(productRepository, page);
@@ -50,4 +56,6 @@ public class PaginationController {
     public Page<Order> getOrdersByPaginate(@RequestParam(defaultValue = "1") int page) {
         return orderPaginationService.getPagedData(orderRepository, page);
     }
+
+
 }
