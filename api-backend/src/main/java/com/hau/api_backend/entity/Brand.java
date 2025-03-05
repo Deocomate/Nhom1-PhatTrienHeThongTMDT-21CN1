@@ -6,30 +6,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.cglib.core.Local;
 
-import java.time.LocalDateTime;
-
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "brands")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "categories")
-public class Category {
+public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-
     String name;
-    String thumbnail;
     String slug;
-    int priority;
-    Integer parentId;
-    @CreationTimestamp
-    LocalDateTime createdAt;
-    @CreationTimestamp
-    LocalDateTime updatedAt;
-
+    String description;
 }

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "vnpay")
 @Getter
 @Setter
-public class VNPayConfig {
+public class PaymentConfig {
 
     private String payUrl;
     private String returnUrl;

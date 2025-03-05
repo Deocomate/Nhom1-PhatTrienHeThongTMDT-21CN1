@@ -20,6 +20,7 @@ public class SecurityConfig {
 
     private final String[] PUBLIC_POST_ENDPOINTS = {"/api/auth/login", "/api/auth/logout", "/api/auth/introspect", "/api/customers", "/api/orders",
             "/api/customerCares", "/api/comments", "/api/replyComments", "/api/wishlists",
+
     };
 
 
@@ -28,6 +29,8 @@ public class SecurityConfig {
             "/api/wishlists", "/api/wishlists/products/{productId}", "/api/wishlists/customers/{customerId}", "/api/products/slug/{slug}",
             "/api/pagination/products",
             "/api/pagination/orders", "/api/pagination/comments",
+            "/api/categories", "/api/categories/parent", "/api/categories/slug/{parentSlug}",
+
     };
 
     private final String[] PUBLIC_DELETE_ENDPOINTS = {"/api/wishlists/{customerId}/{productId}"};

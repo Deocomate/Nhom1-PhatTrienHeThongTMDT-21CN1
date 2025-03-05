@@ -1,6 +1,6 @@
 package com.hau.api_backend.service;
 
-import com.hau.api_backend.config.VNPayConfig;
+import com.hau.api_backend.config.PaymentConfig;
 import com.hau.api_backend.entity.Order;
 import com.hau.api_backend.entity.Payment;
 import com.hau.api_backend.exception.AppException;
@@ -18,8 +18,6 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.time.LocalDateTime;
@@ -27,12 +25,12 @@ import java.time.ZoneId;
 
 @Service
 @RequiredArgsConstructor
-public class VNPayService {
+public class PaymentService {
 
-    private final VNPayConfig vnPayConfig;
+    private final PaymentConfig paymentConfig;
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
-    private static final Logger logger = LoggerFactory.getLogger(VNPayService.class);
+    private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
 
     public String createPaymentURL(Order order, HttpServletRequest request, String bankCode) {
         if (order == null || !order.getPaymentMethod().toString().equalsIgnoreCase("ONLINE")) {
@@ -46,7 +44,7 @@ public class VNPayService {
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", "2.1.0");
         vnp_Params.put("vnp_Command", "pay");
-        vnp_Params.put("vnp_TmnCode", vnPayConfig.getTmnCode());
+        vnp_Params.put("vnp_TmnCode", paymentConfig.getTmnCode());
         vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
 
@@ -57,7 +55,7 @@ public class VNPayService {
         vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
         vnp_Params.put("vnp_OrderType", "other");
         vnp_Params.put("vnp_Locale", "vn");
-        vnp_Params.put("vnp_ReturnUrl", vnPayConfig.getReturnUrl());
+        vnp_Params.put("vnp_ReturnUrl", paymentConfig.getReturnUrl());
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
         LocalDateTime localDateTime = LocalDateTime.now(ZoneId.of("Etc/GMT+7"));
@@ -94,9 +92,9 @@ public class VNPayService {
             }
         }
         String queryUrl = query.toString();
-        String vnp_SecureHash = hmacSHA512(vnPayConfig.getSecretKey(), hashData.toString());
+        String vnp_SecureHash = hmacSHA512(paymentConfig.getSecretKey(), hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
-        return vnPayConfig.getPayUrl() + "?" + queryUrl;
+        return paymentConfig.getPayUrl() + "?" + queryUrl;
     }
 
     @Transactional
@@ -146,38 +144,6 @@ public class VNPayService {
 
     }
 
-    public String md5(String message) {
-        String digest = null;
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] hash = md.digest(message.getBytes(StandardCharsets.UTF_8));
-            StringBuilder sb = new StringBuilder(2 * hash.length);
-            for (byte b : hash) {
-                sb.append(String.format("%02x", b & 0xff));
-            }
-            digest = sb.toString();
-        } catch (NoSuchAlgorithmException ex) {
-            digest = "";
-        }
-        return digest;
-    }
-
-    public String Sha256(String message) {
-        String digest = null;
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hash = md.digest(message.getBytes(StandardCharsets.UTF_8));
-            StringBuilder sb = new StringBuilder(2 * hash.length);
-            for (byte b : hash) {
-                sb.append(String.format("%02x", b & 0xff));
-            }
-            digest = sb.toString();
-        } catch (NoSuchAlgorithmException ex) {
-            digest = "";
-        }
-        return digest;
-    }
-
     //Util for VNPAY
     public String hashAllFields(Map fields) {
         List fieldNames = new ArrayList(fields.keySet());
@@ -196,7 +162,7 @@ public class VNPayService {
                 sb.append("&");
             }
         }
-        return hmacSHA512(vnPayConfig.getSecretKey(),sb.toString());
+        return hmacSHA512(paymentConfig.getSecretKey(),sb.toString());
     }
 
     public String hmacSHA512(final String key, final String data) {
@@ -235,13 +201,4 @@ public class VNPayService {
         return ipAdress;
     }
 
-    public String getRandomNumber(int len) {
-        Random rnd = new Random();
-        String chars = "0123456789";
-        StringBuilder sb = new StringBuilder(len);
-        for (int i = 0; i < len; i++) {
-            sb.append(chars.charAt(rnd.nextInt(chars.length())));
-        }
-        return sb.toString();
-    }
 }
