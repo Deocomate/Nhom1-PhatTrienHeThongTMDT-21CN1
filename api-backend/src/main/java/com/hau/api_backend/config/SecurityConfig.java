@@ -18,11 +18,11 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final String[] PUBLIC_POST_ENDPOINTS = {
-            "/api/auth/login",
-            "/api/customers",
+
+    private final String[] PUBLIC_POST_ENDPOINTS = {"/api/auth/login", "/api/auth/logout", "/api/auth/introspect", "/api/customers", "/api/orders",
             "/api/customerCares",
-            "/api/comments"
+
+
     };
 
     private final String[] PUBLIC_GET_ENDPOINTS = {
@@ -35,11 +35,14 @@ public class SecurityConfig {
             "/api/vnpay/vnpay_return",
             "/api/products/slug/{slug}",
             "/api/pagination/products",
-            "/api/pagination/comments",
-            "/api/categories",
-            "/api/categories/parent",
-            "/api/categories/slug/{parentSlug}"
+            "/api/pagination/orders", "/api/pagination/comments",
+            "/api/categories", "/api/categories/parent", "/api/categories/slug/{parentSlug}",
+            "/api/categories/productWithCategory", "/api/categories/productWithCategory/{categorySlug}",
+
+
     };
+
+    private final String[] PUBLIC_DELETE_ENDPOINTS = {""};
 
     @Value("${jwt.signerKey}")
     private String signerKey;

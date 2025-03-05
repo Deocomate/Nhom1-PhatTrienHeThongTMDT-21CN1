@@ -55,7 +55,7 @@ public class ProductService {
 
     public ApiResponse<ProductResponse> getProductById(int id) {
         Product product = findProductById(id);
-        ProductResponse productResponse = productMapper.toProductResponse(product);
+        ProductResponse productResponse = productMapper.toProductWithCommentResponse(product);
         if (productResponse.getThumbnail() != null) {
             productResponse.setThumbnail(appBaseUrl + "/" + imageBasePath + "/" + productResponse.getThumbnail());
         } // Tạo URL đầy đủ cho thumbnail
@@ -72,8 +72,9 @@ public class ProductService {
     }
 
     public ApiResponse<ProductResponse> getProductBySlug(String slug) {
-        Product product = productRepository.findProductBySlug(slug).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
-        ProductResponse productResponse = productMapper.toProductResponse(product);
+        Product product = productRepository.findProductBySlug(slug)
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        ProductResponse productResponse = productMapper.toProductWithCommentResponse(product);
 
         return ApiResponse.<ProductResponse>builder()
                 .code(HttpStatus.OK.value())

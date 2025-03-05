@@ -4,6 +4,8 @@ import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.ProductWithCategoryResponse;
 import com.hau.api_backend.entity.Category;
 import com.hau.api_backend.entity.Product;
+import com.hau.api_backend.exception.AppException;
+import com.hau.api_backend.exception.ErrorCode;
 import com.hau.api_backend.exception.SuccessMessage;
 import com.hau.api_backend.mapper.ProductWithCategoryMapper;
 import com.hau.api_backend.repository.CategoryRepository;
@@ -18,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -73,6 +76,31 @@ public class ProductWithCategoryService {
         return ApiResponse.<ProductWithCategoryResponse>builder()
                 .code(HttpStatus.OK.value())
                 .message(SuccessMessage.GET_ALL_PRODUCT_WITH_CATEGORY.getMessage())
+                .data(response)
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
+
+    public ApiResponse<ProductWithCategoryResponse> getPagedProductWithCategorySlugFiltered(String slug, int page) {
+        int pageIndex = (page > 0) ? page - 1 : 0;
+        Pageable pageable = PageRequest.of(pageIndex, DEFAULT_PAGE_SIZE);
+        ArrayList<Integer> categoryIdList = new ArrayList<>();
+        Category parentCategory = categoryRepository.findBySlug(slug)
+                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND, "slug"));
+        categoryIdList.add(parentCategory.getId());
+        List<Category> subCategories = categoryRepository.findByParentId(parentCategory.getId())
+                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND, "categoryId"));
+        for(Category item: subCategories) {
+            categoryIdList.add(item.getId());
+        }
+        Page<Product> pagedProducts = productRepository.findByCategoryIdIn(categoryIdList ,pageable);
+
+
+        ProductWithCategoryResponse response = productWithCategoryMapper.toProductWithCategoryAndPaginateResponse(pagedProducts, subCategories, DEFAULT_PAGE_SIZE);
+
+        return ApiResponse.<ProductWithCategoryResponse>builder()
+                .code(HttpStatus.OK.value())
+                .message(SuccessMessage.GET_ALL_PRODUCT_WITH_CATEGORY_SLUG.getMessage())
                 .data(response)
                 .timestamp(LocalDateTime.now())
                 .build();
