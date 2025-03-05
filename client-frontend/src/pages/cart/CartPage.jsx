@@ -1,8 +1,6 @@
 "use client";
 
 import {useState, useEffect} from 'react';
-import {Button} from "@/components/ui/button";
-import {Minus, Plus, Trash2} from "lucide-react";
 import {useRouter} from 'next/navigation';
 
 export default function CartPage() {
@@ -16,8 +14,7 @@ export default function CartPage() {
 
     const updateQuantity = (id, newQuantity) => {
         const updatedItems = cartItems.map(item => item.id === id ? {
-            ...item,
-            quantity: Math.max(1, newQuantity)
+            ...item, quantity: Math.max(1, newQuantity)
         } : item);
         setCartItems(updatedItems);
         localStorage.setItem('cart', JSON.stringify(updatedItems));
@@ -93,10 +90,8 @@ export default function CartPage() {
                             <span>Tổng cộng</span>
                             <span className="text-green-600">{total}đ</span>
                         </div>
-                        <Button
-                            className="w-full mt-4 bg-green-700 hover:bg-green-800"
-                            onClick={() => router.push('/checkout')}
-                        >
+                        <Button className="w-full mt-4 bg-green-700 hover:bg-green-800"
+                                onClick={() => router.push('/checkout')}>
                             Tiến hành đặt hàng
                         </Button>
                     </div>
