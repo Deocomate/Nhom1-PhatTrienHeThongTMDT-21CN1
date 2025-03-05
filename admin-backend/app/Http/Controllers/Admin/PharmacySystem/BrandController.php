@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\PharmacySystem;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BrandController extends Controller
 {
@@ -12,7 +13,11 @@ class BrandController extends Controller
      */
     public function index()
     {
-        //
+        $brands = DB::table('brands')
+            ->select('id', 'name', 'slug', 'description', 'created_at', 'updated_at')
+            ->get();
+        
+        return view('admin.modules.brand.index', compact('brands'));
     }
 
     /**
@@ -20,7 +25,8 @@ class BrandController extends Controller
      */
     public function create()
     {
-        //
+        $brand = null;
+        return view('admin.modules.brand.createOrEdit', compact('brand'));
     }
 
     /**
@@ -28,7 +34,15 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|unique:brands|max:255',
+            'slug' => 'required|unique:brands|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        DB::table('brands')->insert($validated);
+
+        return redirect()->route('admin.brand.index')->with('success', 'Brand created successfully!');
     }
 
     /**
@@ -36,7 +50,7 @@ class BrandController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // Không cần thiết cho CRUD cơ bản
     }
 
     /**
@@ -44,7 +58,11 @@ class BrandController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $brand = DB::table('brands')->where('id', $id)->first();
+        if (!$brand) {
+            abort(404);
+        }
+        return view('admin.modules.brand.createOrEdit', compact('brand'));
     }
 
     /**
@@ -52,7 +70,15 @@ class BrandController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|unique:brands,name,' . $id . '|max:255',
+            'slug' => 'required|unique:brands,slug,' . $id . '|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        DB::table('brands')->where('id', $id)->update($validated);
+
+        return redirect()->route('admin.brand.index')->with('success', 'Brand updated successfully!');
     }
 
     /**
@@ -60,6 +86,7 @@ class BrandController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        DB::table('brands')->where('id', $id)->delete();
+        return redirect()->route('admin.brand.index')->with('success', 'Brand deleted successfully!');
     }
 }
