@@ -19,7 +19,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class SecurityConfig {
 
     private final String[] PUBLIC_POST_ENDPOINTS = {"/api/auth/login", "/api/auth/logout", "/api/auth/introspect", "/api/customers", "/api/orders",
-            "/api/customerCares", "/api/comments", "/api/replyComments", "/api/wishlists",
+            "/api/customerCares",
 
     };
 
@@ -35,7 +35,7 @@ public class SecurityConfig {
 
     };
 
-    private final String[] PUBLIC_DELETE_ENDPOINTS = {"/api/wishlists/{customerId}/{productId}"};
+    private final String[] PUBLIC_DELETE_ENDPOINTS = {""};
 
     @Value("${jwt.signerKey}")
     private String signerKey;

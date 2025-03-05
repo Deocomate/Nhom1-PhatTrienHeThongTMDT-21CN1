@@ -31,7 +31,7 @@ public interface ProductWithCategoryMapper {
     @Mapping(source = "pageSize", target = "pageSize")
     @Mapping(source = "products.number", target = "pageIndex")
     @Mapping(source = "categories", target = "categories")
-    @Mapping(source = "products.content", target = "products")
+    @Mapping(source = "products", target = "products")
     ProductWithCategoryResponse toProductWithCategoryAndPaginateResponse(Page<Product> products, List<Category> categories, int pageSize);
 
     @Named("mapProducts")
