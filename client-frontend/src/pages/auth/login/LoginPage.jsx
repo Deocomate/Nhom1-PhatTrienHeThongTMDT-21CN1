@@ -1,68 +1,81 @@
+"use client"
 import BreadCrumbDefault from "@/components/breadcrumbs/BreadCrumbDefault";
-import React from "react";
+import React, {useState} from "react";
 
 export default function LoginPage() {
-  return (
-    <>
-      <BreadCrumbDefault name="Login"></BreadCrumbDefault>
-      <div className="ltn__login-area pb-65">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="section-title-area text-center">
-                <h1 className="section-title">
-                  Sign In <br />
-                  To Your Account
-                </h1>
-                <p>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.{" "}
-                  <br />
-                  Sit aliquid, Non distinctio vel iste.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-lg-6">
-              <div className="account-login-inner">
-                <form action="#" className="ltn__form-box contact-form-box">
-                  <input type="text" name="email" placeholder="Email*" />
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password*"
-                  />
-                  <div className="btn-wrapper mt-0">
-                    <button className="theme-btn-1 btn btn-block" type="submit">
-                      SIGN IN
-                    </button>
-                  </div>
-                  <div className="go-to-btn mt-20">
-                    <a href="#">
-                      <small>FORGOTTEN YOUR PASSWORD?</small>
-                    </a>
-                  </div>
-                </form>
-              </div>
-            </div>
-            <div className="col-lg-6">
-              <div className="account-create text-center pt-50">
-                <h4>DON'T HAVE AN ACCOUNT?</h4>
-                <p>
-                  Add items to your wishlistget personalised recommendations{" "}
-                  <br />
-                  check out more quickly track your orders register
-                </p>
-                <div className="btn-wrapper">
-                  <a href="register.html" className="theme-btn-1 btn black-btn">
-                    CREATE ACCOUNT
-                  </a>
+
+    let [email, setEmail] = useState("");
+    let [password, setPassword] = useState("");
+
+    let onSubmitData = () => {
+
+    }
+
+    return (<>
+        <BreadCrumbDefault name="Đăng nhập"></BreadCrumbDefault>
+        <div className="ltn__login-area pb-65">
+            <div className="container">
+                <div className="row">
+                    <div className="col-lg-12">
+                        <div className="section-title-area text-center">
+                            <h1 className="section-title">
+                                Đăng Nhập <br/>
+                                Vào Tài Khoản Của Bạn
+                            </h1>
+                        </div>
+                    </div>
                 </div>
-              </div>
+                <div className="row">
+                    <div className="col-lg-6">
+                        <div className="account-login-inner">
+                            <form action="#" onSubmit={() => {
+                            }} className="ltn__form-box contact-form-box">
+                                <input type="email"
+                                       required={true}
+                                       value={email}
+                                       onInput={(e) => {
+                                           setEmail(e.target.value)
+                                       }}
+                                       placeholder="Email*"/>
+                                <input
+                                    type="password"
+                                    required={true}
+                                    value={password}
+                                    onInput={(e) => {
+                                        setPassword(e.target.value)
+                                    }}
+                                    placeholder="Password*"
+                                />
+                                <div className="btn-wrapper mt-0">
+                                    <button className="theme-btn-1 btn btn-block" type="submit">
+                                        Đăng nhập
+                                    </button>
+                                </div>
+                                {/*<div className="go-to-btn mt-20">*/}
+                                {/*    <a href="#">*/}
+                                {/*        <small>FORGOTTEN YOUR PASSWORD?</small>*/}
+                                {/*    </a>*/}
+                                {/*</div>*/}
+                            </form>
+                        </div>
+                    </div>
+                    <div className="col-lg-6">
+                        <div className="account-create text-center pt-50">
+                            <h4>DON'T HAVE AN ACCOUNT?</h4>
+                            <p>
+                                Add items to your wishlistget personalised recommendations{" "}
+                                <br/>
+                                check out more quickly track your orders register
+                            </p>
+                            <div className="btn-wrapper">
+                                <a href="register.html" className="theme-btn-1 btn black-btn">
+                                    CREATE ACCOUNT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </>
-  );
+    </>);
 }

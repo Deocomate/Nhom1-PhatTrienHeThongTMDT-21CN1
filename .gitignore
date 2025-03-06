@@ -6,4 +6,5 @@ api-backend/.vscode
 client-frontend/.vscode
 application.yml
 pom.xml
-/api-backend/src/main/resources/application.yml
+/api-backend/src/main/resources
+/api-backend/pom.xml
