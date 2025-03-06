@@ -83,18 +83,32 @@ export default function ProductListPage() {
               <div className="ltn__pagination-area text-center">
                 <div className="ltn__pagination">
                   <ul>
-                    {pageIndex != 0 ? (
+                    {pageIndex > 1 ? (
                       <li>
-                        <a href="#" onClick={() => setPageIndex(pageIndex - 1)}>
+                        <a
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setPageIndex(pageIndex - 1);
+                          }}
+                        >
                           <i className="fas fa-angle-double-left" />
                         </a>
                       </li>
                     ) : (
                       ""
                     )}
-                    {pageIndex != 0 ? (
+                    {pageIndex > 1 ? (
                       <li>
-                        <a href="#">{pageIndex - 1}</a>
+                        <a
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setPageIndex(pageIndex - 1);
+                          }}
+                        >
+                          {pageIndex - 1}
+                        </a>
                       </li>
                     ) : (
                       ""
@@ -102,16 +116,30 @@ export default function ProductListPage() {
                     <li className="active">
                       <a href="#">{pageIndex}</a>
                     </li>
-                    {pageIndex != pageTotal - 1 ? (
+                    {pageIndex < pageTotal ? (
                       <li>
-                        <a href="#">{pageIndex + 1}</a>
+                        <a
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setPageIndex(pageIndex + 1);
+                          }}
+                        >
+                          {pageIndex + 1}
+                        </a>
                       </li>
                     ) : (
                       ""
                     )}
-                    {pageIndex != pageTotal - 1 ? (
+                    {pageIndex < pageTotal ? (
                       <li>
-                        <a href="#" onClick={() => setPageIndex(pageIndex + 1)}>
+                        <a
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setPageIndex(pageIndex + 1);
+                          }}
+                        >
                           <i className="fas fa-angle-double-right" />
                         </a>
                       </li>
