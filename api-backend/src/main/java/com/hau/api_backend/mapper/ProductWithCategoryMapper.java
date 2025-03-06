@@ -29,7 +29,7 @@ public interface ProductWithCategoryMapper {
     @Mapping(source = "products.totalPages", target = "totalPages")
     @Mapping(source = "products.totalElements", target = "totalProducts")
     @Mapping(source = "pageSize", target = "pageSize")
-    @Mapping(source = "products.number", target = "pageIndex")
+    @Mapping(target = "pageIndex", expression = "java(products.getNumber() + 1)") // Cộng thêm 1 cho pageIndex
     @Mapping(source = "categories", target = "categories")
     @Mapping(source = "products", target = "products")
     ProductWithCategoryResponse toProductWithCategoryAndPaginateResponse(Page<Product> products, List<Category> categories, int pageSize);
