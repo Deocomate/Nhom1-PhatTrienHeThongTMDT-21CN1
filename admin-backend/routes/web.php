@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\PharmacySystem\ProductController;
 use App\Http\Controllers\Admin\PharmacySystem\AdminManagerController;
 use App\Http\Controllers\Admin\PharmacySystem\BlogCategoryController;
 use App\Http\Controllers\Admin\PharmacySystem\BrandController;
+use App\Http\Controllers\Admin\PharmacySystem\OrderController;
 
 // Authenticate and Middleware auth
 use App\Http\Controllers\Auth\LoginController;
@@ -47,6 +48,7 @@ Route::prefix('admin')->name("admin.")->middleware(AuthenticationMiddleware::cla
     Route::resource("blog", BlogController::class);
     Route::resource("category", CategoryController::class);
     Route::resource("product", ProductController::class);
+    Route::resource("order", OrderController::class);
 
     // Quản trị
     Route::resource("manager", AdminManagerController::class);

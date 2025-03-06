@@ -119,6 +119,7 @@ class PharmacySystemSeeder extends Seeder
             'Amgen', 'Gilead Sciences', 'Biogen', 'Teva', 'Boehringer Ingelheim', 'Novo Nordisk',
             'Takeda', 'Mylan', 'Allergan', 'Genentech', 'Astellas', 'Daiichi Sankyo'
         ];
+        $thumb = "/test/placeholder.png";
 
         foreach (array_slice($brandNames, 0, $count) as $brandName) {
             $slug = Str::slug($brandName);
@@ -128,7 +129,8 @@ class PharmacySystemSeeder extends Seeder
                 'slug' => $slug,
                 'description' => $faker->paragraphs(rand(2, 5), true),
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
+                'thumbnail' => $thumb,
             ];
         }
 
