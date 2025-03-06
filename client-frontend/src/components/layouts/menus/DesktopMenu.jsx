@@ -587,28 +587,17 @@ export default function DesktopMenu() {
                                     <nav>
                                         <div className="ltn__main-menu">
                                             <ul>
-                                                <li className="menu-icon">
-                                                    <a href="#">Trang chủ</a>
-                                                    <ul className="sub-menu menu-pages-img-show ltn__sub-menu-col-2---">
-                                                        <li>
-                                                            <a href="index.html">Home Style 01</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="index-2.html">Home Style 02</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="index-3.html">Home Style 03</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li className="menu-icon">
-                                                    <a href="#">Cẩm nâng sức khoẻ</a>
+                                                <li>
+                                                    <a href="/">Trang chủ</a>
                                                 </li>
                                                 <li>
-                                                    <a href="#">Các loại bệnh</a>
+                                                    <a href="/blog">Cẩm nâng sức khoẻ</a>
                                                 </li>
                                                 <li>
-                                                    <a href="contact.html">Liên hệ</a>
+                                                    <a href="/products">Sản phẩm</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/">Liên hệ</a>
                                                 </li>
                                             </ul>
                                         </div>
