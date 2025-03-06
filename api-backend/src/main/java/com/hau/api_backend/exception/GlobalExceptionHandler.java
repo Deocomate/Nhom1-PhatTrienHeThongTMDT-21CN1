@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
-                "Validation failed. See 'error' for details.",
+                "Lỗi trường dữ liệu",
                 errorDetails, // List of detailed errors
                 LocalDateTime.now()
         );
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
-                "Data integrity violation. See 'error' for details.", // Consistent message
+                "Vi phạm tính toàn vẹn dữ liệu. Xem 'lỗi' để biết chi tiết.", // Consistent message
                 errorDetails,
                 LocalDateTime.now()
         );
@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
         String field = "unknown";  // Default field
 
         // Identify the specific unique constraint violation
-        if (ex.getMessage().contains("customers_email_unique")) {
+        if (ex.getMessage().contains("Có lỗi xảy ra vui lòng kiểm tra lại")) {
             field = "email";
             message = "Email already exists";
         }
@@ -109,7 +109,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
-                "Processing failed",
+                "Xử lý không thành công",
                 errorDetails,
                 LocalDateTime.now()
         );
@@ -135,7 +135,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(), // 500 Internal Server Error
-                "Internal server error",
+                "Lỗi máy chủ (chưa xác định)",
                 null, // Không có error details cụ thể
                 LocalDateTime.now()
         );
