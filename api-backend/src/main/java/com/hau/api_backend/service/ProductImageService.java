@@ -10,6 +10,8 @@ import com.hau.api_backend.repository.ProductRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +24,10 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductImageService {
     ProductRepository productRepository;
-    String imageBasePath = "userfiles/images";
-    String appBaseUrl = "http://127.0.0.1:8000";
+
+    @NonFinal
+    @Value("${app.base-url}")
+    String appBaseUrl;
 
     public ApiResponse<List<ProductImageResponse>> getProductImages(int id) {
         Product product = findProductById(id);
@@ -33,7 +37,7 @@ public class ProductImageService {
                     return ProductImageResponse.builder()
                             .id(image.getId())
                             .productId(image.getProductId())
-                            .url(appBaseUrl + "/" + imageBasePath + "/" + image.getUrl()) // Tạo URL đầy đủ
+                            .url(appBaseUrl + image.getUrl()) // Tạo URL đầy đủ
                             .build();
                 })
                 .collect(Collectors.toList());
