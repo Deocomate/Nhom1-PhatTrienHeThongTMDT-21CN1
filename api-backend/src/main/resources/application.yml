@@ -22,6 +22,9 @@ spring:
           starttls:
             enable: true
 
+app:
+  base-url: "http://127.0.0.1:8000"
+
 jwt:
   signerKey: "AwpJB9BWN0oaxL8ePNzR+0O8Y8QtdwJnghwSxm3nAoZTilvw8IHhjHy/WJiiiX0L"
 

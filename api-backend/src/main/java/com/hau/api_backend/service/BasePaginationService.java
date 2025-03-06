@@ -12,8 +12,8 @@ public class BasePaginationService<T> {
     private static final int DEFAULT_PAGE_SIZE = 10; // Số bản ghi mặc định mỗi trang
 
     public Page<T> getPagedData(JpaRepository<T, Integer> repository, int page) {
-        int pageIndex = (page > 0) ? page - 1: 0;
-        Pageable pageable = PageRequest.of(pageIndex, DEFAULT_PAGE_SIZE);
+//        int pageIndex = (page > 0) ? page - 1: 0;
+        Pageable pageable = PageRequest.of(page, DEFAULT_PAGE_SIZE);
         return repository.findAll(pageable);
     }
 }

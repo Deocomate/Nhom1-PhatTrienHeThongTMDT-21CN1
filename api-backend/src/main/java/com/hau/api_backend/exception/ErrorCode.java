@@ -8,6 +8,7 @@ public enum ErrorCode {
     CUSTOMER_NOT_FOUND("Customer not found"),
     USER_NOT_FOUND("User not found"),
     PRODUCT_NOT_FOUND("Product not found"),
+    BLOG_CATEGORY_NOT_FOUND("Blog category not found"),
     ORDER_NOT_FOUND("Order not found"),
     ORDER_NOT_SUPPORTED("Order does not support online payment"),
     ORDER_SUCCESS("Order is being delivered or has been delivered"),
