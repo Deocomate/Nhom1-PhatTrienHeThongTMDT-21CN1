@@ -35,7 +35,6 @@ export const AuthProvider = ({ children }) => {
     const login = async (email, password) => {
         try {
             const response = await apiService.post('/auth/login', { email, password });
-
             console.log(response.code);
             if (response.code <= 201) {
                 let token = response.data.token
@@ -69,12 +68,8 @@ export const AuthProvider = ({ children }) => {
     const introspectToken = async (token) => {
         try {
             const response = await apiService.post('/auth/introspect', { token });
-
-            console.log(response);
-
             if (response.code == 200) {
-                console.log(response);
-                // setUser(response); // Save user information (from introspect)
+                setUser(response.data.customer); // Save user information (from introspect)
             } else {
                 Cookies.remove('token'); // Token invalid, delete it
                 apiService.removeToken();  // Remove from localStorage
