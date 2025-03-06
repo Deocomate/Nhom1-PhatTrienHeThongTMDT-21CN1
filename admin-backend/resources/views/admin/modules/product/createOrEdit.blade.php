@@ -24,7 +24,7 @@ $isEdit = isset($product) && $product;
                 <x-inputs.text label="Tên sản phẩm" name="title" :value="$product ? $product->title : ''"/>
                 <x-inputs.image-link label="Ảnh đại diện" name="thumbnail"
                                      :value="$product ? $product->thumbnail : ''"/>
-                <x-inputs.text label="Thương hiệu" name="brand" :value="$product ? $product->brand : ''"/>
+                <x-inputs.text label="Thương hiệu" name="brand_id" :value="$product ? $product->brand : ''"/>
                 <x-inputs.text label="Loại" name="type" :value="$product ? $product->type : ''"/>
                 <x-inputs.text label="Hoạt chất" name="active_ingredient"
                                :value="$product ? $product->active_ingredient : ''"/>

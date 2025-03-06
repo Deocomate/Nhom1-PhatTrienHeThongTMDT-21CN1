@@ -1,85 +1,139 @@
+"use client"
 import BreadCrumbDefault from "@/components/breadcrumbs/BreadCrumbDefault";
-import React from "react";
+import React, {useState} from "react";
+import {useRouter} from 'next/navigation';
+import {useAuth} from '@/auth/AuthProvider';
+import axios from "axios"; // Import useAuth
 
 export default function RegisterPage() {
-  return (
-    <>
-      <BreadCrumbDefault name="Register"></BreadCrumbDefault>
-      <div className="ltn__login-area pb-110">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="section-title-area text-center">
-                <h1 className="section-title">
-                  Register <br />
-                  Your Account
-                </h1>
-                <p>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.{" "}
-                  <br />
-                  Sit aliquid, Non distinctio vel iste.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-lg-6 offset-lg-3">
-              <div className="account-login-inner">
-                <form action="#" className="ltn__form-box contact-form-box">
-                  <input
-                    type="text"
-                    name="firstname"
-                    placeholder="First Name"
-                  />
-                  <input type="text" name="lastname" placeholder="Last Name" />
-                  <input type="text" name="email" placeholder="Email*" />
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password*"
-                  />
-                  <input
-                    type="password"
-                    name="confirmpassword"
-                    placeholder="Confirm Password*"
-                  />
-                  <label className="checkbox-inline">
-                    <input type="checkbox" defaultValue="" />I consent to
-                    Herboil processing my personal data in order to send
-                    personalized marketing material in accordance with the
-                    consent form and the privacy policy.
-                  </label>
-                  <label className="checkbox-inline">
-                    <input type="checkbox" defaultValue="" />
-                    By clicking "create account", I consent to the privacy
-                    policy.
-                  </label>
-                  <div className="btn-wrapper">
-                    <button
-                      className="theme-btn-1 btn reverse-color btn-block"
-                      type="submit"
-                    >
-                      CREATE ACCOUNT
-                    </button>
-                  </div>
-                </form>
-                <div className="by-agree text-center">
-                  <p>By creating an account, you agree to our:</p>
-                  <p>
-                    <a href="#">
-                      TERMS OF CONDITIONS &nbsp; &nbsp; | &nbsp; &nbsp; PRIVACY
-                      POLICY
-                    </a>
-                  </p>
-                  <div className="go-to-btn mt-50">
-                    <a href="login.html">ALREADY HAVE AN ACCOUNT ?</a>
-                  </div>
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [fullName, setFullName] = useState("");
+    const [gender, setGender] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [address, setAddress] = useState("");
+    const [error, setError] = useState(null); // State to hold error message
+    const router = useRouter();
+    const {signup} = useAuth(); // Get signup function
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError(null); // Clear any previous errors
+
+        try {
+            let data = {
+                email, password, fullName, gender, phoneNumber, address,
+            }
+
+            // await signup({
+            //     email, password, fullName, gender, phoneNumber, address,
+            // });
+
+            axios.post("http://localhost:8080/api/customers", data).then(res => {
+                console.log(res)
+            })
+
+
+            // Registration successful, redirect to login page
+            // router.push("/auth/login");
+        } catch (err) {
+            // Handle signup error
+            console.error("Registration failed:", err);
+            setError(err.message || "Đăng ký không thành công. Vui lòng thử lại.");
+            alert(err.message || "Đăng ký không thành công. Vui lòng thử lại.");
+        }
+    };
+
+    return (<>
+        <BreadCrumbDefault name="Đăng ký"></BreadCrumbDefault>
+        <div className="ltn__login-area pb-110">
+            <div className="container">
+                <div className="row">
+                    <div className="col-lg-12">
+                        <div className="section-title-area text-center">
+                            <h1 className="section-title">
+                                Đăng Ký <br/>
+                                Tài Khoản Mới
+                            </h1>
+                        </div>
+                    </div>
                 </div>
-              </div>
+                <div className="row">
+                    <div className="col-lg-6 offset-lg-3">
+                        <div className="account-login-inner">
+                            <form className="ltn__form-box contact-form-box" onSubmit={handleSubmit}>
+                                {error &&
+                                    <div className="alert alert-danger">{error}</div>} {/* Display error message */}
+                                <input
+                                    type="text"
+                                    name="fullName"
+                                    placeholder="Họ và tên*"
+                                    value={fullName}
+                                    onChange={(e) => setFullName(e.target.value)}
+                                    required
+                                />
+                                <input
+                                    type="email"
+                                    name="email"
+                                    placeholder="Email*"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                                <input
+                                    type="password"
+                                    name="password"
+                                    placeholder="Mật khẩu*"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                                {/*<input*/}
+                                {/*    type="text"*/}
+                                {/*    placeholder="Giới tính"*/}
+                                {/*    value={gender}*/}
+                                {/*    onChange={(e) => setGender(e.target.value)}*/}
+                                {/*/>*/}
+                                <select
+                                    className="w-100 mb-4"
+                                    placeholder="Giới tính"
+                                    value={gender}
+                                    onChange={(e) => setGender(e.target.value)}>
+                                    <option value="male">Nam</option>
+                                    <option value="female">Nữ</option>
+                                </select>
+                                <input
+                                    type="text"
+                                    name="phoneNumber"
+                                    placeholder="Số điện thoại"
+                                    value={phoneNumber}
+                                    onChange={(e) => setPhoneNumber(e.target.value)}
+                                />
+                                <input
+                                    type="text"
+                                    name="address"
+                                    placeholder="Địa chỉ nhận hàng*"
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                />
+                                <div className="btn-wrapper">
+                                    <button
+                                        className="theme-btn-1 btn reverse-color btn-block"
+                                        type="submit"
+                                    >
+                                        Đăng ký
+                                    </button>
+                                </div>
+                            </form>
+                            <div className="by-agree text-center">
+                                <div className="go-to-btn mt-50">
+                                    <a href="login.html">Tôi đã có tài khoản ?</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </>
-  );
+    </>);
 }

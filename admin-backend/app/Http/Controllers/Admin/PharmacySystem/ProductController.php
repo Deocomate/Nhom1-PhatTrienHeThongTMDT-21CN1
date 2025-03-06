@@ -17,10 +17,10 @@ class ProductController extends Controller
             ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
             ->select(
                 'products.*',
-                'brands.name as brand_name'  
+                'brands.name as brand_name'
             )
             ->get();
-        
+
         return view('admin.modules.product.index', compact('products'));
     }
 
@@ -42,7 +42,7 @@ class ProductController extends Controller
         $validated = $request->validate([
             'title' => 'required|max:255',
             'thumbnail' => 'required|max:255',
-            'brand' => 'required|max:255',
+            'brand_id' => 'required|exists:brands,id',
             'type' => 'required|max:255',
             'active_ingredient' => 'required|max:255',
             'images' => 'required|array',
@@ -93,7 +93,7 @@ class ProductController extends Controller
         $validated = $request->validate([
             'title' => 'required|max:255',
             'thumbnail' => 'required|max:255',
-            'brand' => 'required|max:255',
+            'brand_id' => 'required|exists:brands,id',
             'type' => 'required|max:255',
             'active_ingredient' => 'required|max:255',
             'images' => 'required|json',
