@@ -36,14 +36,14 @@ export const AuthProvider = ({ children }) => {
         try {
             const response = await apiService.post('/auth/login', { email, password });
 
-            if (response.token) {
-                apiService.setToken(response.token); // Store the token using apiService
-                Cookies.set('token', response.token, { expires: 7 }); // Lưu token vào cookie
-                introspectToken(response.token);
-                router.push('/');
+            console.log(response.code);
+            if (response.code <= 201) {
+                let token = response.data.token
+                apiService.setToken(token);
+                Cookies.set('token', token, { expires: 7 });
+                introspectToken(token);
             } else {
-                console.error('Login failed:', response.message);
-                throw new Error(response.message);
+                alert(response.message)
             }
         } catch (error) {
             console.error('Login error:', error);
@@ -60,7 +60,6 @@ export const AuthProvider = ({ children }) => {
                 console.error('Logout error:', error);
             }
         }
-
         Cookies.remove('token'); // Xóa token
         apiService.removeToken();  // Also remove from localStorage
         setUser(null);
@@ -69,10 +68,13 @@ export const AuthProvider = ({ children }) => {
 
     const introspectToken = async (token) => {
         try {
-            const response = await apiService.post('/api/auth/introspect', { token });
+            const response = await apiService.post('/auth/introspect', { token });
 
-            if (response.active) {
-                setUser(response); // Save user information (from introspect)
+            console.log(response);
+
+            if (response.code == 200) {
+                console.log(response);
+                // setUser(response); // Save user information (from introspect)
             } else {
                 Cookies.remove('token'); // Token invalid, delete it
                 apiService.removeToken();  // Remove from localStorage

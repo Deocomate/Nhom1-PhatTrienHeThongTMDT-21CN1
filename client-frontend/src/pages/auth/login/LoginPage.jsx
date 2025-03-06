@@ -1,14 +1,17 @@
 "use client"
+import { useAuth } from "@/auth/AuthProvider";
 import BreadCrumbDefault from "@/components/breadcrumbs/BreadCrumbDefault";
-import React, {useState} from "react";
+import Link from "next/link";
+import React, { useState } from "react";
 
 export default function LoginPage() {
 
     let [email, setEmail] = useState("");
     let [password, setPassword] = useState("");
+    let { login } = useAuth()
 
-    let onSubmitData = () => {
-
+    let handleSubmit = async () => {
+        let res = await login(email, password);
     }
 
     return (<>
@@ -19,7 +22,7 @@ export default function LoginPage() {
                     <div className="col-lg-12">
                         <div className="section-title-area text-center">
                             <h1 className="section-title">
-                                Đăng Nhập <br/>
+                                Đăng Nhập <br />
                                 Vào Tài Khoản Của Bạn
                             </h1>
                         </div>
@@ -28,15 +31,18 @@ export default function LoginPage() {
                 <div className="row">
                     <div className="col-lg-6">
                         <div className="account-login-inner">
-                            <form action="#" onSubmit={() => {
-                            }} className="ltn__form-box contact-form-box">
+                            <form onSubmit={(e) => {
+                                e.preventDefault()
+                                handleSubmit()
+                            }}
+                                className="ltn__form-box contact-form-box">
                                 <input type="email"
-                                       required={true}
-                                       value={email}
-                                       onInput={(e) => {
-                                           setEmail(e.target.value)
-                                       }}
-                                       placeholder="Email*"/>
+                                    required={true}
+                                    value={email}
+                                    onInput={(e) => {
+                                        setEmail(e.target.value)
+                                    }}
+                                    placeholder="Email*" />
                                 <input
                                     type="password"
                                     required={true}
@@ -61,16 +67,16 @@ export default function LoginPage() {
                     </div>
                     <div className="col-lg-6">
                         <div className="account-create text-center pt-50">
-                            <h4>DON'T HAVE AN ACCOUNT?</h4>
+                            <h4>BẠN CHƯA CÓ TÀI KHOẢN?</h4>
                             <p>
-                                Add items to your wishlistget personalised recommendations{" "}
-                                <br/>
-                                check out more quickly track your orders register
+                                Tạo tài khoản mới ngay{" "}
+                                <br />
+                                Kiểm tra đơn hàng tiện lợi, nhanh gọn và dễ dàng.
                             </p>
                             <div className="btn-wrapper">
-                                <a href="register.html" className="theme-btn-1 btn black-btn">
-                                    CREATE ACCOUNT
-                                </a>
+                                <Link href="/register" className="theme-btn-1 btn black-btn">
+                                    Đăng ký tài khoản
+                                </Link>
                             </div>
                         </div>
                     </div>

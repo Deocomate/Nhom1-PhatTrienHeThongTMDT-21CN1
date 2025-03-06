@@ -54,6 +54,9 @@ class PharmacySystemSeeder extends Seeder
         // Seed wishlists
         $this->seedWishlists(80);
 
+        // Seed carts
+        $this->seedCarts(70); // Added cart seeding
+
         // Seed orders and related tables
         $this->seedOrders(100);
 
@@ -76,6 +79,7 @@ class PharmacySystemSeeder extends Seeder
         DB::table('blogs')->truncate();
         DB::table('products')->truncate();
         DB::table('customer_cares')->truncate();
+        DB::table('carts')->truncate(); // Added cart truncate
         DB::table('customers')->truncate();
         DB::table('categories')->truncate();
         DB::table('brands')->truncate();
@@ -404,6 +408,38 @@ class PharmacySystemSeeder extends Seeder
         }
 
         DB::table('wishlists')->insert($data);
+    }
+
+    private function seedCarts($count)
+    {
+        $data = [];
+        $faker = Faker::create();
+
+        // Get all product and customer IDs
+        $productIds = DB::table('products')->pluck('id')->toArray();
+        $customerIds = DB::table('customers')->pluck('id')->toArray();
+
+        // Keep track of product-customer pairs to avoid duplicates
+        $pairs = [];
+
+        for ($i = 0; $i < $count; $i++) {
+            $productId = $productIds[array_rand($productIds)];
+            $customerId = $customerIds[array_rand($customerIds)];
+
+            // Skip if this pair already exists
+            if (isset($pairs["$productId-$customerId"])) {
+                continue;
+            }
+
+            $pairs["$productId-$customerId"] = true;
+
+            $data[] = [
+                'product_id' => $productId,
+                'customer_id' => $customerId,
+            ];
+        }
+
+        DB::table('carts')->insert($data);
     }
 
     private function seedOrders($count)

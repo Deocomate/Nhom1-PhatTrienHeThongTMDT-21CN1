@@ -82,6 +82,13 @@ return new class extends Migration {
             $table->timestamps();
         });
 
+        // Create Carts table
+        Schema::create('carts', function (Blueprint $table) {
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
+            $table->integer("quantity");
+        });
+
         // Create Comments table
         Schema::create('comments', function (Blueprint $table) {
             $table->id();

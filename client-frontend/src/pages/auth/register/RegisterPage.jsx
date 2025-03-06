@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/auth/AuthProvider';
 import axios from "axios"; // Import useAuth
+import Link from "next/link";
 
 export default function RegisterPage() {
     const [email, setEmail] = useState("");
@@ -83,7 +84,7 @@ export default function RegisterPage() {
                                 <select
                                     id={"select-gender"}
                                     name={"select-gender"}
-                                    className="w-100 mb-4"
+                                    className="w-100 form-control form-select-lg mb-4 rounded-0"
                                     placeholder="Giới tính"
                                     value={gender}
                                     onChange={(e) => {
@@ -118,7 +119,7 @@ export default function RegisterPage() {
                             </form>
                             <div className="by-agree text-center">
                                 <div className="go-to-btn mt-50">
-                                    <a href="login.html">Tôi đã có tài khoản ?</a>
+                                    <Link href="/login">Tôi đã có tài khoản ?</Link>
                                 </div>
                             </div>
                         </div>

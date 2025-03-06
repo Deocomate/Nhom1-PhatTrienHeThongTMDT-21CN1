@@ -12,8 +12,8 @@ export default function DesktopMenu() {
                             <div
                                 className="ltn__category-menu-wrap ltn__category-dropdown-hide ltn__category-menu-with-header-menu">
                                 <div className="ltn__category-menu-title">
-                                    <h2 className="section-bg-1--- ltn__secondary-bg text-color-white">
-                                        Danh mục sản phẩm
+                                    <h2 className="section-bg-1--- ltn__secondary-bg text-color-white py-3">
+                                        Sản phẩm
                                     </h2>
                                 </div>
                                 <div className="ltn__category-menu-toggle ltn__one-line-active">
