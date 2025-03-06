@@ -1,102 +1,173 @@
-"use client";
-
-import {useState, useEffect} from 'react';
-import {useRouter} from 'next/navigation';
+import BreadCrumbDefault from "@/components/breadcrumbs/BreadCrumbDefault";
+import React from "react";
 
 export default function CartPage() {
-    const [cartItems, setCartItems] = useState([]);
-    const router = useRouter();
-
-    useEffect(() => {
-        const items = JSON.parse(localStorage.getItem('cart') || '[]');
-        setCartItems(items);
-    }, []);
-
-    const updateQuantity = (id, newQuantity) => {
-        const updatedItems = cartItems.map(item => item.id === id ? {
-            ...item, quantity: Math.max(1, newQuantity)
-        } : item);
-        setCartItems(updatedItems);
-        localStorage.setItem('cart', JSON.stringify(updatedItems));
-    };
-
-    const removeItem = (id) => {
-        const updatedItems = cartItems.filter(item => item.id !== id);
-        setCartItems(updatedItems);
-        localStorage.setItem('cart', JSON.stringify(updatedItems));
-    };
-
-    const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-    return (<div className="mx-auto w-full max-w-screen-xl px-4 py-6">
-        <h1 className="text-2xl font-bold mb-6">Giỏ hàng</h1>
-
-        {cartItems.length === 0 ? (<div className="text-center py-8">
-            <p className="text-gray-500">Giỏ hàng của bạn đang trống</p>
-            <Button
-                className="mt-4 bg-green-700 hover:bg-green-800"
-                onClick={() => router.push('/')}
-            >
-                Tiếp tục mua sắm
-            </Button>
-        </div>) : (<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-                {cartItems.map((item) => (<div key={item.id} className="flex gap-4 p-4 border-b">
-                    <img
-                        src={item.image}
-                        alt={item.title}
-                        className="w-24 h-24 object-cover rounded"
-                    />
-                    <div className="flex-1">
-                        <h3 className="font-medium">{item.title}</h3>
-                        <p className="text-green-600 font-bold">{item.price}đ</p>
-                        <div className="flex items-center gap-2 mt-2">
-                            <Button
-                                variant="outline"
-                                size="icon"
-                                onClick={() => updateQuantity(item.id, item.quantity - 1)}
+  return (
+    <>
+      <BreadCrumbDefault name="Cart"></BreadCrumbDefault>
+      <div className="liton__shoping-cart-area mb-120">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="shoping-cart-inner">
+                <div className="shoping-cart-table table-responsive">
+                  <table className="table">
+                    {/* <thead>
+                              <th class="cart-product-remove">Remove</th>
+                              <th class="cart-product-image">Image</th>
+                              <th class="cart-product-info">Product</th>
+                              <th class="cart-product-price">Price</th>
+                              <th class="cart-product-quantity">Quantity</th>
+                              <th class="cart-product-subtotal">Subtotal</th>
+                          </thead> */}
+                    <tbody>
+                      <tr>
+                        <td className="cart-product-remove">x</td>
+                        <td className="cart-product-image">
+                          <a href="product-details.html">
+                            <img src="/assets/img/product/1.png" alt="#" />
+                          </a>
+                        </td>
+                        <td className="cart-product-info">
+                          <h4>
+                            <a href="product-details.html">
+                              Digital Stethoscope
+                            </a>
+                          </h4>
+                        </td>
+                        <td className="cart-product-price">$149.00</td>
+                        <td className="cart-product-quantity">
+                          <div className="cart-plus-minus">
+                            <input
+                              type="text"
+                              defaultValue={0o2}
+                              name="qtybutton"
+                              className="cart-plus-minus-box"
+                            />
+                          </div>
+                        </td>
+                        <td className="cart-product-subtotal">$298.00</td>
+                      </tr>
+                      <tr>
+                        <td className="cart-product-remove">x</td>
+                        <td className="cart-product-image">
+                          <a href="product-details.html">
+                            <img src="/assets/img/product/2.png" alt="#" />
+                          </a>
+                        </td>
+                        <td className="cart-product-info">
+                          <h4>
+                            <a href="product-details.html">
+                              Cosmetic Containers
+                            </a>
+                          </h4>
+                        </td>
+                        <td className="cart-product-price">$85.00</td>
+                        <td className="cart-product-quantity">
+                          <div className="cart-plus-minus">
+                            <input
+                              type="text"
+                              defaultValue={0o2}
+                              name="qtybutton"
+                              className="cart-plus-minus-box"
+                            />
+                          </div>
+                        </td>
+                        <td className="cart-product-subtotal">$170.00</td>
+                      </tr>
+                      <tr>
+                        <td className="cart-product-remove">x</td>
+                        <td className="cart-product-image">
+                          <a href="product-details.html">
+                            <img src="/assets/img/product/3.png" alt="#" />
+                          </a>
+                        </td>
+                        <td className="cart-product-info">
+                          <h4>
+                            <a href="product-details.html">Antiseptic Spray</a>
+                          </h4>
+                        </td>
+                        <td className="cart-product-price">$75.00</td>
+                        <td className="cart-product-quantity">
+                          <div className="cart-plus-minus">
+                            <input
+                              type="text"
+                              defaultValue={0o2}
+                              name="qtybutton"
+                              className="cart-plus-minus-box"
+                            />
+                          </div>
+                        </td>
+                        <td className="cart-product-subtotal">$150.00</td>
+                      </tr>
+                      <tr className="cart-coupon-row">
+                        <td colSpan={6}>
+                          <div className="cart-coupon">
+                            <input
+                              type="text"
+                              name="cart-coupon"
+                              placeholder="Coupon code"
+                            />
+                            <button
+                              type="submit"
+                              className="btn theme-btn-2 btn-effect-2"
                             >
-                                <Minus className="h-4 w-4"/>
-                            </Button>
-                            <span className="w-12 text-center">{item.quantity}</span>
-                            <Button
-                                variant="outline"
-                                size="icon"
-                                onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            >
-                                <Plus className="h-4 w-4"/>
-                            </Button>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="ml-auto text-red-500"
-                                onClick={() => removeItem(item.id)}
-                            >
-                                <Trash2 className="h-4 w-4"/>
-                            </Button>
-                        </div>
-                    </div>
-                </div>))}
-            </div>
-            <div className="lg:col-span-1">
-                <div className="bg-gray-50 p-4 rounded-lg">
-                    <h3 className="font-bold text-lg mb-4">Tổng giỏ hàng</h3>
-                    <div className="space-y-2">
-                        <div className="flex justify-between">
-                            <span>Tạm tính</span>
-                            <span>{total}đ</span>
-                        </div>
-                        <div className="flex justify-between font-bold text-lg border-t pt-2">
-                            <span>Tổng cộng</span>
-                            <span className="text-green-600">{total}đ</span>
-                        </div>
-                        <Button className="w-full mt-4 bg-green-700 hover:bg-green-800"
-                                onClick={() => router.push('/checkout')}>
-                            Tiến hành đặt hàng
-                        </Button>
-                    </div>
+                              Apply Coupon
+                            </button>
+                          </div>
+                        </td>
+                        <td>
+                          <button
+                            type="submit"
+                            className="btn theme-btn-2 btn-effect-2-- disabled"
+                          >
+                            Update Cart
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
+                <div className="shoping-cart-total mt-50">
+                  <h4>Cart Totals</h4>
+                  <table className="table">
+                    <tbody>
+                      <tr>
+                        <td>Cart Subtotal</td>
+                        <td>$618.00</td>
+                      </tr>
+                      <tr>
+                        <td>Shipping and Handing</td>
+                        <td>$15.00</td>
+                      </tr>
+                      <tr>
+                        <td>Vat</td>
+                        <td>$00.00</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <strong>Order Total</strong>
+                        </td>
+                        <td>
+                          <strong>$633.00</strong>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div className="btn-wrapper text-right">
+                    <a
+                      href="checkout.html"
+                      className="theme-btn-1 btn btn-effect-1"
+                    >
+                      Proceed to checkout
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>)}
-    </div>);
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }

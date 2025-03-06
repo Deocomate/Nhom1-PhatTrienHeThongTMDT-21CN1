@@ -14,9 +14,8 @@ class BrandController extends Controller
     public function index()
     {
         $brands = DB::table('brands')
-            ->select('id', 'name', 'slug', 'description', 'created_at', 'updated_at')
             ->get();
-        
+
         return view('admin.modules.brand.index', compact('brands'));
     }
 
@@ -38,6 +37,7 @@ class BrandController extends Controller
             'name' => 'required|unique:brands|max:255',
             'slug' => 'required|unique:brands|max:255',
             'description' => 'nullable|string',
+            'thumbnail' => 'required'
         ]);
 
         DB::table('brands')->insert($validated);
@@ -74,6 +74,7 @@ class BrandController extends Controller
             'name' => 'required|unique:brands,name,' . $id . '|max:255',
             'slug' => 'required|unique:brands,slug,' . $id . '|max:255',
             'description' => 'nullable|string',
+            'thumbnail' => 'required'
         ]);
 
         DB::table('brands')->where('id', $id)->update($validated);

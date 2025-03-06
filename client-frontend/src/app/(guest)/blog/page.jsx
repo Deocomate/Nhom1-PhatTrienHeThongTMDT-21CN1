@@ -1,10 +1,10 @@
-import CheckoutPage from "@/pages/checkout/CheckoutPage";
+import BlogPage from "@/pages/blog/BlogPage";
 import React from "react";
 
 export default function page() {
   return (
     <>
-      <CheckoutPage></CheckoutPage>
+      <BlogPage></BlogPage>
     </>
   );
 }

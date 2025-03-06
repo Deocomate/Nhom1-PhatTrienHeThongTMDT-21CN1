@@ -241,6 +241,7 @@ Tạo file `resources/views/admin/modules/category/index.blade.php`:
 #### 3.2 File `createOrEdit.blade.php`
 
 Tạo file `resources/views/admin/modules/category/createOrEdit.blade.php`:
+**Yêu cầu luôn luôn sử dụng các blade input component có sẵn chứ ko dùng input DOM**
 
 ```php
 <?php
