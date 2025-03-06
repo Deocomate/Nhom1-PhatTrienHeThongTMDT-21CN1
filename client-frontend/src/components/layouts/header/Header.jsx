@@ -12,12 +12,12 @@ import apiService from "@/lib/api/apiService";
 export default function Header() {
     let [categories, setCategories] = useState([]);
     useEffect(() => {
-        async function fetchCategories() {
-            let res = await apiService.get("/categories");
-            console.log(cates);
-            setCategories(cates);
-        }
-        fetchCategories();
+        // async function fetchCategories() {
+        //     let res = await apiService.get("/categories");
+        //     console.log(cates);
+        //     setCategories(cates);
+        // }
+        // fetchCategories();
     }, []);
 
     return (<>

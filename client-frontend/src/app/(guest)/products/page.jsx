@@ -1,10 +1,9 @@
+import ProductListPage from '@/pages/product/ProductListPage';
 import React from 'react';
 
 const Page = () => {
     return (
-        <div>
-            
-        </div>
+        <ProductListPage></ProductListPage>
     );
 };
 
