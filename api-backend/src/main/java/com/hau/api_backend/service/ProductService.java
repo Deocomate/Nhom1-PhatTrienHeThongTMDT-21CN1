@@ -74,7 +74,7 @@ public class ProductService {
 
     public ApiResponse<ProductResponse> getProductBySlug(String slug) {
         Product product = productRepository.findProductBySlug(slug)
-                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND, "slug"));
         ProductResponse productResponse = productMapper.toProductWithCommentResponse(product);
 
         return ApiResponse.<ProductResponse>builder()

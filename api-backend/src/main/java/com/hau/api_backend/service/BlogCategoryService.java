@@ -38,7 +38,7 @@ public class BlogCategoryService {
 
         List<BlogCategoryResponse> blogCategoryResponses = blogCategories.stream()
                 .map(blogCategoryMapper::toBlogCategoryResponse)
-                .map(this::checkThumbnail)  // Sử dụng map thay vì peek
+                .map(this::checkThumbnail)
                 .collect(Collectors.toList());
 
         return ApiResponse.<List<BlogCategoryResponse>>builder()

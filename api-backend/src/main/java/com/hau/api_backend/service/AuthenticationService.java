@@ -6,11 +6,13 @@ import com.hau.api_backend.dto.request.authentication.LogoutRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.AuthenticationResponse;
 import com.hau.api_backend.dto.response.IntrospectResponse;
+import com.hau.api_backend.dto.response.CustomerResponse;
 import com.hau.api_backend.entity.InvalidatedToken;
 import com.hau.api_backend.exception.AppException;
 import com.hau.api_backend.exception.ErrorCode;
 import com.hau.api_backend.exception.SuccessMessage;
 import com.hau.api_backend.entity.Customer;
+import com.hau.api_backend.mapper.CustomerMapper;
 import com.hau.api_backend.repository.CustomerRepository;
 import com.hau.api_backend.repository.InvalidatedRepository;
 import com.nimbusds.jose.*;
@@ -44,6 +46,7 @@ import java.util.UUID;
 public class AuthenticationService {
     CustomerRepository customerRepository;
     InvalidatedRepository invalidatedRepository;
+    CustomerMapper customerMapper; // Inject CustomerMapper
 
     @NonFinal
     @Value("${jwt.signerKey}")
@@ -154,18 +157,28 @@ public class AuthenticationService {
         try {
             String token = request.getToken();
             SignedJWT signedJWT = SignedJWT.parse(token);
-            String jti = signedJWT.getJWTClaimsSet().getJWTID();
+            String email = signedJWT.getJWTClaimsSet().getSubject();
 
             // Check if the token is invalidated
-            Optional<InvalidatedToken> invalidatedToken = invalidatedRepository.findById(jti);
+            Optional<InvalidatedToken> invalidatedToken = invalidatedRepository.findById(signedJWT.getJWTClaimsSet().getJWTID());
             if (invalidatedToken.isPresent()) {
                 // Token is invalidated
                 return createIntrospectErrorResponse(ErrorCode.TOKEN_INVALIDATED.getMessage());
             }
 
             verifyToken(token);
+
+            Customer customer = customerRepository.findByEmail(email)
+                    .orElse(null);
+
+            CustomerResponse customerResponse = null;
+            if (customer != null) {
+                customerResponse = customerMapper.toCustomerResponse(customer);
+            }
+
             IntrospectResponse introspectResponse = IntrospectResponse.builder()
                     .valid(true)
+                    .customer(customerResponse)
                     .build();
 
             return ApiResponse.<IntrospectResponse>builder()
