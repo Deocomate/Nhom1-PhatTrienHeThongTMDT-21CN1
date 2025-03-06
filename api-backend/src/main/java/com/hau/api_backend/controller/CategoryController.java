@@ -45,15 +45,25 @@ public class CategoryController {
 
     @GetMapping("/productWithCategory")
     public ResponseEntity<ApiResponse<ProductWithCategoryResponse>> getProductsWithCategories(
-            @RequestParam(defaultValue = "1") int page) {
-        return ResponseEntity.ok(productWithCategoryService.getPagedProductsWithCategories(page));
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(required = false) String sortBy, // Trường sắp xếp (ví dụ: "id", "name")
+            @RequestParam(required = false) String direction,
+            @RequestParam(required = false) int minPrice,
+            @RequestParam(required = false) int maxPrice) {
+        return ResponseEntity.ok(productWithCategoryService.getPagedProductsWithCategories(page, sortBy, direction, minPrice, maxPrice));
     }
 
     @GetMapping("/productWithCategory/{categorySlug}")
     public ResponseEntity<ApiResponse<ProductWithCategoryResponse>> getProductsWithCategories(
-           @PathVariable String categorySlug,
-           @RequestParam(defaultValue = "1") int page) {
-        return ResponseEntity.ok(productWithCategoryService.getPagedProductWithCategorySlugFiltered(categorySlug, page));
+            @PathVariable String categorySlug,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(required = false) String sortBy, // Trường sắp xếp (ví dụ: "id", "name")
+            @RequestParam(required = false) String direction,
+            @RequestParam(required = false) Integer minPrice,
+            @RequestParam(required = false) Integer maxPrice) { // Hướng sắp xếp (ví dụ: "asc", "desc")
+
+        // Gọi service với tham số sắp xếp
+        return ResponseEntity.ok(productWithCategoryService.getPagedProductWithCategorySlugFiltered(categorySlug, page, sortBy, direction, minPrice, maxPrice));
     }
 
  }
