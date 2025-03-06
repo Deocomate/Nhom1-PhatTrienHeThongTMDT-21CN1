@@ -24,10 +24,7 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<CustomerResponse>> updateCustomer(
-            @PathVariable Integer id,
-            @Valid @RequestBody CustomerUpdateRequest request
-    ) {
+    public ResponseEntity<ApiResponse<CustomerResponse>> updateCustomer(@PathVariable Integer id, @Valid @RequestBody CustomerUpdateRequest request) {
         ApiResponse<CustomerResponse> response = customerService.updateCustomer(id, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
