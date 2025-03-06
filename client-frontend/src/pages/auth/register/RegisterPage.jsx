@@ -9,7 +9,7 @@ export default function RegisterPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [fullName, setFullName] = useState("");
-    const [gender, setGender] = useState("");
+    const [gender, setGender] = useState("male");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [address, setAddress] = useState("");
     const [error, setError] = useState(null); // State to hold error message
@@ -18,12 +18,14 @@ export default function RegisterPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         setError(null); // Clear any previous errors
 
         try {
             let data = {
                 email, password, fullName, gender, phoneNumber, address,
             }
+            console.log(data)
 
             // await signup({
             //     email, password, fullName, gender, phoneNumber, address,
@@ -88,17 +90,14 @@ export default function RegisterPage() {
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
-                                {/*<input*/}
-                                {/*    type="text"*/}
-                                {/*    placeholder="Giới tính"*/}
-                                {/*    value={gender}*/}
-                                {/*    onChange={(e) => setGender(e.target.value)}*/}
-                                {/*/>*/}
                                 <select
                                     className="w-100 mb-4"
                                     placeholder="Giới tính"
                                     value={gender}
-                                    onChange={(e) => setGender(e.target.value)}>
+                                    onChange={(e) => {
+                                        console.log("Change!")
+                                        setGender(e.target.value)
+                                    }}>
                                     <option value="male">Nam</option>
                                     <option value="female">Nữ</option>
                                 </select>
