@@ -37,7 +37,7 @@ public interface ProductWithCategoryMapper {
     @Named("mapProducts")
     default List<ProductResponse> mapProducts(List<Product> products) {
         return products.stream()
-                .map(PRODUCT_MAPPER::toProductResponse)
+                .map(PRODUCT_MAPPER::toProductResponse) // Explicitly use toProductResponse
                 .collect(Collectors.toList());
     }
 
