@@ -12,30 +12,39 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
-<<<<<<< HEAD
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-=======
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter; // Correct import
->>>>>>> 50559d601c06bb545d111e47bcd76a0deb274345
 
-import java.util.Arrays;
-import java.util.Collections;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
 
-    private final String[] PUBLIC_POST_ENDPOINTS = {"/api/auth/login", "/api/auth/logout", "/api/auth/introspect", "/api/customers", "/api/orders", "/api/customerCares",
+    private final String[] PUBLIC_POST_ENDPOINTS = {"/api/auth/login", "/api/auth/logout", "/api/auth/introspect", "/api/customers", "/api/orders",
+            "/api/customerCares",
 
 
     };
 
-    private final String[] PUBLIC_GET_ENDPOINTS = {"/api/products", "/api/products/{productId}/thumbnail", "/api/products/{productId}/images", "/api/products/{id}", "/api/comments", "/api/blog_category", "/api/comments/product/{id}", "/api/vnpay/vnpay_return", "/api/products/slug/{slug}", "/api/pagination/products", "/api/pagination/orders", "/api/pagination/comments", "/api/categories", "/api/categories/parent", "/api/categories/slug/{parentSlug}", "/api/categories/productWithCategory", "/api/categories/productWithCategory/{categorySlug}",
+    private final String[] PUBLIC_GET_ENDPOINTS = {
+            "/api/products",
+            "/api/products/{productId}/thumbnail",
+            "/api/products/{productId}/images",
+            "/api/products/{id}",
+            "/api/comments",
+            "/api/blog_category",
+            "/api/comments/product/{id}",
+            "/api/vnpay/vnpay_return",
+            "/api/products/slug/{slug}",
+            "/api/pagination/products",
+            "/api/pagination/orders", "/api/pagination/comments",
+            "/api/categories", "/api/categories/parent", "/api/categories/slug/{parentSlug}",
+            "/api/categories/productWithCategory", "/api/categories/productWithCategory/{categorySlug}",
 
 
     };
@@ -52,63 +61,43 @@ public class SecurityConfig {
     }
 
     @Bean
-    JwtDecoder jwtDecoder() {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
-
-        return NimbusJwtDecoder.withSecretKey(secretKeySpec).macAlgorithm(MacAlgorithm.HS512).build();
-    }
-
-    @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-<<<<<<< HEAD
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll().requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll().requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Cho phép OPTIONS requests
-                .anyRequest().authenticated());
+        httpSecurity.authorizeHttpRequests(request ->
+                request.requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Cho phép OPTIONS requests
+                        .anyRequest().authenticated());
 
-        httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(customJwtAuthenticationConverter)));
+        httpSecurity.oauth2ResourceServer(oauth2 ->
+                oauth2.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(customJwtAuthenticationConverter))
+        );
 
         httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource())); // Enable CORS
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
-=======
-        httpSecurity
-                .cors(cors -> cors
-                        .configurationSource(request -> {
-                            CorsConfiguration configuration = new CorsConfiguration();
-                            configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // Specific origin
-                            configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                            configuration.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization", "X-Requested-With"));
-                            configuration.setAllowCredentials(true);
-                            return configuration;
-                        })
-                )
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request ->
-                        request.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow OPTIONS preflight requests
-                                .requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
-                                .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()
-                                .anyRequest().authenticated()
-                )
-                .oauth2ResourceServer(oauth2 ->
-                        oauth2.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(customJwtAuthenticationConverter))
-                );
-
-
->>>>>>> 50559d601c06bb545d111e47bcd76a0deb274345
         return httpSecurity.build();
     }
-
-
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    @Bean
+    JwtDecoder jwtDecoder() {
+        SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
+
+        return NimbusJwtDecoder
+                .withSecretKey(secretKeySpec)
+                .macAlgorithm(MacAlgorithm.HS512)
+                .build();
     }
 }
