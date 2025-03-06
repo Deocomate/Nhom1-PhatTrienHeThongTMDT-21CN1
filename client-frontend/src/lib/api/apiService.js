@@ -3,7 +3,7 @@ import axios from 'axios';
 
 class ApiService {
     constructor(baseURL = process.env.NEXT_PUBLIC_API_URL || '') {
-        this.tokenKey = 'jwt_token'; // Key for JWT token in localStorage
+        this.tokenKey = 'jwt_token';
 
         this.api = axios.create({
             baseURL,

@@ -8,7 +8,7 @@ export default function HeaderMiddle() {
                     <div className="row">
                         <div className="col">
                             <div className="site-logo">
-                                <a href="index.html">
+                                <a href="/">
                                     <img src="/assets/img/logo.png" alt="Logo" />
                                 </a>
                             </div>
