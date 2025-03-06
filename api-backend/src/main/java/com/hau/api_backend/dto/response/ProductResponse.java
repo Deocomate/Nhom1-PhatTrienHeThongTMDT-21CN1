@@ -32,4 +32,5 @@ public class ProductResponse {
     String registrationNumber;
     String slug;
     List<ProductImageResponse> productImagesResponses;
+    List<CommentResponse> commentsResponses;
 }

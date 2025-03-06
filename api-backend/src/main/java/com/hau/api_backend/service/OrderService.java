@@ -1,5 +1,6 @@
 package com.hau.api_backend.service;
 
+
 import com.hau.api_backend.dto.request.order.OrderCreationRequest;
 import com.hau.api_backend.dto.request.order.OrderUpdateRequest;
 import com.hau.api_backend.dto.request.orderdetail.OrderDetailCreationRequest;
@@ -93,7 +94,7 @@ public class OrderService {
 
         // Gửi email xác nhận nếu phương thức thanh toán là offline
         if (orderRequest.getPaymentMethod().equalsIgnoreCase("offline")) {
-            findByIdCustomer(savedOrder, savedOrder, orderRequest.getCustomerId());
+            findCustomerById(savedOrder, savedOrder, orderRequest.getCustomerId());
         }
 
         return ApiResponse.<OrderResponse>builder()
@@ -115,7 +116,7 @@ public class OrderService {
 
         // Gửi email xác nhận nếu thanh toán online thành công và trạng thái order đã được cập nhật
         if (request != null && request.getPaymentStatus() != null && request.getPaymentStatus().equalsIgnoreCase("success")) {
-            findByIdCustomer(order, updatedOrder, order.getCustomerId());
+            findCustomerById(order, updatedOrder, order.getCustomerId());
         }
 
         return ApiResponse.<OrderResponse>builder()
@@ -126,7 +127,7 @@ public class OrderService {
                 .build();
     }
 
-    private void findByIdCustomer(Order order, Order updatedOrder, int customerId) {
+    private void findCustomerById(Order order, Order updatedOrder, int customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND, "customerId"));
         List<OrderDetail> orderDetailsList = orderDetailRepository.findByOrderId(order.getId());
@@ -136,6 +137,40 @@ public class OrderService {
         } catch (MessagingException | UnsupportedEncodingException e) {
             System.err.println("Failed to send email: " + e.getMessage());
         }
+    }
+
+    @Transactional
+    public ApiResponse<OrderResponse> cancelOrder(int id/*, OrderCancelRequest cancelRequest*/) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND, "orderId"));
+
+        // Kiểm tra xem đơn hàng có thể bị hủy không (ví dụ: trạng thái không phải 'shipped')
+        if (order.getStatus() == Order.Status.shipped) {
+            throw new AppException(ErrorCode.ORDER_SUCCESS, "orderId");
+        }
+        if (order.getStatus() == Order.Status.processing) {
+            throw new AppException(ErrorCode.ORDER_SUCCESS, "orderId");
+        }
+        if (order.getStatus() == Order.Status.customer_cancelled) {
+            throw new AppException(ErrorCode.ORDER_CANCELED_BY_CUSTOMER, "orderId");
+        }
+        if (order.getStatus() == Order.Status.admin_cancelled) {
+            throw new AppException(ErrorCode.ORDER_CANCELED_BY_ADMIN, "orderId");
+        }
+
+        // Cập nhật trạng thái đơn hàng thành 'customer_cancelled'
+        order.setStatus(Order.Status.customer_cancelled);
+        Order cancelledOrder = orderRepository.save(order);
+
+        // Tạo OrderResponse và trả về
+        OrderResponse orderResponse = createOrderResponseWithDetails(cancelledOrder);
+
+        return ApiResponse.<OrderResponse>builder()
+                .code(HttpStatus.OK.value())
+                .message("Đơn hàng đã được hủy thành công.")
+                .data(orderResponse)
+                .timestamp(LocalDateTime.now())
+                .build();
     }
 
     // get all order of all customer
