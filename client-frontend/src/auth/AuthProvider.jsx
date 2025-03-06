@@ -1,14 +1,14 @@
 // auth/AuthProvider.jsx
 "use client";
 
-import React, {createContext, useState, useEffect, useContext} from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import Cookies from 'js-cookie'; // Hoặc import { parseCookies, setCookie, destroyCookie } from 'nookies';
-import {useRouter} from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import apiService from '@/lib/api/apiService'; // Import apiService
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
@@ -25,32 +25,20 @@ export const AuthProvider = ({children}) => {
 
     const signup = async (userData) => {
         try {
-            const response = await apiService.post('/customers', userDataJson);
-
-            if (response) {
-                // Optionally, log the user in directly after signup
-                // If your API returns a token upon signup:
-                // apiService.setToken(response.token);
-                // Cookies.set('token', response.token, { expires: 7 });
-                // introspectToken(response.token);
-                router.push('/login'); // Or wherever you want to redirect after signup
-            } else {
-                console.error('Đăng ký thất bại:', response.message);
-                throw new Error(response.message);
-            }
+            const response = await apiService.post('/customers', userData);
+            return response
         } catch (error) {
-            console.error('Đăng ký thất bại:', error);
-            throw error;
+            return error
         }
     };
 
     const login = async (email, password) => {
         try {
-            const response = await apiService.post('/auth/login', {email, password});
+            const response = await apiService.post('/auth/login', { email, password });
 
             if (response.token) {
                 apiService.setToken(response.token); // Store the token using apiService
-                Cookies.set('token', response.token, {expires: 7}); // Lưu token vào cookie
+                Cookies.set('token', response.token, { expires: 7 }); // Lưu token vào cookie
                 introspectToken(response.token);
                 router.push('/');
             } else {
@@ -67,7 +55,7 @@ export const AuthProvider = ({children}) => {
         const token = Cookies.get('token');
         if (token) {
             try {
-                await apiService.post('/auth/logout', {token});
+                await apiService.post('/auth/logout', { token });
             } catch (error) {
                 console.error('Logout error:', error);
             }
@@ -81,7 +69,7 @@ export const AuthProvider = ({children}) => {
 
     const introspectToken = async (token) => {
         try {
-            const response = await apiService.post('/api/auth/introspect', {token});
+            const response = await apiService.post('/api/auth/introspect', { token });
 
             if (response.active) {
                 setUser(response); // Save user information (from introspect)

@@ -108,8 +108,8 @@ class ApiService {
     // Error handler
     handleError(error) {
         // You can implement custom error handling here
-        console.error('API Error:', error);
-        throw error;
+        // console.error('API Error:', error);
+        throw error.response;
     }
 }
 

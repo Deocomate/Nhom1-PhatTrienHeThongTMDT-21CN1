@@ -1,8 +1,8 @@
 "use client"
 import BreadCrumbDefault from "@/components/breadcrumbs/BreadCrumbDefault";
-import React, {useState} from "react";
-import {useRouter} from 'next/navigation';
-import {useAuth} from '@/auth/AuthProvider';
+import React, { useState } from "react";
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/auth/AuthProvider';
 import axios from "axios"; // Import useAuth
 
 export default function RegisterPage() {
@@ -12,37 +12,25 @@ export default function RegisterPage() {
     const [gender, setGender] = useState("male");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [address, setAddress] = useState("");
-    const [error, setError] = useState(null); // State to hold error message
+    const [errors, setErrors] = useState([]); // State to hold error message
     const router = useRouter();
-    const {signup} = useAuth(); // Get signup function
+    const { signup } = useAuth(); // Get signup function
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        setError(null); // Clear any previous errors
-
+        setErrors([]);
         try {
             let data = {
                 email, password, fullName, gender, phoneNumber, address,
             }
-            console.log(data)
-
-            // await signup({
-            //     email, password, fullName, gender, phoneNumber, address,
-            // });
-
-            axios.post("http://localhost:8080/api/customers", data).then(res => {
-                console.log(res)
-            })
-
-
-            // Registration successful, redirect to login page
-            // router.push("/auth/login");
+            let res = await signup(data);
+            if (res.status > 201) {
+                setErrors(res.data.error);
+            } else {
+                router.push("/login");
+            }
         } catch (err) {
-            // Handle signup error
-            console.error("Registration failed:", err);
-            setError(err.message || "Đăng ký không thành công. Vui lòng thử lại.");
-            alert(err.message || "Đăng ký không thành công. Vui lòng thử lại.");
+            console.log(err);
         }
     };
 
@@ -54,7 +42,7 @@ export default function RegisterPage() {
                     <div className="col-lg-12">
                         <div className="section-title-area text-center">
                             <h1 className="section-title">
-                                Đăng Ký <br/>
+                                Đăng Ký <br />
                                 Tài Khoản Mới
                             </h1>
                         </div>
@@ -63,9 +51,11 @@ export default function RegisterPage() {
                 <div className="row">
                     <div className="col-lg-6 offset-lg-3">
                         <div className="account-login-inner">
-                            <form className="ltn__form-box contact-form-box" onSubmit={handleSubmit}>
-                                {error &&
-                                    <div className="alert alert-danger">{error}</div>} {/* Display error message */}
+                            <form onSubmit={handleSubmit}>
+                                {errors.map((err, index) => (
+                                    <div key={index} className="alert alert-danger">{err.message}</div>
+                                    // <div key={index}>Hello</div>
+                                ))}
                                 <input
                                     type="text"
                                     name="fullName"
@@ -91,6 +81,8 @@ export default function RegisterPage() {
                                     required
                                 />
                                 <select
+                                    id={"select-gender"}
+                                    name={"select-gender"}
                                     className="w-100 mb-4"
                                     placeholder="Giới tính"
                                     value={gender}
