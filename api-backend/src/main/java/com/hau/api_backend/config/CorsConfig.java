@@ -10,9 +10,9 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOriginPatterns("*")
+                .allowedOrigins("http://localhost:3000") //  Đảm bảo origin này được phép
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("Origin", "Content-Type", "Accept", "Authorization", "X-Requested-With")
+                .allowedHeaders("*")
                 .allowCredentials(true)
                 .maxAge(3600);
     }
