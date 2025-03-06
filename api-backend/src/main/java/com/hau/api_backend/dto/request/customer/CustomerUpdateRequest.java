@@ -13,8 +13,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
 public class CustomerUpdateRequest {
-    @Size(min = 1, max = 50, message = "Password must be between 1 and 30 characters long")
-    String password;
     @NotBlank
     String fullName;
     @NotBlank

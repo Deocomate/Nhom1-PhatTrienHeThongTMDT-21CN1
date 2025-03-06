@@ -44,9 +44,11 @@ export const AuthProvider = ({ children }) => {
             } else {
                 alert(response.message)
             }
+            router.push('/account');
+            return response
         } catch (error) {
             console.error('Login error:', error);
-            throw error;
+            return error;
         }
     };
 
@@ -86,7 +88,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const value = {
-        user, loading, login, logout, signup, // Add signup
+        user, loading, login, logout, signup, setUser
     };
 
     return (<AuthContext.Provider value={value}>

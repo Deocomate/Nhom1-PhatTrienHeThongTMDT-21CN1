@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 export default function HeaderMiddle() {
@@ -21,9 +22,9 @@ export default function HeaderMiddle() {
                                         <i className="icon-phone" />
                                     </div>
                                     <div className="header-feature-info">
-                                        <h6>Phone</h6>
+                                        <h6>Số điện thoại</h6>
                                         <p>
-                                            <a href="tel:0123456789">+0123-456-789</a>
+                                            <a href="tel:0865095066">0865-095-066</a>
                                         </p>
                                     </div>
                                 </div>
@@ -34,7 +35,7 @@ export default function HeaderMiddle() {
                                             type="text"
                                             name="search"
                                             defaultValue=""
-                                            placeholder="Search here..."
+                                            placeholder="Tìm kiếm sản phẩm..."
                                         />
                                         <button type="submit">
                                             <span>
@@ -123,16 +124,16 @@ export default function HeaderMiddle() {
                                                     </a>
                                                     <ul>
                                                         <li>
-                                                            <a href="login.html">Sign in</a>
+                                                            <Link href="/login">Đăng nhập</Link>
                                                         </li>
                                                         <li>
-                                                            <a href="register.html">Register</a>
+                                                            <Link href="/register">Đăng ký</Link>
                                                         </li>
                                                         <li>
-                                                            <a href="account.html">My Account</a>
+                                                            <Link href="/account">Tài khoản</Link>
                                                         </li>
                                                         <li>
-                                                            <a href="wishlist.html">Wishlist</a>
+                                                            <Link href="/wishlist">Sản phẩm yêu thích</Link>
                                                         </li>
                                                     </ul>
                                                 </li>

@@ -12,6 +12,7 @@ export default function LoginPage() {
 
     let handleSubmit = async () => {
         let res = await login(email, password);
+        console.log(res);
     }
 
     return (<>
