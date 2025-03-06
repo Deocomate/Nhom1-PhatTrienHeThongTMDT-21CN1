@@ -48,8 +48,8 @@ public class CategoryController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(required = false) String sortBy, // Trường sắp xếp (ví dụ: "id", "name")
             @RequestParam(required = false) String direction,
-            @RequestParam(required = false) int minPrice,
-            @RequestParam(required = false) int maxPrice) {
+            @RequestParam(required = false) Integer minPrice,
+            @RequestParam(required = false) Integer maxPrice) {
         return ResponseEntity.ok(productWithCategoryService.getPagedProductsWithCategories(page, sortBy, direction, minPrice, maxPrice));
     }
 
