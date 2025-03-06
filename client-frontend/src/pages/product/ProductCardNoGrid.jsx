@@ -1,21 +1,32 @@
 import React from "react";
 
-export default function ProductCardGrid({ product, index }) {
+export default function ProductCardNoGrid({ product, index }) {
   const formatPrice = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " đ";
   };
 
   return (
-    <div key={index} className="col-xl-4 col-sm-6 col-6">
-      <div className="ltn__product-item ltn__product-item-3 text-center">
+    <div key={index} className="col-lg-12">
+      <div className="ltn__product-item ltn__product-item-3">
         <div className="product-img">
           <a href="product-details.html">
             <img src={product.thumbnail} alt="#" />
           </a>
-          <div className="product-badge">
+          {/* <div className="product-badge">
             <ul>
               <li className="sale-badge">New</li>
             </ul>
+          </div> */}
+        </div>
+        <div className="product-info">
+          <h2 className="product-title">
+            <a href="product-details.html">{product.title}</a>
+          </h2>
+          <div className="product-price">
+            <span>{formatPrice(product.price)}</span>
+          </div>
+          <div className="product-brief">
+            <p>{product.description}</p>
           </div>
           <div className="product-hover-action">
             <ul>
@@ -50,14 +61,6 @@ export default function ProductCardGrid({ product, index }) {
                 </a>
               </li>
             </ul>
-          </div>
-        </div>
-        <div className="product-info">
-          <h2 className="product-title">
-            <a href="product-details.html">{product.title}</a>
-          </h2>
-          <div className="product-price">
-            <span>{formatPrice(product.price)} đ</span>
           </div>
         </div>
       </div>
