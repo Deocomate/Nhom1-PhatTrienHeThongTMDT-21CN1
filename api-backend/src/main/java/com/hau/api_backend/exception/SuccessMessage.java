@@ -12,6 +12,7 @@ public enum SuccessMessage {
     DELETE_CUSTOMER("Delete customer success"),
     GET_ALL_PRODUCT("Get all product success"),
     GET_PRODUCT_BY_ID("Get product by id success"),
+    GET_BLOG_CATEGORY_BY_ID("Get blog category by id success"),
     UPDATE_ORDER("Update order success"),
     GET_ORDER_BY_ID("Get order by id success"),
     GET_ORDER_BY_CUSTOMER_ID("Get all order by customer id success"),
@@ -35,8 +36,7 @@ public enum SuccessMessage {
     GET_CATEGORY_BY_PARRENT_ID("Get categories by parrentId"),
     GET_ALL_PRODUCT_WITH_CATEGORY("Get all product with category success"),
     GET_ALL_PRODUCT_WITH_CATEGORY_SLUG("Get all product with category slug success"),
-
-    ;
+    GET_ALL_BLOG_CATEGORIES("Get all blog category success");
 
     private final String message;
 
