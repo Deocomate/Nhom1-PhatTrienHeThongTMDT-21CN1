@@ -1,3 +1,4 @@
+
 package com.hau.api_backend.config;
 
 import org.springframework.context.annotation.Configuration;
@@ -17,3 +18,4 @@ public class CorsConfig implements WebMvcConfigurer {
                 .maxAge(3600);
     }
 }
+
