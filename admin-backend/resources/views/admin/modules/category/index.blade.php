@@ -32,8 +32,6 @@ $categoryTree = buildCategoryTree($categories);
                     {{ session('success') }}
                 </div>
             @endif
-            <a href="{{ route('admin.category.create') }}" class="btn btn-primary mb-3">Tạo mới</a>
-
             <table class="table table-hover">
                 <tbody>
                 @php

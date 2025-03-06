@@ -28,7 +28,7 @@ return new class extends Migration {
             $table->string('name')->unique();
             $table->string('thumbnail')->nullable();
             $table->string('slug')->unique();
-            $table->integer('priority')->nullable();
+            $table->integer('priority')->default(0);
             $table->foreignId('parent_id')->nullable()->constrained('categories')->onDelete('cascade');
             $table->timestamps();
         });
@@ -39,6 +39,8 @@ return new class extends Migration {
             $table->string('name');
             $table->string('slug')->unique();
             $table->longText('description')->nullable();
+            $table->string('thumbnail', 1000)->nullable();
+            $table->integer('priority')->default(0);
             $table->timestamps();
         });
 
@@ -60,6 +62,7 @@ return new class extends Migration {
             $table->integer('price');
             $table->string('registration_number')->unique();
             $table->string('slug')->unique();
+            $table->integer('priority')->default(0);
             $table->timestamps();
         });
 
@@ -135,8 +138,8 @@ return new class extends Migration {
             $table->id();
             $table->string('name')->unique();
             $table->string('thumbnail')->nullable();
-            $table->integer('priority')->nullable();
             $table->string('slug')->unique();
+            $table->integer('priority')->default(0);
             $table->timestamps();
         });
 
@@ -146,9 +149,9 @@ return new class extends Migration {
             $table->string('title');
             $table->text('content')->nullable();
             $table->string('thumbnail')->nullable();
-            $table->integer('priority')->nullable();
             $table->foreignId('blogcategory_id')->constrained('blog_categories')->onDelete('cascade');
             $table->string('slug')->unique();
+            $table->integer('priority')->default(0);
             $table->timestamps();
         });
 

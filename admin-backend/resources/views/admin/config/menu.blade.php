@@ -30,12 +30,16 @@
         <x-menus.nav-item :route="route('admin.product.index')" name="Danh sách"></x-menus.nav-item>
         <x-menus.nav-item :route="route('admin.product.create')" name="Thêm sản phẩm"></x-menus.nav-item>
     </x-menus.menu-item>
-    
 
+    <li class="nav-header">Quản lý Order</li>
+    <x-menus.menu-item :route="route('admin.order.index')" name="Đơn hàng" icon="fas fa-file-invoice">
+        <x-menus.nav-item :route="route('admin.order.index')" name="Danh sách đơn hàng"></x-menus.nav-item>
+        <x-menus.nav-item :route="route('admin.order.create')" name="Thêm đơn hàng mới"></x-menus.nav-item>
+    </x-menus.menu-item>
 
     @if(auth()->user()->name == "Admin")
         <li class="nav-header">Quản lý Admin</li>
-        <x-menus.menu-item :route="route('admin.product.index')" name="Danh sách quản trị" icon="fas fa-user-plus">
+        <x-menus.menu-item :route="route('admin.manager.index')" name="Danh sách quản trị" icon="fas fa-user-plus">
             <x-menus.nav-item :route="route('admin.manager.index')" name="Danh sách quản trị"></x-menus.nav-item>
             <x-menus.nav-item :route="route('admin.manager.create')" name="Thêm admin"></x-menus.nav-item>
         </x-menus.menu-item>
