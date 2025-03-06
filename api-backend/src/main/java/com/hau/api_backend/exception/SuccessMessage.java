@@ -33,7 +33,9 @@ public enum SuccessMessage {
     GET_WISHLIST_BY_CUSTOMER("Get wishlist by customerId success"),
     GET_ALL_CATETORY("Get all category success"),
     GET_CATEGORY_BY_PARRENT_ID("Get categories by parrentId"),
-    GET_ALL_PRODUCT_WITH_CATEGORY("Get all product with category success")
+    GET_ALL_PRODUCT_WITH_CATEGORY("Get all product with category success"),
+    GET_ALL_PRODUCT_WITH_CATEGORY_SLUG("Get all product with category slug success"),
+
     ;
 
     private final String message;

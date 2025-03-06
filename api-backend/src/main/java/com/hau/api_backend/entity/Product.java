@@ -72,4 +72,6 @@ public class Product {
     @OneToMany(mappedBy = "productId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<ProductImage> productImages;
 
+    @OneToMany(mappedBy = "productId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    List<Comment> comments;
 }

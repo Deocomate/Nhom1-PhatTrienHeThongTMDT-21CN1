@@ -14,7 +14,8 @@ public class ProductWithCategoryResponse {
     private int totalPages;
     private long totalProducts;
     private int pageSize;
-    private List<ProductResponse> products;
+    private int pageIndex;
     private List<CategoryResponse> categories;
+    private List<ProductResponse> products;
 }
 

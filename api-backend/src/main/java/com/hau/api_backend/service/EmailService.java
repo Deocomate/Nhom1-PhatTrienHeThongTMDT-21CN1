@@ -82,11 +82,14 @@ public class EmailService {
         content.append("</div>");
 
         content.append("<div style='margin-top: 20px; font-size: 1.2em; font-weight: bold;'>");
-        content.append("<b>Tổng tiền đơn hàng:</b> ").append(currencyFormat.format(order.getTotalPrice())).append("</div>");
+        content.append("<b>Tổng tiền đơn hàng:</b> <span style='color: red;'>").append(currencyFormat.format(order.getTotalPrice())).append("</span>");
+        content.append("</div>");
 
         content.append("<p style='font-style: italic;'>Chúng tôi sẽ liên hệ với bạn qua email hoặc số điện thoại trong thời gian sớm nhất.</p>");
+        content.append("<p style='font-style: italic;'>Mọi thắc mắc xin liên hệ về email: deocomate@gmail.com hoặc hotline: 0986.666.888.</p>");
         content.append("<p style='font-style: italic;'>Xin chân thành cảm ơn!</p>");
-        content.append("<p style='color: #777777;'>Đội ngũ An Khang Pharmacy</p>");
+        content.append("<p style='color: #777777;'>Đội ngũ Admin An Khang Pharmacy</p>");
+        content.append("<p style='color: #777777;'>Nhóm 1 21CN1</p>");
 
         content.append("</div>"); // Đóng container chính
 
