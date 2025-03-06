@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import org.springframework.data.domain.Sort;
 
 
 @Service
@@ -66,26 +67,28 @@ public class ProductWithCategoryService {
 //                .build();
 //    }
 
-    public ApiResponse<ProductWithCategoryResponse> getPagedProductsWithCategories(int page, String sortBy, String direction, Integer minPrice, Integer maxPrice) {
+    public ApiResponse<ProductWithCategoryResponse> getPagedProductsWithCategories(
+            int page, String sortBy, String direction, Integer minPrice, Integer maxPrice) {
         int pageIndex = (page > 0) ? page - 1 : 0;
-        Pageable pageable = PageRequest.of(pageIndex, DEFAULT_PAGE_SIZE);
 
-        Page<Product> pagedProducts = productRepository.findAll(pageable);
+        // Kiểm tra xem sortBy có hợp lệ không
+        String validSortBy = (sortBy != null) ? sortBy : "price"; // Mặc định sắp xếp theo id nếu không có tham số sortBy
+
+        // Xác định hướng sắp xếp (ASC hoặc DESC)
+        Sort.Direction sortDirection = (direction != null && direction.equalsIgnoreCase("desc"))
+                ? Sort.Direction.DESC
+                : Sort.Direction.ASC;
+
+        Pageable pageable = PageRequest.of(pageIndex, DEFAULT_PAGE_SIZE, Sort.by(sortDirection, validSortBy));
+
+        // Truy vấn sản phẩm theo phân trang và điều kiện lọc
+        Page<Product> pagedProducts = (minPrice != null && maxPrice != null)
+                ? productRepository.findByPriceBetween(minPrice, maxPrice, pageable)
+                : productRepository.findAll(pageable);
+
         List<Category> categories = categoryRepository.findAll();
-
-
-        if (sortBy != null && direction != null) {
-            List<Product> sortedProducts = new ArrayList<>(pagedProducts.getContent());
-            Comparator<Product> comparator = getProductComparator(sortBy, direction);
-            if (comparator != null) {
-                sortedProducts.sort(comparator);
-            }
-            pagedProducts = new PageImpl<>(sortedProducts, pageable, pagedProducts.getTotalElements());
-        }
-        if(minPrice != null && maxPrice != null) {
-            pagedProducts = productRepository.findByPriceBetween(minPrice, maxPrice, pageable);
-        }
-        ProductWithCategoryResponse response = productWithCategoryMapper.toProductWithCategoryAndPaginateResponse(pagedProducts, categories, DEFAULT_PAGE_SIZE);
+        ProductWithCategoryResponse response = productWithCategoryMapper
+                .toProductWithCategoryAndPaginateResponse(pagedProducts, categories, DEFAULT_PAGE_SIZE);
 
         return ApiResponse.<ProductWithCategoryResponse>builder()
                 .code(HttpStatus.OK.value())
@@ -95,45 +98,46 @@ public class ProductWithCategoryService {
                 .build();
     }
 
+
     public ApiResponse<ProductWithCategoryResponse> getPagedProductWithCategorySlugFiltered(
             String slug, int page, String sortBy, String direction, Integer minPrice, Integer maxPrice) {
         int pageIndex = (page > 0) ? page - 1 : 0;
-        Pageable pageable = PageRequest.of(pageIndex, DEFAULT_PAGE_SIZE);
+
+        // Kiểm tra và thiết lập thông tin sắp xếp
+        String validSortBy = (sortBy != null) ? sortBy : "price";
+        Sort.Direction sortDirection = (direction != null && direction.equalsIgnoreCase("desc"))
+                ? Sort.Direction.DESC
+                : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(pageIndex, DEFAULT_PAGE_SIZE, Sort.by(sortDirection, validSortBy));
 
         Page<Product> pagedProducts;
         List<Category> categories;
 
         if (slug != null) {
-            // Nếu có slug, lọc sản phẩm theo danh mục
-            ArrayList<Integer> categoryIdList = new ArrayList<>();
+            // Nếu có slug, lấy danh mục cha
             Category parentCategory = categoryRepository.findBySlug(slug)
                     .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND, "slug"));
-            categoryIdList.add(parentCategory.getId());
+
+            // Lấy danh sách danh mục con
             List<Category> subCategories = categoryRepository.findByParentId(parentCategory.getId())
-                    .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND, "categoryId"));
-            for (Category item : subCategories) {
-                categoryIdList.add(item.getId());
-            }
-            // Lọc sản phẩm theo danh mục và khoảng giá
+                    .orElse(new ArrayList<>()); // Nếu không có danh mục con, trả về danh sách rỗng
+
+            List<Integer> categoryIdList = new ArrayList<>();
+            categoryIdList.add(parentCategory.getId());
+            subCategories.forEach(cat -> categoryIdList.add(cat.getId()));
+
+            // Truy vấn sản phẩm theo danh mục và khoảng giá
             pagedProducts = productRepository.findByCategoryIdInAndPriceBetween(categoryIdList, minPrice, maxPrice, pageable);
             categories = subCategories;
         } else {
-            // Nếu không có slug, lọc sản phẩm theo khoảng giá
+            // Nếu không có slug, chỉ lọc theo khoảng giá
             pagedProducts = productRepository.findByPriceBetween(minPrice, maxPrice, pageable);
             categories = categoryRepository.findAll();
         }
 
-        // Sắp xếp danh sách sản phẩm (nếu có yêu cầu sắp xếp)
-        if (sortBy != null && direction != null) {
-            List<Product> sortedProducts = new ArrayList<>(pagedProducts.getContent());
-            Comparator<Product> comparator = getProductComparator(sortBy, direction);
-            if (comparator != null) {
-                sortedProducts.sort(comparator);
-            }
-            pagedProducts = new PageImpl<>(sortedProducts, pageable, pagedProducts.getTotalElements());
-        }
-
-        ProductWithCategoryResponse response = productWithCategoryMapper.toProductWithCategoryAndPaginateResponse(pagedProducts, categories, DEFAULT_PAGE_SIZE);
+        // Tạo response
+        ProductWithCategoryResponse response = productWithCategoryMapper
+                .toProductWithCategoryAndPaginateResponse(pagedProducts, categories, DEFAULT_PAGE_SIZE);
 
         return ApiResponse.<ProductWithCategoryResponse>builder()
                 .code(HttpStatus.OK.value())
@@ -143,27 +147,5 @@ public class ProductWithCategoryService {
                 .build();
     }
 
-    // Phương thức hỗ trợ tạo Comparator dựa trên sortBy và direction
-    private Comparator<Product> getProductComparator(String sortBy, String direction) {
-        Comparator<Product> comparator = null;
-        switch (sortBy.toLowerCase()) {
-            case "id":
-                comparator = Comparator.comparing(Product::getId);
-                break;
-            case "title":
-                comparator = Comparator.comparing(Product::getTitle);
-                break;
-            case "price":
-                comparator = Comparator.comparing(Product::getPrice);
-                break;
-            default:
-                break;
-        }
 
-        if (comparator != null && direction.equalsIgnoreCase("desc")) {
-            comparator = comparator.reversed(); // Đảo ngược hướng sắp xếp
-        }
-
-        return comparator;
-    }
 }

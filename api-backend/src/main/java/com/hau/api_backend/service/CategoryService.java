@@ -4,7 +4,6 @@ package com.hau.api_backend.service;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.CategoryResponse;
 import com.hau.api_backend.entity.Category;
-import com.hau.api_backend.entity.Product;
 import com.hau.api_backend.exception.AppException;
 import com.hau.api_backend.exception.ErrorCode;
 import com.hau.api_backend.exception.SuccessMessage;
@@ -13,6 +12,8 @@ import com.hau.api_backend.repository.CategoryRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +28,9 @@ public class CategoryService {
     CategoryRepository categoryRepository;
     CategoryMapper categoryMapper;
 
-    String imageBasePath = "userfiles/images";
-    String appBaseUrl = "http://127.0.0.1:8000";
+    @NonFinal
+    @Value("${app.base-url}")
+    String appBaseUrl;
 
     public ApiResponse<List<CategoryResponse>> getAllCategory() {
         List<Category> categories = categoryRepository.findAll();
@@ -37,7 +39,7 @@ public class CategoryService {
                 .map(category -> {
                     CategoryResponse response = categoryMapper.toCategoryResponse(category);
                     if(response.getThumbnail() != null) {
-                        response.setThumbnail(appBaseUrl + "/" + imageBasePath + "/" + response.getThumbnail());
+                        response.setThumbnail(appBaseUrl + response.getThumbnail());
                     }
 
                     return response;
@@ -60,7 +62,7 @@ public class CategoryService {
                 .map(category -> {
                     CategoryResponse response = categoryMapper.toCategoryResponse(category);
                     if(response.getThumbnail() != null) {
-                        response.setThumbnail(appBaseUrl + "/" + imageBasePath + "/" + response.getThumbnail());
+                        response.setThumbnail(appBaseUrl + response.getThumbnail());
                     }
 
                     return response;
@@ -87,7 +89,7 @@ public class CategoryService {
                 .map(category -> {
                     CategoryResponse response = categoryMapper.toCategoryResponse(category);
                     if(response.getThumbnail() != null) {
-                        response.setThumbnail(appBaseUrl + "/" + imageBasePath + "/" + response.getThumbnail());
+                        response.setThumbnail(appBaseUrl + response.getThumbnail());
                     }
 
                     return response;

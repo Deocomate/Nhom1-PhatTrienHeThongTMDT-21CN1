@@ -31,6 +31,7 @@ public class SecurityConfig {
             "/api/products/{productId}/images",
             "/api/products/{id}",
             "/api/comments",
+            "/api/blog_category",
             "/api/comments/product/{id}",
             "/api/vnpay/vnpay_return",
             "/api/products/slug/{slug}",

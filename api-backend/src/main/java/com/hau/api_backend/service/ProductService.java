@@ -12,6 +12,8 @@ import com.hau.api_backend.repository.ProductRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -26,21 +28,16 @@ public class ProductService {
     ProductRepository productRepository;
     ProductMapper productMapper;
 
-    String imageBasePath = "userfiles/images";
-    String appBaseUrl = "http://127.0.0.1:8000";
+    @NonFinal
+    @Value("${app.base-url}")
+    String appBaseUrl;
 
     public ApiResponse<List<ProductResponse>> getAllProduct() {
         List<Product> products = productRepository.findAll();
         List<ProductResponse> productResponses = products.stream()
                 .map(product -> {
                     ProductResponse response = productMapper.toProductResponse(product);
-                    if (response.getThumbnail() != null) {
-                        response.setThumbnail(appBaseUrl + "/" + imageBasePath + "/" + response.getThumbnail());
-                    } // Tạo URL đầy đủ cho thumbnail
-                    List<ProductImageResponse> images = response.getProductImagesResponses();
-                    if (images != null) {
-                        images.forEach(image -> image.setUrl(appBaseUrl + "/" + imageBasePath + "/" + image.getUrl())); // Tạo URL đầy đủ cho ảnh
-                    }
+                    checkThumbnail(response);
                     return response;
                 })
                 .collect(Collectors.toList());
@@ -53,16 +50,20 @@ public class ProductService {
                 .build();
     }
 
+    private void checkThumbnail(ProductResponse response) {
+        if (response.getThumbnail() != null) {
+            response.setThumbnail(appBaseUrl + response.getThumbnail());
+        } // Tạo URL đầy đủ cho thumbnail
+        List<ProductImageResponse> images = response.getProductImagesResponses();
+        if (images != null) {
+            images.forEach(image -> image.setUrl(appBaseUrl + image.getUrl())); // Tạo URL đầy đủ cho ảnh
+        }
+    }
+
     public ApiResponse<ProductResponse> getProductById(int id) {
         Product product = findProductById(id);
         ProductResponse productResponse = productMapper.toProductWithCommentResponse(product);
-        if (productResponse.getThumbnail() != null) {
-            productResponse.setThumbnail(appBaseUrl + "/" + imageBasePath + "/" + productResponse.getThumbnail());
-        } // Tạo URL đầy đủ cho thumbnail
-        List<ProductImageResponse> images = productResponse.getProductImagesResponses();
-        if (images != null) {
-            images.forEach(image -> image.setUrl(appBaseUrl + "/" + imageBasePath + "/" + image.getUrl())); // Tạo URL đầy đủ cho ảnh
-        }
+        checkThumbnail(productResponse);
         return ApiResponse.<ProductResponse>builder()
                 .code(HttpStatus.OK.value())
                 .message(SuccessMessage.GET_PRODUCT_BY_ID.getMessage())

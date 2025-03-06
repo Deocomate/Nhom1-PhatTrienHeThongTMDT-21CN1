@@ -6,9 +6,10 @@ spring:
     url: "jdbc:mysql://localhost:3307/db_tmdt_dev"
     username: root
     password: 123456789
+  #    password: root
   jpa:
-#    hibernate:
-#      ddl-auto: update
+    #    hibernate:
+    #      ddl-auto: update
     show-sql: true
   mail:
     host: smtp.gmail.com
@@ -21,6 +22,9 @@ spring:
           auth: true
           starttls:
             enable: true
+
+app:
+  base-url: "http://127.0.0.1:8000"
 
 jwt:
   signerKey: "AwpJB9BWN0oaxL8ePNzR+0O8Y8QtdwJnghwSxm3nAoZTilvw8IHhjHy/WJiiiX0L"
