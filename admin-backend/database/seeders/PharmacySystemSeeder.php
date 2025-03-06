@@ -436,6 +436,7 @@ class PharmacySystemSeeder extends Seeder
             $data[] = [
                 'product_id' => $productId,
                 'customer_id' => $customerId,
+                'quantity' => random_int(1, 10),
             ];
         }
 
