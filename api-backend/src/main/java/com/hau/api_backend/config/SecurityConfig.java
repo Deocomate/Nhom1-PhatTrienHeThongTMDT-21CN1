@@ -30,7 +30,14 @@ public class SecurityConfig {
 
     };
 
-    private final String[] PUBLIC_GET_ENDPOINTS = {"/api/products", "/api/products/{productId}/thumbnail", "/api/products/{productId}/images", "/api/products/{id}", "/api/comments", "/api/blog_category", "/api/comments/product/{id}", "/api/vnpay/vnpay_return", "/api/products/slug/{slug}", "/api/pagination/products", "/api/pagination/orders", "/api/pagination/comments", "/api/categories", "/api/categories/parent", "/api/categories/slug/{parentSlug}", "/api/categories/productWithCategory", "/api/categories/productWithCategory/{categorySlug}",
+    private final String[] PUBLIC_GET_ENDPOINTS = {"/api/products", "/api/products/{productId}/thumbnail", "/api/products/{productId}/images", "/api/products/{id}",
+            "/api/comments", "/api/blog_category", "/api/comments/product/{id}", "/api/vnpay/vnpay_return",
+            "/api/products/slug/{slug}", "/api/pagination/products", "/api/pagination/orders",
+            "/api/pagination/comments", "/api/categories", "/api/categories/parent",
+            "/api/categories/slug/{parentSlug}", "/api/categories/productWithCategory",
+            "/api/categories/productWithCategory/{categorySlug}", "/api/pagination/categories",
+            "/api/{slug}",
+            "/api/products/getAllProductByCategoryId/{categoryId}",
 
 
     };

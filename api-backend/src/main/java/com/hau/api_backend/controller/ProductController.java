@@ -3,14 +3,16 @@ package com.hau.api_backend.controller;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.ProductImageResponse;
 import com.hau.api_backend.dto.response.ProductResponse;
+import com.hau.api_backend.entity.Product;
+import com.hau.api_backend.repository.ProductRepository;
 import com.hau.api_backend.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
-
+    private final ProductRepository productRepository;
     @GetMapping
     public ResponseEntity<ApiResponse<List<ProductResponse>>> getAllProduct() {
         ApiResponse<List<ProductResponse>> apiResponse = productService.getAllProduct();
@@ -38,6 +40,15 @@ public class ProductController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    @GetMapping("/getAllProductByCategoryId/{categoryId}")
+    public Page<Product> getProductsByCategory(
+            @PathVariable int categoryId,
+            @RequestParam(defaultValue = "0") int pageIndex,
+            @RequestParam(defaultValue = "10") int pageSize) {
+
+        Pageable pageable = PageRequest.of(pageIndex, pageSize);
+        return productRepository.findByCategoryId(categoryId, pageable);
+    }
 //    @GetMapping("/{id}/images")
 //    public ResponseEntity<ApiResponse<List<ProductImageResponse>>> getProductImages(@PathVariable int id) {
 //        ApiResponse<List<ProductImageResponse>> apiResponse = productService.getProductImages(id);

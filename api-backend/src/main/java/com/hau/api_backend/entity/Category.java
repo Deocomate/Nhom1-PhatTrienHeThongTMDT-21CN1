@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -21,7 +22,6 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-
     String name;
     String thumbnail;
     String slug;
@@ -31,5 +31,7 @@ public class Category {
     LocalDateTime createdAt;
     @CreationTimestamp
     LocalDateTime updatedAt;
+    @OneToMany(mappedBy = "categoryId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    List<Product> products;
 
 }

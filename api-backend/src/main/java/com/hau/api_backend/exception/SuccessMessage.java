@@ -38,7 +38,7 @@ public enum SuccessMessage {
     GET_ALL_PRODUCT_WITH_CATEGORY_SLUG("Lấy tất cả sản phẩm với slug danh mục thành công"),
     GET_ALL_BLOG_CATEGORIES("Lấy tất cả danh mục blog thành công"),
     GET_BLOG_BY_SLUG("Lấy bài viết theo slug thành công"),
-    ;
+    GET_CATEGORY_BY_SlUG("Lấy danh mục theo slug thành công");
 
     private final String message;
 

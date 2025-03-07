@@ -29,4 +29,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             @Param("minPrice") Integer minPrice,
             @Param("maxPrice") Integer maxPrice,
             Pageable pageable);
+
+    Page<Product> findByCategoryId(int categoryId, Pageable pageable);
+
 }

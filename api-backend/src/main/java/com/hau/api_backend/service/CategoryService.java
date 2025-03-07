@@ -87,7 +87,7 @@ public class CategoryService {
 
         List<CategoryResponse> categoryResponses = categories.stream()
                 .map(category -> {
-                    CategoryResponse response = categoryMapper.toCategoryResponse(category);
+                    CategoryResponse response = categoryMapper.toCategoryWithProductResponse(category);
                     if(response.getThumbnail() != null) {
                         response.setThumbnail(appBaseUrl + response.getThumbnail());
                     }
@@ -104,6 +104,20 @@ public class CategoryService {
                 .build();
     }
 
+    public ApiResponse<CategoryResponse> getCategoryBySlug(String slug) {
+        Category categories = categoryRepository.findBySlug(slug)
+                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND, "slug"));
+
+        CategoryResponse categoryResponses = categoryMapper.toCategoryResponse(categories);
+
+        return ApiResponse.<CategoryResponse>builder()
+                .code(HttpStatus.OK.value())
+                .message(SuccessMessage.GET_CATEGORY_BY_SlUG.getMessage())
+                .data(categoryResponses)
+                .timestamp(LocalDateTime.now())
+                .build();
+
+    }
 
 
 }
