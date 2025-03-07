@@ -2,7 +2,6 @@
 import BreadCrumbDefault from "@/components/breadcrumbs/BreadCrumbDefault";
 import apiService from "@/lib/api/apiService";
 import React, {Fragment, useEffect, useState} from "react";
-import ProductListNoGrid from "./ProductListNoGrid";
 import ProductListGrid from "./ProductListGrid";
 import BannerWidget from "./product_detail/BannerWidget";
 import ProductTypeWidget from "./ProductTypeWidget";
@@ -10,25 +9,85 @@ import TopRatedProducts from "./product_detail/TopRatedProducts";
 import {router} from "next/client";
 import Link from "next/link";
 
+// (Pagination)
+function Pagination({currentPage, totalPages, onPageChange}) {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+    }
+    return (<div className="ltn__pagination-area text-center">
+        <div className="ltn__pagination">
+            <ul>
+                {currentPage > 1 && (<li>
+                    <a
+                        href="#"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            onPageChange(currentPage - 1);
+                        }}
+                    >
+                        <i className="fas fa-angle-double-left"/>
+                    </a>
+                </li>)}
+                {currentPage > 1 && (<li>
+                    <a
+                        href="#"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            onPageChange(currentPage - 1);
+                        }}
+                    >
+                        {currentPage - 1}
+                    </a>
+                </li>)}
+                <li className="active">
+                    <a href="#">{currentPage}</a>
+                </li>
+                {currentPage < totalPages && (<li>
+                    <a
+                        href="#"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            onPageChange(currentPage + 1);
+                        }}
+                    >
+                        {currentPage + 1}
+                    </a>
+                </li>)}
+                {currentPage < totalPages && (<li>
+                    <a
+                        href="#"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            onPageChange(currentPage + 1);
+                        }}
+                    >
+                        <i className="fas fa-angle-double-right"/>
+                    </a>
+                </li>)}
+            </ul>
+        </div>
+    </div>);
+}
+
 export default function ProductListPage() {
     let [products, setProducts] = useState([]);
-    let [pageIndex, setPageIndex] = useState(1);
+    let [pageIndex, setPageIndex] = useState(0); // Start from page 0 as API expects
     let [pageTotal, setPageTotal] = useState(0);
     let [pageSize, setPageSize] = useState(0);
     let [totalElements, setTotalElements] = useState(0);
     let [categoryParentId, setCategoryParentId] = useState(null);
     let [categories, setCategories] = useState([]);
 
-
-    async function fetchProduct(pageIndex = 1) {
+    async function fetchProduct(pageIndex = 0) {
         try {
-            let response = await apiService.get(`/pagination/products?page=${pageIndex - 1}`);
+            let response = await apiService.get(`/pagination/products?pageIndex=${pageIndex}&pageSize=9`);
             if (response) {
                 let productsResponse = response.content;
                 setProducts(productsResponse);
-                setPageSize(response.pageable.pageSize);
+                setPageSize(response.size);
                 setPageTotal(response.totalPages);
-                setPageIndex(response.number + 1);
+                setPageIndex(response.number + 1); // Display page numbers starting from 1
                 setTotalElements(response.totalElements);
             } else {
                 console.error("Failed to fetch products");
@@ -37,6 +96,10 @@ export default function ProductListPage() {
             console.error("Error fetching products:", error);
         }
     }
+
+    const handlePageChange = (newPage) => {
+        fetchProduct(newPage - 1).then();  // API expects page index starting from 0
+    };
 
     const fetchCategories = async (parentId = null) => {
         if (parentId == null) {
@@ -54,7 +117,7 @@ export default function ProductListPage() {
     }
 
     useEffect(() => {
-        fetchProduct(1).then()
+        fetchProduct(0).then() // Load initial page (page 0 for API)
         fetchCategories(categoryParentId).then()
     }, []);
 
@@ -76,15 +139,10 @@ export default function ProductListPage() {
                                 <li>
                                     <div className="ltn__grid-list-tab-menu ">
                                         <div className="nav">
-                                            <a
-                                                className="active show"
-                                                data-bs-toggle="tab"
-                                                href="#liton_product_grid"
-                                            >
+                                            <a className="active show"
+                                               data-bs-toggle="tab"
+                                               href="#liton_product_grid">
                                                 <i className="fas fa-th-large"/>
-                                            </a>
-                                            <a data-bs-toggle="tab" href="#liton_product_list">
-                                                <i className="fas fa-list"/>
                                             </a>
                                         </div>
                                     </div>
@@ -113,61 +171,12 @@ export default function ProductListPage() {
                         </div>
                         <div className="tab-content">
                             <ProductListGrid products={products}></ProductListGrid>
-                            <ProductListNoGrid products={products}></ProductListNoGrid>
                         </div>
-                        <div className="ltn__pagination-area text-center">
-                            <div className="ltn__pagination">
-                                <ul>
-                                    {pageIndex > 1 ? (<li>
-                                        <a
-                                            href="#"
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                fetchProduct(pageIndex - 1);
-                                            }}
-                                        >
-                                            <i className="fas fa-angle-double-left"/>
-                                        </a>
-                                    </li>) : ("")}
-                                    {pageIndex > 1 ? (<li>
-                                        <a
-                                            href="#"
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                fetchProduct(pageIndex - 1);
-                                            }}
-                                        >
-                                            {pageIndex - 1}
-                                        </a>
-                                    </li>) : ("")}
-                                    <li className="active">
-                                        <a href="#">{pageIndex}</a>
-                                    </li>
-                                    {pageIndex < pageTotal ? (<li>
-                                        <a
-                                            href="#"
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                fetchProduct(pageIndex + 1);
-                                            }}
-                                        >
-                                            {pageIndex + 1}
-                                        </a>
-                                    </li>) : ("")}
-                                    {pageIndex < pageTotal ? (<li>
-                                        <a
-                                            href="#"
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                fetchProduct(pageIndex + 1);
-                                            }}
-                                        >
-                                            <i className="fas fa-angle-double-right"/>
-                                        </a>
-                                    </li>) : ("")}
-                                </ul>
-                            </div>
-                        </div>
+                        <Pagination
+                            currentPage={pageIndex}
+                            totalPages={pageTotal}
+                            onPageChange={handlePageChange}
+                        />
                     </div>
                     <div className="col-lg-4">
                         <aside className="sidebar ltn__shop-sidebar ltn__right-sidebar">
@@ -188,99 +197,27 @@ export default function ProductListPage() {
                                         </Fragment>))}
                                 </ul>
                             </div>
-                            {/* Top Rated Product Widget */}
-                            <TopRatedProducts></TopRatedProducts>
+                            {/*<TopRatedProducts></TopRatedProducts>*/}
                             {/* Search Widget */}
                             <div className="widget ltn__search-widget">
                                 <h4 className="ltn__widget-title ltn__widget-title-border">
-                                    Search Objects
+                                    Tìm kiếm sản phẩm
                                 </h4>
                                 <form action="#">
                                     <input
                                         type="text"
                                         name="search"
-                                        placeholder="Search your keyword..."
+                                        placeholder="Tìm kiếm theo từ khoá..."
                                     />
                                     <button type="submit">
                                         <i className="fas fa-search"/>
                                     </button>
                                 </form>
                             </div>
-                            {/* Tagcloud Widget */}
-                            <div className="widget ltn__tagcloud-widget">
-                                <h4 className="ltn__widget-title ltn__widget-title-border">
-                                    Popular Tags
-                                </h4>
-                                <ul>
-                                    <li>
-                                        <a href="#">Body</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Doctor</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Drugs</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Eye</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Face</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Hand</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Mask</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Medicine</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Price</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Sanitizer</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Virus</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            {/* Type Widget */}
-                            <ProductTypeWidget></ProductTypeWidget>
-                            {/* Banner Widget */}
-                            <BannerWidget></BannerWidget>
                         </aside>
                     </div>
                 </div>
             </div>
         </div>
-        {/* PRODUCT DETAILS AREA END */}
-        {/* CALL TO ACTION START (call-to-action-6) */}
-        <div className="ltn__call-to-action-area call-to-action-6 before-bg-bottom"
-             data-bs-bg="/assets/img/1.jpg--">
-            <div className="container">
-                <div className="row">
-                    <div className="col-lg-12">
-                        <div
-                            className="call-to-action-inner call-to-action-inner-6 ltn__secondary-bg position-relative text-center---">
-                            <div className="coll-to-info text-color-white">
-                                <h1>
-                                    Buy medical disposable face mask <br/> to protect your
-                                    loved ones
-                                </h1>
-                            </div>
-                            <div className="btn-wrapper">
-                                <a className="btn btn-effect-3 btn-white" href="shop.html">
-                                    Explore Products <i className="icon-next"/>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {/* CALL TO ACTION END */}
     </>);
 }
