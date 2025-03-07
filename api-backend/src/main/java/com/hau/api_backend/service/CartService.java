@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,48 +31,73 @@ public class CartService {
 
     public ApiResponse<List<CartResponse>> getCartByCustomerId(int customerId) {
         List<Cart> carts = cartRepository.findByCustomerId(customerId);
-        List<CartResponse> cartResponseDtos = new ArrayList<>();
 
-        for (Cart cart : carts) {
-            Product product = productRepository.findById(cart.getProductId())
-                    .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND, "productId"));
-            CartResponse cartResponseDto = cartMapper.toCartResponseDto(product, cart);
-            cartResponseDtos.add(cartResponseDto);
-        }
+        // Lấy danh sách productIds từ carts
+        List<Integer> productIds = carts.stream()
+                .map(Cart::getProductId)
+                .collect(Collectors.toList());
+
+        // Lấy thông tin tất cả sản phẩm bằng một truy vấn duy nhất
+        Map<Integer, Product> productMap = productRepository.findAllById(productIds)
+                .stream()
+                .collect(Collectors.toMap(Product::getId, p -> p));
+
+        List<CartResponse> cartResponseList = carts.stream()
+                .map(cart -> {
+                    Product product = productMap.get(cart.getProductId());
+                    if (product == null) {
+                        throw new AppException(ErrorCode.PRODUCT_NOT_FOUND, "productId");
+                    }
+                    return cartMapper.toCartResponseDto(product, cart);
+                })
+                .collect(Collectors.toList());
 
         return ApiResponse.<List<CartResponse>>builder()
                 .code(HttpStatus.OK.value())
                 .message("Get cart by customer ID successfully")
-                .data(cartResponseDtos)
+                .data(cartResponseList)
                 .timestamp(LocalDateTime.now())
                 .build();
     }
 
     @Transactional
-    public ApiResponse<Void> updateCartByCustomerId(CartRequest cartRequest) {
+    public ApiResponse<List<CartResponse>> updateCartByCustomerId(CartRequest cartRequest) {
         int customerId = cartRequest.getCustomerId();
 
         // Xóa giỏ hàng cũ của customer
         cartRepository.deleteByCustomerId(customerId);
 
-        // Thêm sản phẩm mới vào giỏ hàng
-        List<CartRequest.CartDetailDto> cartDetails = cartRequest.getCartDetails();
-        if (cartDetails != null) { // Thêm kiểm tra null cho cartDetails
-            for (CartRequest.CartDetailDto cartDetail : cartDetails) {
-                Product product = productRepository.findById(cartDetail.getProductId())
+        List<CartResponse> cartResponseList = new ArrayList<>();
+
+        List<CartRequest.CartDetail> cartDetails = cartRequest.getCartDetails();
+        if (cartDetails != null) {
+            for (CartRequest.CartDetail cartDetail : cartDetails) {
+                int productId = cartDetail.getProductId();
+                int quantity = cartDetail.getQuantity();
+
+                Product product = productRepository.findById(productId)
                         .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND, "productId"));
+
+                // Kiểm tra số lượng
+                if (quantity > product.getQuantity()) {
+                    throw new AppException(ErrorCode.INSUFFICIENT_QUANTITY, "quantity");
+                }
 
                 Cart cart = new Cart();
                 cart.setCustomerId(customerId);
-                cart.setProductId(cartDetail.getProductId());
-                cart.setQuantity(cartDetail.getQuantity());
+                cart.setProductId(productId);
+                cart.setQuantity(quantity);
                 cartRepository.save(cart);
+
+                CartResponse cartResponseDto = cartMapper.toCartResponseDto(product, cart);
+                cartResponseList.add(cartResponseDto);
             }
         }
 
-        return ApiResponse.<Void>builder()
+        return ApiResponse.<List<CartResponse>>builder()
                 .code(HttpStatus.OK.value())
                 .message("Update cart by customer ID successfully")
+                .data(cartResponseList)
                 .timestamp(LocalDateTime.now())
                 .build();
     }

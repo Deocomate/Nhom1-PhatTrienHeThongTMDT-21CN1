@@ -24,8 +24,8 @@ public class CartController {
     }
 
     @PostMapping("/updateCartByCustomerId")
-    public ResponseEntity<ApiResponse<Void>> updateCartByCustomerId(@RequestBody CartRequest cartRequest) {
-        ApiResponse<Void> response = cartService.updateCartByCustomerId(cartRequest);
+    public ResponseEntity<ApiResponse<List<CartResponse>>> updateCartByCustomerId(@RequestBody CartRequest cartRequest) {
+        ApiResponse<List<CartResponse>> response = cartService.updateCartByCustomerId(cartRequest);
         return ResponseEntity.ok(response);
     }
 }

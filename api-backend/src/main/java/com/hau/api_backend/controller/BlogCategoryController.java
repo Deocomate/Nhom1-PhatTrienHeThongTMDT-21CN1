@@ -2,7 +2,6 @@ package com.hau.api_backend.controller;
 
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.BlogCategoryResponse;
-import com.hau.api_backend.dto.response.ProductResponse;
 import com.hau.api_backend.service.BlogCategoryService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,7 @@ public class BlogCategoryController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/slug/{slug:[a-zA-Z0-9-]+}")
+    @GetMapping("/getBlogCategoryBySlug/{slug:[a-zA-Z0-9-]+}")
     public ResponseEntity<ApiResponse<BlogCategoryResponse>> getBlogCategoryBySlug(@PathVariable String slug) {
         ApiResponse<BlogCategoryResponse> apiResponse = blogCategoryService.getBlogCategoryBySlug(slug);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
