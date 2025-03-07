@@ -5,6 +5,7 @@ import com.hau.api_backend.dto.response.ProductImageResponse;
 import com.hau.api_backend.dto.response.ProductResponse;
 import com.hau.api_backend.entity.Product;
 import com.hau.api_backend.repository.ProductRepository;
+import com.hau.api_backend.service.BasePaginationService;
 import com.hau.api_backend.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,10 +23,12 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
     private final ProductRepository productRepository;
+    private final BasePaginationService<Product> productPaginationService;
+
+
     @GetMapping
-    public ResponseEntity<ApiResponse<List<ProductResponse>>> getAllProduct() {
-        ApiResponse<List<ProductResponse>> apiResponse = productService.getAllProduct();
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    public Page<Product> getProductsByPaginate(@RequestParam(defaultValue = "0") int pageIndex, @RequestParam(defaultValue = "10") int pageSize) {
+        return productPaginationService.getPagedData(productRepository, pageIndex, pageSize);
     }
 
     @GetMapping("/{id}")
