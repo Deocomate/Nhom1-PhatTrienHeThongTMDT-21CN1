@@ -9,10 +9,12 @@ import com.hau.api_backend.service.OrderService;
 import com.hau.api_backend.service.PaymentService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 
 @RestController
@@ -50,8 +52,21 @@ public class PaymentController {
     }
 
     @GetMapping("/vnpay_return")
-    public ResponseEntity<ApiResponse<String>> vnPayReturn(HttpServletRequest request) {
-        // Gọi service, và trả về kết quả từ service
-        return new ResponseEntity<>(paymentService.processVnPayReturn(request), HttpStatus.OK);
+    public ResponseEntity<?> vnPayReturn(HttpServletRequest request) { // Trả về ResponseEntity<?>
+        ApiResponse<String> apiResponse = paymentService.processVnPayReturn(request);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("http://localhost:3000")); // Set URL chuyển hướng
+
+        if (apiResponse.getCode() == HttpStatus.OK.value()) {
+            // Thanh toán thành công - Chuyển hướng về trang chủ
+            return new ResponseEntity<>(headers, HttpStatus.FOUND); // 302 FOUND
+        } else {
+            // Thanh toán thất bại - Cũng chuyển hướng, hoặc bạn có thể tạo trang lỗi riêng
+            // Trong ví dụ này, chúng ta vẫn chuyển hướng về trang chủ
+            // Bạn CÓ THỂ trả về một trang lỗi HTML ở đây nếu muốn, nhưng hiện tại ta cứ redirect
+
+            return new ResponseEntity<>(headers, HttpStatus.FOUND);
+        }
     }
 }

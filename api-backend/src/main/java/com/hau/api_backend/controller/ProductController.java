@@ -1,7 +1,6 @@
 package com.hau.api_backend.controller;
 
 import com.hau.api_backend.dto.response.ApiResponse;
-import com.hau.api_backend.dto.response.ProductImageResponse;
 import com.hau.api_backend.dto.response.ProductResponse;
 import com.hau.api_backend.entity.Product;
 import com.hau.api_backend.repository.ProductRepository;
@@ -14,8 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
