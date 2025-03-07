@@ -45,18 +45,19 @@ public class CategoryController {
 
     @GetMapping("/productWithCategory")
     public ResponseEntity<ApiResponse<ProductWithCategoryResponse>> getProductsWithCategories(
-            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "0") int pageIndex,
+            @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(required = false) String sortBy, // Trường sắp xếp (ví dụ: "id", "name")
             @RequestParam(required = false) String direction,
             @RequestParam(required = false) Integer minPrice,
             @RequestParam(required = false) Integer maxPrice) {
-        return ResponseEntity.ok(productWithCategoryService.getPagedProductsWithCategories(page, sortBy, direction, minPrice, maxPrice));
+        return ResponseEntity.ok(productWithCategoryService.getPagedProductsWithCategories(pageIndex, sortBy, direction, minPrice, maxPrice));
     }
 
     @GetMapping("/productWithCategory/{categorySlug}")
     public ResponseEntity<ApiResponse<ProductWithCategoryResponse>> getProductsWithCategories(
             @PathVariable String categorySlug,
-            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "0") int page,
             @RequestParam(required = false) String sortBy, // Trường sắp xếp (ví dụ: "id", "name")
             @RequestParam(required = false) String direction,
             @RequestParam(required = false) Integer minPrice,

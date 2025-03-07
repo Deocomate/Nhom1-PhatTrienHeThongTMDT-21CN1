@@ -13,7 +13,7 @@ const Page = () => {
         return <div>Loading...</div>; // Hiển thị khi categorySlug chưa có giá trị
     }
 
-    return (<ProductDetailPage id={id}></ProductDetailPage>);
+    return (<CategoryPage slug={id}></CategoryPage>);
 };
 
 export default Page;

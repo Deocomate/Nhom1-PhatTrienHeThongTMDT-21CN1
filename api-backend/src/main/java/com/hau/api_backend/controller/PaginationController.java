@@ -47,6 +47,7 @@ public class PaginationController {
 
     @Autowired
     private ProductWithCategoryService productWithCategoryService;
+
     @Autowired
     private BlogRepository blogRepository;
 
@@ -55,20 +56,21 @@ public class PaginationController {
         return blogPaginationService.getPagedData(blogRepository, page);
     }
 
+
+
     @GetMapping("/products")
-    public Page<Product> getProductsByPaginate(@RequestParam(defaultValue = "1") int page) {
-        return productPaginationService.getPagedData(productRepository, page);
+    public Page<Product> getProductsByPaginate(@RequestParam(defaultValue = "0") int pageIndex, @RequestParam(defaultValue = "1") int pageSize) {
+        return productPaginationService.getPagedData(productRepository, pageIndex, pageSize);
     }
 
     @GetMapping("/comments")
-    public Page<Comment> getCommentsByPaginate(@RequestParam(defaultValue = "1") int page) {
-        return commentPaginationService.getPagedData(commentRepository, page);
+    public Page<Comment> getCommentsByPaginate(@RequestParam(defaultValue = "0") int pageIndex, @RequestParam(defaultValue = "1") int pageSize) {
+        return commentPaginationService.getPagedData(commentRepository, pageIndex, pageSize);
     }
 
     @GetMapping("/orders")
-    public Page<Order> getOrdersByPaginate(@RequestParam(defaultValue = "1") int page) {
-        return orderPaginationService.getPagedData(orderRepository, page);
+    public Page<Order> getOrdersByPaginate(@RequestParam(defaultValue = "0") int pageIndex, @RequestParam(defaultValue = "1") int pageSize) {
+        return orderPaginationService.getPagedData(orderRepository, pageIndex, pageSize);
     }
-
 
 }

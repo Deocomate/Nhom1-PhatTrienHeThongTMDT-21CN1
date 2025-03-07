@@ -1,27 +1,24 @@
 import React from 'react'
 
 export default function MobileMenuUtilize() {
-    return (
-        <>
+    return (<>
             {/* Utilize Mobile Menu Start */}
-            <div
-                id="ltn__utilize-mobile-menu"
-                className="ltn__utilize ltn__utilize-mobile-menu"
-            >
+            <div id="ltn__utilize-mobile-menu"
+                 className="ltn__utilize ltn__utilize-mobile-menu">
                 <div className="ltn__utilize-menu-inner ltn__scrollbar">
                     <div className="ltn__utilize-menu-head">
                         <div className="site-logo">
                             <a href="index.html">
-                                <img src="/assets/img/logo.png" alt="Logo" />
+                                <img src="/assets/img/logo.png" alt="Logo"/>
                             </a>
                         </div>
                         <button className="ltn__utilize-close">×</button>
                     </div>
                     <div className="ltn__utilize-menu-search-form">
                         <form action="#">
-                            <input type="text" placeholder="Search..." />
+                            <input type="text" placeholder="Search..."/>
                             <button>
-                                <i className="fas fa-search" />
+                                <i className="fas fa-search"/>
                             </button>
                         </form>
                     </div>
@@ -197,7 +194,7 @@ export default function MobileMenuUtilize() {
                             <li>
                                 <a href="account.html" title="My Account">
                                     <span className="utilize-btn-icon">
-                                        <i className="far fa-user" />
+                                        <i className="far fa-user"/>
                                     </span>
                                     My Account
                                 </a>
@@ -205,7 +202,7 @@ export default function MobileMenuUtilize() {
                             <li>
                                 <a href="wishlist.html" title="Wishlist">
                                     <span className="utilize-btn-icon">
-                                        <i className="far fa-heart" />
+                                        <i className="far fa-heart"/>
                                         <sup>3</sup>
                                     </span>
                                     Wishlist
@@ -214,7 +211,7 @@ export default function MobileMenuUtilize() {
                             <li>
                                 <a href="cart.html" title="Shoping Cart">
                                     <span className="utilize-btn-icon">
-                                        <i className="fas fa-shopping-cart" />
+                                        <i className="fas fa-shopping-cart"/>
                                         <sup>5</sup>
                                     </span>
                                     Shoping Cart
@@ -226,22 +223,22 @@ export default function MobileMenuUtilize() {
                         <ul>
                             <li>
                                 <a href="#" title="Facebook">
-                                    <i className="fab fa-facebook-f" />
+                                    <i className="fab fa-facebook-f"/>
                                 </a>
                             </li>
                             <li>
                                 <a href="#" title="Twitter">
-                                    <i className="fab fa-twitter" />
+                                    <i className="fab fa-twitter"/>
                                 </a>
                             </li>
                             <li>
                                 <a href="#" title="Linkedin">
-                                    <i className="fab fa-linkedin" />
+                                    <i className="fab fa-linkedin"/>
                                 </a>
                             </li>
                             <li>
                                 <a href="#" title="Instagram">
-                                    <i className="fab fa-instagram" />
+                                    <i className="fab fa-instagram"/>
                                 </a>
                             </li>
                         </ul>
@@ -249,6 +246,5 @@ export default function MobileMenuUtilize() {
                 </div>
             </div>
             {/* Utilize Mobile Menu End */}
-        </>
-    )
+        </>)
 }

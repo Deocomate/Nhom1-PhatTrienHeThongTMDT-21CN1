@@ -1,16 +1,16 @@
-"use client";
-import BreadCrumbDefault from "@/components/breadcrumbs/BreadCrumbDefault";
-import apiService from "@/lib/api/apiService";
+"use client"
 import React, {Fragment, useEffect, useState} from "react";
-import ProductListNoGrid from "./ProductListNoGrid";
-import ProductListGrid from "./ProductListGrid";
-import BannerWidget from "./product_detail/BannerWidget";
-import ProductTypeWidget from "./ProductTypeWidget";
-import TopRatedProducts from "./product_detail/TopRatedProducts";
-import {router} from "next/client";
+import apiService from "@/lib/api/apiService";
+import BreadCrumbDefault from "@/components/breadcrumbs/BreadCrumbDefault";
+import ProductListGrid from "@/pages/product/ProductListGrid";
+import ProductListNoGrid from "@/pages/product/ProductListNoGrid";
 import Link from "next/link";
+import TopRatedProducts from "@/pages/product/product_detail/TopRatedProducts";
+import ProductTypeWidget from "@/pages/product/ProductTypeWidget";
+import BannerWidget from "@/pages/product/product_detail/BannerWidget";
 
-export default function ProductListPage() {
+export const CategoryPage = ({slug}) => {
+
     let [products, setProducts] = useState([]);
     let [pageIndex, setPageIndex] = useState(1);
     let [pageTotal, setPageTotal] = useState(0);
@@ -45,23 +45,22 @@ export default function ProductListPage() {
         }
     }
 
-    const fetchProductByCategoryId = async (parentId = null) => {
-        if (parentId == null) {
-            let response = await apiService.get("categories/productWithCategory");
-            console.log("Categories", response.data.categories)
-            setCategories(response.data.categories);
-        }
+    const fetchProductByCategorySlug = async (slug) => {
+        let response = await apiService.get(`/categories/productWithCategory/${slug}`);
+        console.log(response)
+        console.log("Data", response.data)
+        setProducts(response.data.products);
+        setCategories(response.data.categories);
     }
 
     useEffect(() => {
-        fetchProduct(1).then()
-        fetchCategories(categoryParentId).then()
+        fetchProductByCategorySlug(slug).then()
     }, []);
 
-    useEffect(() => {
-        // fetchProduct(1).then()
-        fetchCategories(categoryParentId).then()
-    }, [categoryParentId]);
+    // useEffect(() => {
+    //     // fetchProduct(1).then()
+    //     // fetchCategories(categoryParentId).then()
+    // }, [categoryParentId]);
 
 
     return (<>
@@ -76,11 +75,9 @@ export default function ProductListPage() {
                                 <li>
                                     <div className="ltn__grid-list-tab-menu ">
                                         <div className="nav">
-                                            <a
-                                                className="active show"
-                                                data-bs-toggle="tab"
-                                                href="#liton_product_grid"
-                                            >
+                                            <a className="active show"
+                                               data-bs-toggle="tab"
+                                               href="#liton_product_grid">
                                                 <i className="fas fa-th-large"/>
                                             </a>
                                             <a data-bs-toggle="tab" href="#liton_product_list">
@@ -119,13 +116,11 @@ export default function ProductListPage() {
                             <div className="ltn__pagination">
                                 <ul>
                                     {pageIndex > 1 ? (<li>
-                                        <a
-                                            href="#"
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                fetchProduct(pageIndex - 1);
-                                            }}
-                                        >
+                                        <a href="#"
+                                           onClick={(e) => {
+                                               e.preventDefault();
+                                               fetchProduct(pageIndex - 1);
+                                           }}>
                                             <i className="fas fa-angle-double-left"/>
                                         </a>
                                     </li>) : ("")}
@@ -177,15 +172,14 @@ export default function ProductListPage() {
                                     Danh mục sản phẩm
                                 </h4>
                                 <ul>
-                                    {categories.filter(cate => cate.parentId == categoryParentId).map((category, index) => (
-                                        <Fragment key={index}>
-                                            <li>
-                                                <Link href={"/category/" + category.slug}>
-                                                    {category.name}
-                                                    <span><i className="fas fa-long-arrow-alt-right"/></span>
-                                                </Link>
-                                            </li>
-                                        </Fragment>))}
+                                    {categories.map((category, index) => (<Fragment key={index}>
+                                        <li>
+                                            <Link href={"/category/" + category.slug}>
+                                                {category.name}
+                                                <span><i className="fas fa-long-arrow-alt-right"/></span>
+                                            </Link>
+                                        </li>
+                                    </Fragment>))}
                                 </ul>
                             </div>
                             {/* Top Rated Product Widget */}
