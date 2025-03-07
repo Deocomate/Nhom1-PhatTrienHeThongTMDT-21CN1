@@ -24,6 +24,8 @@ public class Blog {
     String title;
     String content;
     String thumbnail;
+
+    @Column(name = "blogcategory_id")
     int blogCategoryId;
     String slug;
     int priority;

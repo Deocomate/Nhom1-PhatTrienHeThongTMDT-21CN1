@@ -2,9 +2,11 @@ package com.hau.api_backend.controller;
 
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.ProductWithCategoryResponse;
+import com.hau.api_backend.entity.Blog;
 import com.hau.api_backend.entity.Comment;
 import com.hau.api_backend.entity.Order;
 import com.hau.api_backend.entity.Product;
+import com.hau.api_backend.repository.BlogRepository;
 import com.hau.api_backend.repository.CommentRepository;
 import com.hau.api_backend.repository.OrderRepository;
 import com.hau.api_backend.repository.ProductRepository;
@@ -21,6 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/pagination")
 public class PaginationController {
+
+    @Autowired
+    private BasePaginationService<Blog> blogPaginationService;
 
     @Autowired
     private BasePaginationService<Product> productPaginationService;
@@ -42,6 +47,16 @@ public class PaginationController {
 
     @Autowired
     private ProductWithCategoryService productWithCategoryService;
+
+    @Autowired
+    private BlogRepository blogRepository;
+
+    @GetMapping("/blogs")
+    public Page<Blog> getBlogsByPaginate(@RequestParam(defaultValue = "1") int page) {
+        return blogPaginationService.getPagedData(blogRepository, page);
+    }
+
+
 
     @GetMapping("/products")
     public Page<Product> getProductsByPaginate(@RequestParam(defaultValue = "0") int pageIndex, @RequestParam(defaultValue = "1") int pageSize) {

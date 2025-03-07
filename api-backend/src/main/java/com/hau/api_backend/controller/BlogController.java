@@ -8,10 +8,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/blog")
@@ -20,9 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class BlogController {
     BlogService blogService;
 
-    @GetMapping("/slug/{slug:[a-zA-Z0-9-]+}")
+    @GetMapping("/getBlogBySlug/{slug:[a-zA-Z0-9-]+}")
     public ResponseEntity<ApiResponse<BlogResponse>> getBlogBySlug(@PathVariable String slug) {
         ApiResponse<BlogResponse> apiResponse = blogService.getBlogBySlug(slug);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<BlogResponse>>> getAllBlogs(
+            @RequestParam(defaultValue = "0") int pageIndex, // Số trang mặc định là 0
+            @RequestParam(defaultValue = "10") int pageSize) {    // Lấy 10 sản phẩm đầu
+        ApiResponse<List<BlogResponse>> apiResponse = blogService.getAllBlogs(pageIndex, pageSize);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }

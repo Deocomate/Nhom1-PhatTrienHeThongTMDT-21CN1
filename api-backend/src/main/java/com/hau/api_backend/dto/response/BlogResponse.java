@@ -17,9 +17,10 @@ public class BlogResponse {
     String title;
     String content;
     String thumbnail;
-    int blogCategoryId;
+    BlogCategoryResponse blogCategory;
     String slug;
     int priority;
     LocalDateTime created_at;
     List<Blog> blogs;
+
 }

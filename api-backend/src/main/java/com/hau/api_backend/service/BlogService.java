@@ -3,49 +3,64 @@ package com.hau.api_backend.service;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.BlogResponse;
 import com.hau.api_backend.entity.Blog;
-import com.hau.api_backend.exception.AppException;
-import com.hau.api_backend.exception.ErrorCode;
-import com.hau.api_backend.exception.SuccessMessage;
+import com.hau.api_backend.mapper.BlogCategoryMapper;
+import com.hau.api_backend.repository.BlogCategoryRepository;
 import com.hau.api_backend.mapper.BlogMapper;
 import com.hau.api_backend.repository.BlogRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class BlogService {
 
-    BlogMapper blogMapper;
-    BlogRepository blogRepository;
+    private final BlogRepository blogRepository;
+    private final BlogMapper blogMapper;
+    private final BlogCategoryRepository blogCategoryRepository;
+    private final BlogCategoryMapper blogCategoryMapper;
 
-    @NonFinal
-    @Value("${app.base-url}")
-    String appBaseUrl;
+    public ApiResponse<List<BlogResponse>> getAllBlogs(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Blog> blogPage = blogRepository.findAll(pageable);
 
-    public ApiResponse<BlogResponse> getBlogBySlug(String slug) {
-        Blog blog = blogRepository.findBlogBySlug(slug)
-                .orElseThrow(() -> new AppException(ErrorCode.BLOG_NOT_FOUND, "slug"));
-        BlogResponse blogResponse = blogMapper.toBlogResponse(blog);
+        List<BlogResponse> blogResponses = blogPage.getContent().stream()
+                .map(this::mapBlogWithCategory) // Sử dụng phương thức riêng
+                .collect(Collectors.toList());
 
-        return ApiResponse.<BlogResponse>builder()
+        return ApiResponse.<List<BlogResponse>>builder()
                 .code(HttpStatus.OK.value())
-                .message(SuccessMessage.GET_BLOG_BY_SLUG.getMessage())
-                .data(blogResponse)
+                .message("Lấy danh sách bài viết thành công")
+                .data(blogResponses)
                 .timestamp(LocalDateTime.now())
                 .build();
     }
 
-    private BlogResponse checkThumbnail(BlogResponse response) {
-        if (response.getThumbnail() != null) {
-            response.setThumbnail(appBaseUrl + response.getThumbnail());
-        }
-        return response;
+    public ApiResponse<BlogResponse> getBlogBySlug(String slug) {
+        Blog blog = blogRepository.findBlogBySlug(slug)
+                .orElseThrow(() -> new RuntimeException("Blog not found with slug: " + slug)); // Thay AppException bằng xử lý exception thích hợp
+
+        return ApiResponse.<BlogResponse>builder()
+                .code(HttpStatus.OK.value())
+                .message("Lấy bài viết theo slug thành công")
+                .data(mapBlogWithCategory(blog)) // Sử dụng phương thức riêng
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
+
+    // Phương thức riêng để map Blog và BlogCategory
+    private BlogResponse mapBlogWithCategory(Blog blog) {
+        BlogResponse blogResponse = blogMapper.toBlogResponse(blog);
+        blogResponse.setBlogCategory(blogCategoryRepository.findById(blog.getBlogCategoryId())
+                .map(blogCategoryMapper::toBlogCategoryResponse)
+                .orElse(null));
+        return blogResponse;
     }
 }

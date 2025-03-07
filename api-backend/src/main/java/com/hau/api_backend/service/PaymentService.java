@@ -5,7 +5,6 @@ import com.hau.api_backend.dto.request.PaymentCreationRequest;
 import com.hau.api_backend.dto.request.order.OrderUpdateRequest; // Import OrderUpdateRequest
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.entity.Order;
-import com.hau.api_backend.entity.Order.PaymentStatus;
 import com.hau.api_backend.entity.Payment;
 import com.hau.api_backend.exception.AppException;
 import com.hau.api_backend.exception.ErrorCode;
