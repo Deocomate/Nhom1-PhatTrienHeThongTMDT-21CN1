@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\PharmacySystem;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
@@ -32,15 +33,18 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|max:255',
-            'content' => 'nullable',
+            'title' => 'required|unique:blogs|max:255',
+            'content' => 'required',
             'thumbnail' => 'nullable|max:255',
             'priority' => 'nullable|integer',
             'blogcategory_id' => 'required|exists:blog_categories,id',
         ]);
-
+    
+        // Generate slug from title
+        $validated['slug'] = Str::slug($validated['title']);
+    
         DB::table('blogs')->insert($validated);
-
+    
         return redirect()->route('admin.blog.index')->with('success', 'Blog created successfully!');
     }
 
@@ -71,15 +75,18 @@ class BlogController extends Controller
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
-            'title' => 'required|max:255',
-            'content' => 'nullable',
+            'title' => 'required|unique:blogs,title,' . $id . '|max:255',
+            'content' => 'required',
             'thumbnail' => 'nullable|max:255',
             'priority' => 'nullable|integer',
             'blogcategory_id' => 'required|exists:blog_categories,id',
         ]);
-
+    
+        // Generate slug from title
+        $validated['slug'] = Str::slug($validated['title']);
+    
         DB::table('blogs')->where('id', $id)->update($validated);
-
+    
         return redirect()->route('admin.blog.index')->with('success', 'Blog updated successfully!');
     }
 
