@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 public interface ProductMapper {
 
 
-    @Named("toProductResponse")
     @Mapping(source = "id", target = "id")
     @Mapping(source = "brandId", target = "brandId")
     @Mapping(source = "productImages", target = "productImagesResponses", qualifiedByName = "mapProductImagesToResponses")
