@@ -7,7 +7,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring", uses = {ProductMapper.class})
 public interface CategoryMapper {
+    @Mapping(source = "products", target = "productsResponses", ignore = true)
     CategoryResponse toCategoryResponse(Category category);
+
+    @Mapping(source = "products", target = "productsResponses")
+    CategoryResponse toCategoryWithProductResponse(Category category);
 }

@@ -1,5 +1,6 @@
 package com.hau.api_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,7 @@ public class Comment {
     int customerId;
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JsonIgnore
     Customer customer;
 
     String content;

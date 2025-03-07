@@ -1,5 +1,6 @@
 package com.hau.api_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -43,6 +44,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JsonIgnore
     Category category;
 
     @Column(name = "dosage_form")
@@ -73,5 +75,6 @@ public class Product {
     List<ProductImage> productImages;
 
     @OneToMany(mappedBy = "productId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     List<Comment> comments;
 }

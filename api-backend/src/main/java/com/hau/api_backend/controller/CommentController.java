@@ -3,9 +3,13 @@ package com.hau.api_backend.controller;
 import com.hau.api_backend.dto.request.comment.CommentCreationRequest;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.CommentResponse;
+import com.hau.api_backend.entity.Comment;
+import com.hau.api_backend.repository.CommentRepository;
+import com.hau.api_backend.service.BasePaginationService;
 import com.hau.api_backend.service.CommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +21,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommentController {
     private final CommentService commentService;
+    private final BasePaginationService<Comment> commentPaginationService;
+    private final CommentRepository commentRepository;
+
+//    @GetMapping
+//    public ResponseEntity<ApiResponse<List<CommentResponse>>> getAllComment() {
+//        ApiResponse<List<CommentResponse>> apiResponse = commentService.getAllComment();
+//        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+//    }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<CommentResponse>>> getAllComment() {
-        ApiResponse<List<CommentResponse>> apiResponse = commentService.getAllComment();
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    public Page<Comment> getCommentsByPaginate(@RequestParam(defaultValue = "0") int pageIndex, @RequestParam(defaultValue = "10") int pageSize) {
+        return commentPaginationService.getPagedData(commentRepository, pageIndex, pageSize);
     }
 
     @GetMapping("/product/{productId}")
