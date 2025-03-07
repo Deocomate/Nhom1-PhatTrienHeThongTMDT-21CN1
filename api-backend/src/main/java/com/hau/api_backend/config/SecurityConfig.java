@@ -30,7 +30,13 @@ public class SecurityConfig {
 
     };
 
-    private final String[] PUBLIC_GET_ENDPOINTS = {"/api/products", "/api/products/{productId}/thumbnail", "/api/products/{productId}/images", "/api/products/{id}", "/api/comments", "/api/blog_category", "/api/comments/product/{id}", "/api/vnpay/vnpay_return", "/api/products/slug/{slug}", "/api/pagination/products", "/api/pagination/orders", "/api/pagination/comments", "/api/categories", "/api/categories/parent", "/api/categories/slug/{parentSlug}", "/api/categories/productWithCategory", "/api/categories/productWithCategory/{categorySlug}",
+    private final String[] PUBLIC_GET_ENDPOINTS = {"/api/products", "/api/products/{productId}/thumbnail",
+            "/api/products/{productId}/images",
+            "/api/products/{id}", "/api/comments",
+            "/api/comments/product/{id}", "/api/vnpay/vnpay_return", "/api/products/slug/{slug}",
+            "/api/pagination/products", "/api/pagination/orders", "/api/pagination/comments", "/api/categories",
+            "/api/categories/parent", "/api/categories/slug/{parentSlug}", "/api/categories/productWithCategory",
+            "/api/categories/productWithCategory/{categorySlug}", "/api/blog", "/api/blog/getBlogBySlug/{slug}", "/api/blog_category/getBlogCategoryBySlug/{slug}", "/api/blog_category"
 
 
     };
@@ -48,7 +54,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll().requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll().requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Cho phép OPTIONS requests
+        httpSecurity.authorizeHttpRequests(request -> request
+                .requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
+                .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Cho phép OPTIONS requests
                 .anyRequest().authenticated());
 
         httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(customJwtAuthenticationConverter)));

@@ -7,10 +7,10 @@ import java.util.List;
 @Data
 public class CartRequest {
     private int customerId;
-    private List<CartDetailDto> cartDetails;
+    private List<CartDetail> cartDetails;
 
     @Data
-    public static class CartDetailDto {
+    public static class CartDetail {
         private int productId;
         private int quantity;
     }
