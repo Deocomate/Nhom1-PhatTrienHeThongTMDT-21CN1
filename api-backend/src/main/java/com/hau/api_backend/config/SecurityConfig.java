@@ -24,35 +24,23 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
-
-    private final String[] PUBLIC_POST_ENDPOINTS = {"/api/auth/login", "/api/auth/logout", "/api/auth/introspect", "/api/customers", "/api/orders", "/api/customerCares",
-
+    private final String[] PUBLIC_POST_ENDPOINTS = { "/api/auth/login", "/api/auth/logout", "/api/auth/introspect",
+            "/api/customers", "/api/orders", "/api/customerCares",
 
     };
 
-<<<<<<< HEAD
-    private final String[] PUBLIC_GET_ENDPOINTS = {"/api/products", "/api/products/{productId}/thumbnail",
-            "/api/products/{productId}/images",
-            "/api/products/{id}", "/api/comments",
-            "/api/comments/product/{id}", "/api/vnpay/vnpay_return", "/api/products/slug/{slug}",
-            "/api/pagination/products", "/api/pagination/orders", "/api/pagination/comments", "/api/categories",
-            "/api/categories/parent", "/api/categories/slug/{parentSlug}", "/api/categories/productWithCategory",
-            "/api/categories/productWithCategory/{categorySlug}", "/api/blog", "/api/blog/getBlogBySlug/{slug}", "/api/blog_category/getBlogCategoryBySlug/{slug}", "/api/blog_category"
-
-
-=======
-    private final String[] PUBLIC_GET_ENDPOINTS = {"/api/products", "/api/products/{productId}/thumbnail", "/api/products/{productId}/images", "/api/products/{id}",
+    private final String[] PUBLIC_GET_ENDPOINTS = { "/api/products", "/api/products/{productId}/thumbnail",
+            "/api/products/{productId}/images", "/api/products/{id}",
             "/api/comments", "/api/blog_category", "/api/comments/product/{id}", "/api/vnpay/vnpay_return",
             "/api/products/slug/{slug}",
-             "/api/categories", "/api/categories/parent",
+            "/api/categories", "/api/categories/parent",
             "/api/categories/slug/{parentSlug}", "/api/categories/productWithCategory",
             "/api/categories/productWithCategory/{categorySlug}",
             "/api/categories/{slug}",
             "/api/products/getAllProductByCategoryId/{categoryId}",
->>>>>>> 560dc3bf1878bde5f0a899a5b6b99cfd7de9a900
     };
 
-    private final String[] PUBLIC_DELETE_ENDPOINTS = {""};
+    private final String[] PUBLIC_DELETE_ENDPOINTS = { "" };
 
     @Value("${jwt.signerKey}")
     private String signerKey;
@@ -71,7 +59,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Cho phép OPTIONS requests
                 .anyRequest().authenticated());
 
-        httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(customJwtAuthenticationConverter)));
+        httpSecurity.oauth2ResourceServer(oauth2 -> oauth2
+                .jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(customJwtAuthenticationConverter)));
 
         httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource())); // Enable CORS
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
