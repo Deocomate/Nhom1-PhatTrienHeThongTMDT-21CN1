@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\PharmacySystem;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -31,7 +32,8 @@ class ProductController extends Controller
     {
         $product = null;
         $categories = DB::table('categories')->get();
-        return view('admin.modules.product.createOrEdit', compact('product', 'categories'));
+        $brands = DB::table('brands')->get();  // Fetch brands for the dropdown
+        return view('admin.modules.product.createOrEdit', compact('product', 'categories', 'brands'));
     }
 
     /**
@@ -56,11 +58,27 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'registration_number' => 'required|unique:products|max:255',
         ]);
-
-        $validated["images"] = json_encode($request->images);
-
-        DB::table('products')->insert($validated);
-
+    
+        // Generate slug from title
+        $validated['slug'] = Str::slug($validated['title']);
+    
+        // Remove 'images' from the product data
+        $productData = $validated;
+        unset($productData['images']);
+    
+        // Insert the product
+        $productId = DB::table('products')->insertGetId($productData);
+    
+        // Insert related images
+        foreach ($validated['images'] as $image) {
+            DB::table('product_images')->insert([
+                'product_id' => $productId,
+                'url' => $image,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+    
         return redirect()->route('admin.product.index')->with('success', 'Sản phẩm đã được tạo thành công!');
     }
 
@@ -77,12 +95,27 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        $product = DB::table('products')->where('id', $id)->first();
+        $product = DB::table('products')
+            ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
+            ->select('products.*', 'brands.name as brand_name')
+            ->where('products.id', $id)
+            ->first();
+    
         if (!$product) {
             abort(404);
         }
+    
+        // Ensure images field is decoded if it exists
+        if (isset($product->images)) {
+            $product->images = json_decode($product->images);
+        } else {
+            $product->images = [];
+        }
+    
         $categories = DB::table('categories')->get();
-        return view('admin.modules.product.createOrEdit', compact('product', 'categories'));
+        $brands = DB::table('brands')->get();  // Ensure brands are fetched for the dropdown
+    
+        return view('admin.modules.product.createOrEdit', compact('product', 'categories', 'brands'));
     }
 
     /**
@@ -96,7 +129,7 @@ class ProductController extends Controller
             'brand_id' => 'required|exists:brands,id',
             'type' => 'required|max:255',
             'active_ingredient' => 'required|max:255',
-            'images' => 'required|json',
+            'images' => 'required|array',
             'indications' => 'required',
             'manufacturer' => 'required|max:255',
             'category_id' => 'required|exists:categories,id',
@@ -107,9 +140,25 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'registration_number' => 'required|unique:products,registration_number,' . $id . '|max:255',
         ]);
-
-        DB::table('products')->where('id', $id)->update($validated);
-
+    
+        // Update the product without the images field
+        $productData = $validated;
+        unset($productData['images']);
+        DB::table('products')->where('id', $id)->update($productData);
+    
+        // Delete existing images for the product
+        DB::table('product_images')->where('product_id', $id)->delete();
+    
+        // Insert updated images
+        foreach ($validated['images'] as $image) {
+            DB::table('product_images')->insert([
+                'product_id' => $id,
+                'url' => $image,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+    
         return redirect()->route('admin.product.index')->with('success', 'Sản phẩm đã được cập nhật thành công!');
     }
 
