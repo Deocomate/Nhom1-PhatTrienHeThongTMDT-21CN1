@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\PharmacySystem;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class BrandController extends Controller
 {
@@ -35,13 +36,16 @@ class BrandController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|unique:brands|max:255',
-            'slug' => 'required|unique:brands|max:255',
+            'thumbnail' => 'nullable|max:255',
             'description' => 'nullable|string',
-            'thumbnail' => 'required'
+            'priority' => 'nullable|integer',
         ]);
-
+    
+        // Generate slug from name
+        $validated['slug'] = Str::slug($validated['name']);
+    
         DB::table('brands')->insert($validated);
-
+    
         return redirect()->route('admin.brand.index')->with('success', 'Brand created successfully!');
     }
 
@@ -72,9 +76,9 @@ class BrandController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|unique:brands,name,' . $id . '|max:255',
-            'slug' => 'required|unique:brands,slug,' . $id . '|max:255',
+            'thumbnail' => 'nullable|max:255',
             'description' => 'nullable|string',
-            'thumbnail' => 'required'
+            'priority' => 'nullable|integer',
         ]);
 
         DB::table('brands')->where('id', $id)->update($validated);
