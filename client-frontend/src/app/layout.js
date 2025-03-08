@@ -14,7 +14,7 @@ export default function RootLayout({children}) {
     return (<html lang="vi">
     <body>
     <AuthProvider>
-        <CartProvider> {/* Bọc ứng dụng với CartProvider */}
+        <CartProvider>
             <div className={"body-wrapper"}>
                 <Header></Header>
                 {children}

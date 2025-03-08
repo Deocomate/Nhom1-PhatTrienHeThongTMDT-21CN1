@@ -6,10 +6,12 @@ import React, {createContext, useState, useEffect, useContext} from 'react';
 const CartContext = createContext();
 
 export const CartProvider = ({children}) => {
-    const [cart, setCart] = useState([]);
-
+    let cartDefault = [];
+    if (localStorage.getItem('cart') != null) {
+        cartDefault = JSON.parse(localStorage.getItem('cart'));
+    }
+    const [cart, setCart] = useState(cartDefault);
     useEffect(() => {
-        // Load giỏ hàng từ local storage khi component mount
         const storedCart = localStorage.getItem('cart');
         if (storedCart) {
             setCart(JSON.parse(storedCart));
@@ -17,7 +19,6 @@ export const CartProvider = ({children}) => {
     }, []);
 
     useEffect(() => {
-        // Lưu giỏ hàng vào local storage mỗi khi nó thay đổi
         localStorage.setItem('cart', JSON.stringify(cart));
     }, [cart]);
 

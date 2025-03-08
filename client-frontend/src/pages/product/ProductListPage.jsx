@@ -81,7 +81,7 @@ export default function ProductListPage() {
 
     async function fetchProduct(pageIndex = 0) {
         try {
-            let response = await apiService.get(`/pagination/products?pageIndex=${pageIndex}&pageSize=9`);
+            let response = await apiService.get(`/products?pageIndex=${pageIndex}&pageSize=9`);
             if (response) {
                 let productsResponse = response.content;
                 setProducts(productsResponse);
@@ -103,8 +103,8 @@ export default function ProductListPage() {
 
     const fetchCategories = async (parentId = null) => {
         if (parentId == null) {
-            let response = await apiService.get("categories");
-            setCategories(response.data.categories);
+            let response = await apiService.get("/categories");
+            setCategories(response.content);
         }
     }
 
@@ -150,20 +150,19 @@ export default function ProductListPage() {
                                 <li>
                                     <div className="showing-product-number text-right">
                       <span>
-                        Showing {pageSize * (pageIndex - 1) + 1}–
+                        Hiển thị {pageSize * (pageIndex - 1) + 1}–
                           {Math.min(pageSize * pageIndex, totalElements)} of{" "}
-                          {totalElements} results
+                          {totalElements} kết quả
                       </span>
                                     </div>
                                 </li>
                                 <li>
                                     <div className="short-by text-center">
                                         <select className="nice-select">
-                                            <option>Default Sorting</option>
-                                            <option>Sort by popularity</option>
-                                            <option>Sort by new arrivals</option>
-                                            <option>Sort by price: low to high</option>
-                                            <option>Sort by price: high to low</option>
+                                            <option>Sắp xếp cơ bản</option>
+                                            <option>Độ phổ biến</option>
+                                            <option>Sắp xếp theo giá: Cao đến thấp</option>
+                                            <option>Sắp xếp theo giá: Thấp đến cao</option>
                                         </select>
                                     </div>
                                 </li>

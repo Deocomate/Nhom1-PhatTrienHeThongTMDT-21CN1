@@ -6,9 +6,9 @@ export const MultiLevelSubMenu = () => {
     const [categories, setCategories] = useState([]);
 
     const fetchCategories = async () => {
-        let response = await apiService.get("/categories");
-        if (response.code === 200) {
-            setCategories(response.data.categories);
+        let response = await apiService.get("/categories?pageSize=1000");
+        if (response) {
+            setCategories(response.content);
         }
     }
 
