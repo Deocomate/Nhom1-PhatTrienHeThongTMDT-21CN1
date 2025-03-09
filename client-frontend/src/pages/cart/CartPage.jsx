@@ -46,11 +46,11 @@ export default function CartPage() {
                                     </thead>
                                     <tbody>
                                     {cart.length === 0 ? (<tr>
-                                            <td colSpan="6" className="text-center">
-                                                Giỏ hàng của bạn đang trống. <Link href="/products">Tiếp tục mua
-                                                sắm</Link>
-                                            </td>
-                                        </tr>) : (cart.map((item) => (<tr key={item.id}>
+                                        <td colSpan="6" className="text-center">
+                                            Giỏ hàng của bạn đang trống. <Link href="/products">Tiếp tục mua
+                                            sắm</Link>
+                                        </td>
+                                    </tr>) : (cart.map((item) => (<tr key={item.id}>
                                         <td className="cart-product-remove">
                                             <button onClick={() => handleRemoveFromCart(item.id)}>
                                                 x
@@ -69,57 +69,32 @@ export default function CartPage() {
                                         </td>
                                         <td className="cart-product-price">{formatNumber(item.price)}</td>
                                         <td className="cart-product-quantity">
-                                            <div className="cart-plus-minus">
-                                                <button
-                                                    className="qtybutton"
-                                                    onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
-                                                    disabled={item.quantity <= 1}
-                                                >
-                                                    -
-                                                </button>
-                                                <input
-                                                    type="text"
-                                                    name="qtybutton"
-                                                    value={item.quantity}
-                                                    className="cart-plus-minus-box"
-                                                    onChange={(e) => {
-                                                        const newQuantity = parseInt(e.target.value, 10);
-                                                        if (!isNaN(newQuantity) && newQuantity > 0) {
-                                                            handleQuantityChange(item.id, newQuantity);
-                                                        }
-                                                    }}
-                                                />
-                                                <button
-                                                    className="qtybutton"
-                                                    onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                                                >
-                                                    +
-                                                </button>
-                                            </div>
+                                            <input
+                                                type="number"
+                                                name="qtybutton"
+                                                value={item.quantity}
+                                                className="form-control border-success"
+                                                style={{
+                                                    width: "130px"
+                                                }}
+                                                onChange={(e) => {
+                                                    const newQuantity = parseInt(e.target.value, 10);
+                                                    if (!isNaN(newQuantity) && newQuantity > 0) {
+                                                        handleQuantityChange(item.id, newQuantity);
+                                                    }
+                                                }}
+                                            />
                                         </td>
                                         <td className="cart-product-subtotal">{formatNumber(item.price * item.quantity)}</td>
                                     </tr>)))}
                                     <tr className="cart-coupon-row">
-                                        <td colSpan={6}>
-                                            <div className="cart-coupon">
-                                                <input
-                                                    type="text"
-                                                    name="cart-coupon"
-                                                    placeholder="Mã giảm giá"
-                                                />
-                                                <button
-                                                    type="submit"
-                                                    className="btn theme-btn-2 btn-effect-2"
-                                                >
-                                                    Áp dụng
-                                                </button>
-                                            </div>
-                                        </td>
                                         <td>
                                             <button
-                                                type="submit"
-                                                className="btn theme-btn-2 btn-effect-2-- disabled"
-                                            >
+                                                type="button"
+                                                onClick={() => {
+                                                    console.log("Update cart");
+                                                }}
+                                                className="btn theme-btn-2 btn-effect-2--">
                                                 Cập nhật giỏ hàng
                                             </button>
                                         </td>
@@ -136,14 +111,6 @@ export default function CartPage() {
                                         <td>{formatNumber(cartSubtotal)}</td>
                                     </tr>
                                     <tr>
-                                        <td>Phí vận chuyển</td>
-                                        <td>{formatNumber(shippingCost)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>VAT</td>
-                                        <td>{formatNumber(vat)}</td>
-                                    </tr>
-                                    <tr>
                                         <td>
                                             <strong>Tổng thanh toán</strong>
                                         </td>
@@ -154,10 +121,8 @@ export default function CartPage() {
                                     </tbody>
                                 </table>
                                 <div className="btn-wrapper text-right">
-                                    <Link
-                                        href="/checkout"
-                                        className="theme-btn-1 btn btn-effect-1"
-                                    >
+                                    <Link href="/checkout"
+                                          className="theme-btn-1 btn btn-effect-1">
                                         Thanh toán
                                     </Link>
                                 </div>

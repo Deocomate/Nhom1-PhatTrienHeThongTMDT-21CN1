@@ -3,6 +3,7 @@ import React, {useEffect, useRef, useState} from "react";
 import Link from "next/link";
 import {useCart} from "@/contexts/CartContext";
 import {useAuth} from "@/auth/AuthProvider";
+import {formatNumber} from "@/utils/NumberUltils";
 
 export const QuickViewModal = ({product}) => {
     if (!product) return null;
@@ -74,7 +75,7 @@ export const QuickViewModal = ({product}) => {
                                                 </div>
                                                 <h3>{product.title}</h3>
                                                 <div className="product-price">
-                                                    <span>{product.price}đ</span>
+                                                    <span>{formatNumber(product.price)}</span>
                                                 </div>
                                                 <div className="modal-product-meta ltn__product-details-menu-1">
                                                     <ul>
