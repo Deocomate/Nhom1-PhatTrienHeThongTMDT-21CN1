@@ -8,8 +8,6 @@ export default function HeaderMiddle() {
 
     let {cart, calculateTotal} = useCart()
 
-    console.log(cart)
-
     return (<>
         <div className="ltn__header-middle-area">
             <div className="container">
@@ -57,44 +55,6 @@ export default function HeaderMiddle() {
                         {/* header-options */}
                         <div className="ltn__header-options">
                             <ul>
-                                <li className="d-none">
-                                    {/* ltn__currency-menu */}
-                                    <div className="ltn__drop-menu ltn__currency-menu">
-                                        <ul>
-                                            <li>
-                                                <a href="#" className="dropdown-toggle">
-                                                    <span className="active-currency">USD</span>
-                                                </a>
-                                                <ul>
-                                                    <li>
-                                                        <a href="login.html">USD - US Dollar</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="wishlist.html">CAD - Canada Dollar</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="register.html">EUR - Euro</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="account.html">GBP - British Pound</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="wishlist.html">INR - Indian Rupee</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="wishlist.html">BDT - Bangladesh Taka</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="wishlist.html">JPY - Japan Yen</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="wishlist.html">AUD - Australian Dollar</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
                                 <li className="d-none--- ">
                                     {/* header-search-1 */}
                                     <div className="header-search-wrap d-block d-xl-none">

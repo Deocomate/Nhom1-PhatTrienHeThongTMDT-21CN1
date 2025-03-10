@@ -1,222 +1,72 @@
+// ===== layouts/footer/Footer.jsx =====
 "use client";
-import {useState} from "react";
+import Link from "next/link";
 
 export default function Footer() {
+    return (<footer className="bg-light py-5"> {/* Sử dụng class của Bootstrap */}
+        <div className="container">
+            <div className="row">
 
-    return (<>
-        {/* FOOTER AREA START */}
-        <footer className="ltn__footer-area  ">
-            <div className="footer-top-area  section-bg-2 plr--5">
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-xl-3 col-md-6 col-sm-6 col-12">
-                            <div className="footer-widget footer-about-widget">
-                                <div className="footer-logo">
-                                    <div className="site-logo">
-                                        <img src="/assets/img/logo-2.png" alt="Logo"/>
-                                    </div>
-                                </div>
-                                <p>
-                                    Lorem Ipsum is simply dummy text of the and typesetting
-                                    industry. Lorem Ipsum is dummy text of the printing.
-                                </p>
-                                <div className="footer-address">
-                                    <ul>
-                                        <li>
-                                            <div className="footer-address-icon">
-                                                <i className="icon-placeholder"/>
-                                            </div>
-                                            <div className="footer-address-info">
-                                                <p>Brooklyn, New York, United States</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div className="footer-address-icon">
-                                                <i className="icon-call"/>
-                                            </div>
-                                            <div className="footer-address-info">
-                                                <p>
-                                                    <a href="tel:+0123-456789">+0123-456789</a>
-                                                </p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div className="footer-address-icon">
-                                                <i className="icon-mail"/>
-                                            </div>
-                                            <div className="footer-address-info">
-                                                <p>
-                                                    <a href="mailto:example@example.com">
-                                                        example@example.com
-                                                    </a>
-                                                </p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div className="ltn__social-media mt-20">
-                                    <ul>
-                                        <li>
-                                            <a href="#" title="Facebook">
-                                                <i className="fab fa-facebook-f"/>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="Twitter">
-                                                <i className="fab fa-twitter"/>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="Linkedin">
-                                                <i className="fab fa-linkedin"/>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="Youtube">
-                                                <i className="fab fa-youtube"/>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-2 col-md-6 col-sm-6 col-12">
-                            <div className="footer-widget footer-menu-widget clearfix">
-                                <h4 className="footer-title">Company</h4>
-                                <div className="footer-menu">
-                                    <ul>
-                                        <li>
-                                            <a href="about.html">About</a>
-                                        </li>
-                                        <li>
-                                            <a href="blog.html">Blog</a>
-                                        </li>
-                                        <li>
-                                            <a href="shop.html">All Products</a>
-                                        </li>
-                                        <li>
-                                            <a href="locations.html">Locations Map</a>
-                                        </li>
-                                        <li>
-                                            <a href="faq.html">FAQ</a>
-                                        </li>
-                                        <li>
-                                            <a href="contact.html">Contact us</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-2 col-md-6 col-sm-6 col-12">
-                            <div className="footer-widget footer-menu-widget clearfix">
-                                <h4 className="footer-title">Services</h4>
-                                <div className="footer-menu">
-                                    <ul>
-                                        <li>
-                                            <a href="order-tracking.html">Order tracking</a>
-                                        </li>
-                                        <li>
-                                            <a href="wishlist.html">Wish List</a>
-                                        </li>
-                                        <li>
-                                            <a href="login.html">Login</a>
-                                        </li>
-                                        <li>
-                                            <a href="account.html">My account</a>
-                                        </li>
-                                        <li>
-                                            <a href="about.html">Terms &amp; Conditions</a>
-                                        </li>
-                                        <li>
-                                            <a href="about.html">Promotional Offers</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-2 col-md-6 col-sm-6 col-12">
-                            <div className="footer-widget footer-menu-widget clearfix">
-                                <h4 className="footer-title">Customer Care</h4>
-                                <div className="footer-menu">
-                                    <ul>
-                                        <li>
-                                            <a href="login.html">Login</a>
-                                        </li>
-                                        <li>
-                                            <a href="account.html">My account</a>
-                                        </li>
-                                        <li>
-                                            <a href="wishlist.html">Wish List</a>
-                                        </li>
-                                        <li>
-                                            <a href="order-tracking.html">Order tracking</a>
-                                        </li>
-                                        <li>
-                                            <a href="faq.html">FAQ</a>
-                                        </li>
-                                        <li>
-                                            <a href="contact.html">Contact us</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-md-6 col-sm-12 col-12">
-                            <div className="footer-widget footer-newsletter-widget">
-                                <h4 className="footer-title">Newsletter</h4>
-                                <p>
-                                    Subscribe to our weekly Newsletter and receive updates via
-                                    email.
-                                </p>
-                                <div className="footer-newsletter">
-                                    <form action="#">
-                                        <input type="email" name="email" placeholder="Email*"/>
-                                        <div className="btn-wrapper">
-                                            <button className="theme-btn-1 btn" type="submit">
-                                                <i className="fas fa-location-arrow"/>
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <h5 className="mt-30">We Accept</h5>
-                                <img src="/assets/img/icons/payment-4.png" alt="Payment Image"/>
-                            </div>
-                        </div>
+                {/* Cột 1: Thông tin công ty */}
+                <div className="col-lg-4 col-md-6 mb-4 mb-md-0">
+                    <div className="footer-logo mb-3">
+                        <Link href="/">
+                            <img src="/assets/img/logo.png" alt="Logo" className="img-fluid"
+                                 style={{maxHeight: '50px'}}/> {/* Chỉnh chiều cao logo */}
+                        </Link>
+                    </div>
+                    <p className="text-muted small">
+                        An Khang - Chuyên cung cấp các sản phẩm chăm sóc sức khỏe chất lượng cao, uy tín.
+                    </p>
+                    <div className="text-muted small">
+                        <p className="mb-1">
+                            <i className="icon-placeholder me-2"></i>
+                            19 Hàng Thiếc, Hoàn Kiếm, Hà Nội
+                        </p>
+                        <p className="mb-1">
+                            <i className="icon-call me-2"></i>
+                            <a href="tel:+84865095066" className="text-decoration-none text-reset">0865.095.066</a>
+                        </p>
+                        <p>
+                            <i className="icon-mail me-2"></i>
+                            <a href="mailto:ankhang@gmail.com"
+                               className="text-decoration-none text-reset">ankhang@gmail.com</a>
+                        </p>
                     </div>
                 </div>
-            </div>
-            <div className="ltn__copyright-area ltn__copyright-2 section-bg-7  plr--5">
-                <div className="container-fluid ltn__border-top-2">
-                    <div className="row">
-                        <div className="col-md-6 col-12">
-                            <div className="ltn__copyright-design clearfix">
-                                <p>
-                                    All Rights Reserved @ Company <span className="current-year"/>
-                                </p>
-                            </div>
-                        </div>
-                        <div className="col-md-6 col-12 align-self-center">
-                            <div className="ltn__copyright-menu text-end">
-                                <ul>
-                                    <li>
-                                        <a href="#">Terms &amp; Conditions</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Claim</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Privacy &amp; Policy</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+
+                {/* Cột 2: Liên kết nhanh */}
+                <div className="col-lg-4 col-md-6 mb-4 mb-md-0">
+                    <h5 className="mb-3">Liên Kết Nhanh</h5>
+                    <ul className="list-unstyled small">
+                        <li><Link href="/" className="text-decoration-none text-muted">Trang Chủ</Link></li>
+                        <li><Link href="/products" className="text-decoration-none text-muted">Sản Phẩm</Link></li>
+                        <li><Link href="/blog" className="text-decoration-none text-muted">Cẩm Nang Sức Khỏe</Link>
+                        </li>
+                        <li><Link href="/contact" className="text-decoration-none text-muted">Liên Hệ</Link></li>
+                    </ul>
                 </div>
+
+                {/* Cột 3: Hỗ trợ khách hàng */}
+                <div className="col-lg-4 col-md-12">
+                    <h5 className="mb-3">Hỗ Trợ Khách Hàng</h5>
+                    <ul className="list-unstyled small">
+                        <li><Link href="/login" className="text-decoration-none text-muted">Đăng Nhập</Link></li>
+                        <li><Link href="/account" className="text-decoration-none text-muted">Tài Khoản</Link></li>
+                        <li><Link href="/cart" className="text-decoration-none text-muted">Giỏ Hàng</Link></li>
+                        <li><Link href="/faq" className="text-decoration-none text-muted">Câu Hỏi Thường Gặp</Link>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
-        </footer>
-        {/* FOOTER AREA END */}
 
-
-
-    </>)
+            {/* Bản quyền */}
+            <div className="text-center mt-4 border-top pt-3">
+                <p className="text-muted small">
+                    © {new Date().getFullYear()} An Khang. Đã đăng ký bản quyền. | Thiết kế bởi Nhóm 1 - 21CN1 - Hệ thống TMĐT
+                </p>
+            </div>
+        </div>
+    </footer>);
 }

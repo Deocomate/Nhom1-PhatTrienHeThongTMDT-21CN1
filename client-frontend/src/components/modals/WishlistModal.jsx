@@ -1,6 +1,7 @@
 "use client"
 import React from "react";
 import Link from "next/link";
+import {redirect} from "next/navigation";
 
 export const WishlistModal = ({product}) => {
     if (!product) return null;  //Handle case where product is not yet loaded
@@ -42,14 +43,17 @@ export const WishlistModal = ({product}) => {
                                                     </Link>
                                                 </h5>
                                                 <p className="added-cart">
-                                                    <i className="fa fa-check-circle"/> Đã thêm vào Wishlist của bạn
+                                                    <i className="fa fa-check-circle"/> Đã thêm vào danh sách yêu thích của bạn
                                                 </p>
                                                 <div className="btn-wrapper">
-                                                    <Link
-                                                        href="/wishlist"
-                                                        className="theme-btn-1 btn btn-effect-1"
-                                                    >
-                                                        Xem Wishlist
+                                                    <Link href="/cart"
+                                                          className="theme-btn-1 btn btn-effect-1 close"
+                                                          data-bs-dismiss="modal"
+                                                          aria-label="Close"
+                                                          onClick={() => {
+                                                              redirect("/wishlist")
+                                                          }}>
+                                                        Xem danh sách yêu thích
                                                     </Link>
                                                 </div>
                                             </div>

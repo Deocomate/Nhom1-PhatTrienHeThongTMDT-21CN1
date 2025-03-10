@@ -58,7 +58,7 @@ export default function CartPage() {
                                         </td>
                                         <td className="cart-product-image">
                                             <Link href={`/products/${item.id}`}>
-                                                <img src={item.productImages[0]?.url || "/assets/img/product/1.png"}
+                                                <img src={item.thumbnail || "/assets/img/product/1.png"}
                                                      alt={item.title}/>
                                             </Link>
                                         </td>

@@ -1,14 +1,13 @@
 "use client"
 import React from "react";
-import { WishlistPage } from "@/pages/wishlist/WishListPage";
+import {WishlistPage} from "@/pages/wishlist/WishListPage";
 import withAuth from "@/auth/withAuth";
 
 function page() {
-  return (
-    <>
-      <WishlistPage></WishlistPage>
-    </>
-  );
+    console.log("OKOK")
+    return (<>
+        <WishlistPage></WishlistPage>
+    </>);
 }
 
 export default withAuth(page)
