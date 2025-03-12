@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -32,7 +33,7 @@ public class Order {
     int totalPrice;
     @CreationTimestamp
     LocalDateTime createdAt;
-    @CreationTimestamp
+    @UpdateTimestamp
     LocalDateTime updatedAt;
 
     public enum PaymentStatus {
@@ -44,6 +45,6 @@ public class Order {
 
     public enum Status{
         waiting, processing, shipped, admin_cancelled, customer_cancelled
-    };
+    }
 
 }
