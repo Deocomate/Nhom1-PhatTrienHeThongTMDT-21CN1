@@ -5,6 +5,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -18,4 +22,5 @@ public class OrderUpdateRequest {
     @Pattern(regexp = "^(fail|pending|success)$", message = "Invalid payment status value. Must be fail, pending or success")
     @NotBlank
     String paymentStatus;
+    LocalDateTime createdAt;
 }
