@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -21,4 +22,5 @@ public class OrderResponse {
     int totalPrice;
     @Valid
     List<OrderDetailResponse> orderDetails;
+    LocalDateTime createdAt;
 }

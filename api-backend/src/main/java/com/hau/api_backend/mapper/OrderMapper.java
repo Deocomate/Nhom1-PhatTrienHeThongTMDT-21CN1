@@ -12,10 +12,9 @@ import java.util.List;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface OrderMapper {
 
+    @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "totalPrice", ignore = true)
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "updatedAt", ignore = true)
     Order toOrder(OrderCreationRequest order);
 
     @Mapping(target = "orderDetails", ignore = true)
@@ -23,11 +22,10 @@ public interface OrderMapper {
 
     @Mapping(target = "totalPrice", ignore = true)
     @Mapping(target = "userId", ignore = true)
-    @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "paymentMethod", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "customerId", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     void updateOrder(@MappingTarget Order order, OrderUpdateRequest orderUpdateRequest);
 
     @AfterMapping

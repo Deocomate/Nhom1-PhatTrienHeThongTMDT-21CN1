@@ -8,7 +8,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -29,4 +32,5 @@ public class OrderCreationRequest {
     String paymentStatus = "pending";
     @Valid
     List<OrderDetailCreationRequest> orderDetails;
+    LocalDateTime createdAt;
 }

@@ -14,8 +14,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            UsersTableSeeder::class,
-            PharmacySystemSeeder::class
+            UsersTableSeeder::class
+            // PharmacySystemSeeder::class
         ]);
         echo "Database seeded successfully with sample data!";
     }
