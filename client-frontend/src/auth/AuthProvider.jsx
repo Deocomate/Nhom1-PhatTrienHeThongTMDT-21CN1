@@ -1,14 +1,14 @@
 // auth/AuthProvider.jsx
 "use client";
 
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, {createContext, useState, useEffect, useContext} from 'react';
 import Cookies from 'js-cookie'; // Hoặc import { parseCookies, setCookie, destroyCookie } from 'nookies';
-import { useRouter } from 'next/navigation';
+import {useRouter} from 'next/navigation';
 import apiService from '@/lib/api/apiService'; // Import apiService
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
         const token = Cookies.get('token'); // Hoặc parseCookies().token
         if (token) {
             apiService.setToken(token);
-            introspectToken(token);
+            introspectToken(token).then();
         } else {
             setLoading(false); // Không có token, không cần introspect
         }
@@ -34,12 +34,12 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (email, password) => {
         try {
-            const response = await apiService.post('/auth/login', { email, password });
+            const response = await apiService.post('/auth/login', {email, password});
             console.log(response.code);
             if (response.code <= 201) {
                 let token = response.data.token
                 apiService.setToken(token);
-                Cookies.set('token', token, { expires: 7 });
+                Cookies.set('token', token, {expires: 7});
                 introspectToken(token);
             } else {
                 alert(response.message)
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
         const token = Cookies.get('token');
         if (token) {
             try {
-                await apiService.post('/auth/logout', { token });
+                await apiService.post('/auth/logout', {token});
             } catch (error) {
                 console.error('Logout error:', error);
             }
@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }) => {
 
     const introspectToken = async (token) => {
         try {
-            const response = await apiService.post('/auth/introspect', { token });
+            const response = await apiService.post('/auth/introspect', {token});
             if (response.code == 200) {
                 setUser(response.data.customer); // Save user information (from introspect)
             } else {
@@ -78,7 +78,6 @@ export const AuthProvider = ({ children }) => {
                 setUser(null);
             }
         } catch (error) {
-            console.error('Introspect error:', error);
             Cookies.remove('token');  // Delete token if there is an error
             apiService.removeToken(); // Remove token from localStorage
             setUser(null);

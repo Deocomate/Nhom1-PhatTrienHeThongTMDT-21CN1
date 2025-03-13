@@ -1,17 +1,16 @@
 "use client"
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import {useCart} from "@/contexts/CartContext";
-import {useAuth} from "@/auth/AuthProvider";
+import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/auth/AuthProvider";
+import { formatNumber } from "@/utils/NumberUltils";
 
-export const QuickViewModal = ({product}) => {
+export const QuickViewModal = ({ product }) => {
     if (!product) return null;
 
     let [quantity, setQuantity] = useState(1);
 
-    let {cart, addToCart, updateQuantity, removeFromCart, clearCart, calculateTotal} = useCart()
-
-    console.log(product)
+    let { cart, addToCart, updateQuantity, removeFromCart, clearCart, calculateTotal } = useCart()
 
     const quantityInputRef = useRef(null); // Create a ref
 
@@ -60,7 +59,7 @@ export const QuickViewModal = ({product}) => {
                                     <div className="row">
                                         <div className="col-lg-6 col-12">
                                             <div className="modal-product-img">
-                                                <img src={product.thumbnail} alt={product.title}/>
+                                                <img src={product.thumbnail} alt={product.title} />
                                             </div>
                                         </div>
                                         <div className="col-lg-6 col-12">
@@ -74,24 +73,24 @@ export const QuickViewModal = ({product}) => {
                                                 </div>
                                                 <h3>{product.title}</h3>
                                                 <div className="product-price">
-                                                    <span>{product.price}đ</span>
+                                                    <span>{formatNumber(product.price)}</span>
                                                 </div>
                                                 <div className="modal-product-meta ltn__product-details-menu-1">
                                                     <ul>
                                                         <li>
                                                             <strong>Nhãn hiệu:</strong>
                                                             <span>
-                                                              <Link href={""}>
-                                                                {product.brand.name}
-                                                              </Link>
+                                                                <Link href={""}>
+                                                                    {product.brand.name}
+                                                                </Link>
                                                             </span>
                                                         </li>
                                                         <li>
                                                             <strong>Danh mục:</strong>
                                                             <span>
-                                                              <Link href={`/category/${product.categoryId}`}>
-                                                                {product.categoryId}
-                                                              </Link>
+                                                                <Link href={`/category/${product.categoryId}`}>
+                                                                    {product.categoryId}
+                                                                </Link>
                                                             </span>
                                                         </li>
                                                     </ul>
@@ -110,7 +109,7 @@ export const QuickViewModal = ({product}) => {
                                                                 min={1}
                                                                 ref={quantityInputRef}
                                                                 name="qtybutton"
-                                                                // className="cart-plus-minus-box"
+                                                            // className="cart-plus-minus-box"
                                                             />
                                                         </li>
                                                         <li>
@@ -122,7 +121,7 @@ export const QuickViewModal = ({product}) => {
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target={`#add_to_cart_modal_${product.id}`}
                                                             >
-                                                                <i className="fas fa-shopping-cart"/>
+                                                                <i className="fas fa-shopping-cart" />
                                                                 <span>Thêm vào giỏ hàng</span>
                                                             </a>
                                                         </li>
@@ -138,13 +137,13 @@ export const QuickViewModal = ({product}) => {
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target={`#liton_wishlist_modal_${product.id}`}
                                                             >
-                                                                <i className="far fa-heart"/>
+                                                                <i className="far fa-heart" />
                                                                 <span>Thêm vào Wishlist</span>
                                                             </a>
                                                         </li>
                                                     </ul>
                                                 </div>
-                                                <hr/>
+                                                <hr />
                                             </div>
                                         </div>
                                     </div>

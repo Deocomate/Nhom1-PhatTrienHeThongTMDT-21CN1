@@ -24,8 +24,7 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final String[] PUBLIC_POST_ENDPOINTS = { "/api/auth/login", "/api/auth/logout", "/api/auth/introspect",
-            "/api/customers", "/api/orders", "/api/customerCares",
+    private final String[] PUBLIC_POST_ENDPOINTS = {"/api/auth/login", "/api/auth/logout", "/api/auth/introspect", "/api/customers", "/api/orders", "/api/customerCares",
 
     };
 
@@ -42,7 +41,7 @@ public class SecurityConfig {
             "api/blog", "/api/blog/getBlogBySlug/{slug:[a-zA-Z0-9-]+}",
     };
 
-    private final String[] PUBLIC_DELETE_ENDPOINTS = { "" };
+    private final String[] PUBLIC_DELETE_ENDPOINTS = {""};
 
     @Value("${jwt.signerKey}")
     private String signerKey;
@@ -55,14 +54,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(request -> request
-                .requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
-                .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Cho phép OPTIONS requests
+        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll().requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll().requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Cho phép OPTIONS requests
                 .anyRequest().authenticated());
 
-        httpSecurity.oauth2ResourceServer(oauth2 -> oauth2
-                .jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(customJwtAuthenticationConverter)));
+        httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(customJwtAuthenticationConverter)));
 
         httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource())); // Enable CORS
         httpSecurity.csrf(AbstractHttpConfigurer::disable);

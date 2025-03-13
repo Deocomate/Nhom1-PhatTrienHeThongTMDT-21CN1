@@ -1,6 +1,7 @@
 "use client"
 import React from "react";
 import Link from "next/link";
+import {redirect} from "next/navigation";
 
 export const AddToCartModal = ({product}) => {
     if (!product) return null; // Handle case where product is not yet loaded
@@ -45,7 +46,13 @@ export const AddToCartModal = ({product}) => {
                                                     <i className="fa fa-check-circle"/> Đã thêm vào giỏ hàng của bạn
                                                 </p>
                                                 <div className="btn-wrapper">
-                                                    <Link href="/cart" className="theme-btn-1 btn btn-effect-1">
+                                                    <Link href="/cart"
+                                                          className="theme-btn-1 btn btn-effect-1 close"
+                                                          data-bs-dismiss="modal"
+                                                          aria-label="Close"
+                                                          onClick={() => {
+                                                              redirect("/cart")
+                                                          }}>
                                                         Xem giỏ hàng
                                                     </Link>
                                                 </div>
