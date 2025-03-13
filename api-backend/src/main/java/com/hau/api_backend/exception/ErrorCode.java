@@ -9,7 +9,7 @@ public enum ErrorCode {
     USER_NOT_FOUND("Không tìm thấy người dùng"),
     PRODUCT_NOT_FOUND("Không tìm thấy sản phẩm"),
     BLOG_CATEGORY_NOT_FOUND("Không tìm thấy danh mục bài viết"),
-    BLOG_NOT_FOUND("Không tìm thấy danh bài viết"),
+    BLOG_NOT_FOUND("Không tìm thấy bài viết"),
     ORDER_NOT_SUPPORTED("Đơn hàng không hỗ trợ thanh toán trực tuyến"),
     ORDER_SUCCESS("Đơn hàng đang được giao hoặc đã được giao"),
     ORDER_CANCELED_BY_CUSTOMER("Đơn hàng đã bị hủy bởi khách hàng"),
