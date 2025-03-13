@@ -20,6 +20,7 @@ public class OrderResponse {
     String paymentMethod;
     String paymentStatus;
     int totalPrice;
+    String note;
     @Valid
     List<OrderDetailResponse> orderDetails;
     LocalDateTime createdAt;
