@@ -28,7 +28,7 @@ public class PaymentController {
     @GetMapping("/create/{orderId}")
     public ResponseEntity<ApiResponse<String>> payWithVNPay(@PathVariable int orderId, HttpServletRequest request, @RequestParam(value = "bankCode", required = false) String bankCode) {
         ApiResponse<OrderResponse> orderResponseApiResponse = orderService.getOrderById(orderId);
-        if(orderResponseApiResponse == null || orderResponseApiResponse.getData() == null) {
+        if (orderResponseApiResponse == null || orderResponseApiResponse.getData() == null) {
             throw new AppException(ErrorCode.ORDER_NOT_FOUND, "orderId");
         }
         OrderResponse orderResponse = (OrderResponse) orderResponseApiResponse.getData();
@@ -43,12 +43,7 @@ public class PaymentController {
 
         String paymentURL = paymentService.createPaymentURL(order, request, bankCode);
 
-        return new ResponseEntity<>(ApiResponse.<String>builder()
-                .code(HttpStatus.OK.value())
-                .message("Tạo URL thanh toán thành công")
-                .data(paymentURL)
-                .timestamp(LocalDateTime.now())
-                .build(), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.<String>builder().code(HttpStatus.OK.value()).message("Tạo URL thanh toán thành công").data(paymentURL).timestamp(LocalDateTime.now()).build(), HttpStatus.OK);
     }
 
     @GetMapping("/vnpay_return")
@@ -56,7 +51,7 @@ public class PaymentController {
         ApiResponse<String> apiResponse = paymentService.processVnPayReturn(request);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("http://localhost:3000")); // Set URL chuyển hướng
+        headers.setLocation(URI.create("http://localhost:3000/account?paymentStatus=success")); // Set URL chuyển hướng
 
         if (apiResponse.getCode() == HttpStatus.OK.value()) {
             // Thanh toán thành công - Chuyển hướng về trang chủ
