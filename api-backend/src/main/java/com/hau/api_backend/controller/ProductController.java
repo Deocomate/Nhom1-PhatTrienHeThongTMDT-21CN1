@@ -24,7 +24,9 @@ public class ProductController {
 
 
     @GetMapping
-    public Page<Product> getProductsByPaginate(@RequestParam(defaultValue = "0") int pageIndex, @RequestParam(defaultValue = "10") int pageSize) {
+    public Page<Product> getProductsByPaginate(
+            @RequestParam(defaultValue = "0") int pageIndex,
+            @RequestParam(defaultValue = "10") int pageSize) {
         return productPaginationService.getPagedData(productRepository, pageIndex, pageSize);
     }
 
