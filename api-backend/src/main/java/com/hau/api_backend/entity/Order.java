@@ -31,6 +31,7 @@ public class Order {
     @Enumerated(EnumType.STRING)
     PaymentStatus paymentStatus;
     int totalPrice;
+    String note;
     @CreationTimestamp
     LocalDateTime createdAt;
     @UpdateTimestamp
