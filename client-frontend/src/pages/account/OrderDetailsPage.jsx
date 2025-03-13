@@ -1,4 +1,3 @@
-// pages/account/orders/[id].jsx
 "use client"
 
 import {useRouter} from 'next/navigation';

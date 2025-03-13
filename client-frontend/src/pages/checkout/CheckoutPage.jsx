@@ -7,7 +7,7 @@ import {useCart} from "@/contexts/CartContext";
 import {formatNumber} from "@/utils/NumberUltils";
 import apiService from "@/lib/api/apiService"; // Import apiService
 import React, {useState, useEffect} from "react";
-import {useRouter} from "next/navigation";
+import {redirect, useRouter} from "next/navigation";
 
 export default function CheckoutPage() {
     const {user} = useAuth();
@@ -46,10 +46,10 @@ export default function CheckoutPage() {
         }));
 
         const orderData = {
-            customerId: user.id, status: "waiting",  // Correct default status
-            userId: 1, paymentMethod: paymentMethod,  // "offline" or "online"
-            paymentStatus: "pending", //Correct default status.
-            totalPrice: calculateTotal(), //remove
+            customerId: user.id, status: "waiting",
+            userId: 1, paymentMethod: paymentMethod,
+            paymentStatus: "pending",
+            totalPrice: calculateTotal(),
             orderDetails: orderDetails, note: orderNote,
         };
 
@@ -57,27 +57,28 @@ export default function CheckoutPage() {
         try {
             const response = await apiService.post("/orders", orderData);
 
-            if (response.code == 201) {
-                // Order created successfully.
-                // if (paymentMethod === 'online') {
-                //     // Redirect user to VNPAY
-                //     // const vnpayResponse = await apiService.get(`/vnpay/create/${response.id}`);
-                //     //
-                //     // if (vnpayResponse) {
-                //     //     window.location.href = vnpayResponse; // Redirect to external URL
-                //     //     return; // Stop further execution in this function
-                //     // } else {
-                //     //     setErrors(["Đã xảy ra lỗi khi tạo thanh toán VNPay."]);
-                //     //     return; // Stop on error.
-                //     // }
-                // }
-                clearCart();
-                router.push(`/account`); // Or a thank-you page.
-                alert("Đặt hàng thành công!");
-
-            } else {
+            if (response.code != 201) {
                 setErrors(["Đã xảy ra lỗi khi đặt hàng. Vui lòng thử lại."]);
+                return
             }
+
+            if (paymentMethod == "online") {
+                let orderIdCreated = response.data.id
+                let responseVnPay = await apiService.get(`/vnpay/create/${orderIdCreated}`)
+                console.log(responseVnPay)
+                if (responseVnPay.code != 200) {
+                    console.error("Error creating order:", error);
+                    setErrors(["Đã xảy ra lỗi khi đặt hàng. Vui lòng thử lại."]);
+                    return
+                }
+                let redirectURL = responseVnPay.data
+                console.log(redirectURL)
+                window.location = redirectURL
+            }
+
+            clearCart();
+            // router.push(`/account`); // Or a thank-you page.
+            alert("Đặt hàng thành công!");
 
         } catch (error) {
             console.error("Error creating order:", error);

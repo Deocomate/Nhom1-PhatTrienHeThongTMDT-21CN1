@@ -9,8 +9,10 @@ import {Table} from "react-bootstrap"; // Import Table
 import apiService from "@/lib/api/apiService";
 import {formatNumber} from "@/utils/NumberUltils";
 import Link from "next/link";
+import {useSearchParams} from "next/navigation";
 
 export default function AccountPage() {
+    const params = useSearchParams()
     const {user, logout} = useAuth();
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true); // Add loading state
@@ -111,6 +113,11 @@ export default function AccountPage() {
                                                         <span>địa chỉ giao hàng và thanh toán</span>, và{" "}
                                                         <span>sửa mật khẩu và chi tiết tài khoản</span>.
                                                     </p>
+                                                    {params.get("paymentStatus") == "success" ? (<>
+                                                        <div className="alert alert-success">
+                                                            Thanh toán thành công, vui lòng kiểm tra thông tin đơn hàng trong Email của bạn
+                                                        </div>
+                                                    </>) : (<></>)}
                                                 </div>
                                             </div>
                                             <div className="tab-pane fade" id="liton_tab_1_2">
