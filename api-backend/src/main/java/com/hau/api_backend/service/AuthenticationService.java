@@ -128,7 +128,7 @@ public class AuthenticationService {
                 .issuer("https://pharmacy.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(
-                        Instant.now().plus(30, ChronoUnit.MINUTES).toEpochMilli()
+                        Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
                 .jwtID(UUID.randomUUID().toString())
                 .build();

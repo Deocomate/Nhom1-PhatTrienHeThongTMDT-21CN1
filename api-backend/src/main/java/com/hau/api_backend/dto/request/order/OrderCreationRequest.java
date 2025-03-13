@@ -28,6 +28,7 @@ public class OrderCreationRequest {
     @Pattern(regexp = "^(offline|online)$", message = "Invalid payment method value. Must be offline or online")
     @NotBlank
     String paymentMethod;
+    String note;
     @NotBlank
     String paymentStatus = "pending";
     @Valid
