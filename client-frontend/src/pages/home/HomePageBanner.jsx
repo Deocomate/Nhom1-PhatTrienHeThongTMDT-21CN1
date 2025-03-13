@@ -18,7 +18,7 @@ export const HomePageBanner = () => {
                     >
                         {bannerImages.map((image, index) => (<SwiperSlide key={index}>
                             <img src={image} style={{
-                                width: "100%", objectFit: "cover",
+                                width: "100%",height:"400px", objectFit: "cover",
                             }} alt={`Banner ${index + 1}`}/>
                         </SwiperSlide>))}
                     </Swiper>
