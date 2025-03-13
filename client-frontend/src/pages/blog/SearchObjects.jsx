@@ -5,13 +5,13 @@ export default function SearchObjects() {
     <>
       <div className="widget ltn__search-widget">
         <h4 className="ltn__widget-title ltn__widget-title-border-2">
-          Search Objects
+          Tìm kiếm log
         </h4>
         <form action="#">
           <input
             type="text"
             name="search"
-            placeholder="Search your keyword..."
+            placeholder="Nhập từ khóa tìm kiếm ..."
           />
           <button type="submit">
             <i className="fas fa-search" />
