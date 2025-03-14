@@ -11,57 +11,28 @@ import BannerWidget from "@/pages/product/product_detail/BannerWidget";
 
 export const CategoryPage = ({slug}) => {
 
-    let [products, setProducts] = useState([]);
-    let [pageIndex, setPageIndex] = useState(1);
-    let [pageTotal, setPageTotal] = useState(0);
-    let [pageSize, setPageSize] = useState(0);
-    let [totalElements, setTotalElements] = useState(0);
-    let [categoryParentId, setCategoryParentId] = useState(null);
-    let [categories, setCategories] = useState([]);
-
-
-    async function fetchProduct(pageIndex = 1) {
-        try {
-            let response = await apiService.get(`/pagination/products?page=${pageIndex - 1}`);
-            if (response) {
-                let productsResponse = response.content;
-                setProducts(productsResponse);
-                setPageSize(response.pageable.pageSize);
-                setPageTotal(response.totalPages);
-                setPageIndex(response.number + 1);
-                setTotalElements(response.totalElements);
-            } else {
-                console.error("Failed to fetch products");
-            }
-        } catch (error) {
-            console.error("Error fetching products:", error);
-        }
-    }
-
-    const fetchCategories = async (parentId = null) => {
-        if (parentId == null) {
-            let response = await apiService.get("categories");
-            setCategories(response.data.categories);
-        }
-    }
+    let [products, setProducts] = useState();
+    let [categories, setCategories] = useState();
 
     const fetchProductByCategorySlug = async (slug) => {
-        let response = await apiService.get(`/categories/productWithCategory/${slug}`);
-        console.log(response)
-        console.log("Data", response.data)
-        setProducts(response.data.products);
-        setCategories(response.data.categories);
+        try {
+            let response = await apiService.get(`/categories/productWithCategory/${slug}`);
+            if (response && response.data) {
+                setProducts(response.data.products);
+                setCategories(response.data.categories);
+            } else {
+                console.error("Failed to fetch products or categories by slug");
+            }
+        } catch (error) {
+            console.error("Error fetching products by category slug:", error);
+        }
     }
 
     useEffect(() => {
-        fetchProductByCategorySlug(slug).then()
-    }, []);
-
-    // useEffect(() => {
-    //     // fetchProduct(1).then()
-    //     // fetchCategories(categoryParentId).then()
-    // }, [categoryParentId]);
-
+        if (slug) {
+            fetchProductByCategorySlug(slug).then();
+        }
+    }, [slug]);
 
     return (<>
         <BreadCrumbDefault name="Sản phẩm"></BreadCrumbDefault>
@@ -86,7 +57,8 @@ export const CategoryPage = ({slug}) => {
                                         </div>
                                     </div>
                                 </li>
-                                <li>
+                                {/* Bạn có thể bỏ phần này nếu không muốn hiển thị thông tin phân trang và sắp xếp mặc định */}
+                                {/* <li>
                                     <div className="showing-product-number text-right">
                       <span>
                         Showing {pageSize * (pageIndex - 1) + 1}–
@@ -105,14 +77,19 @@ export const CategoryPage = ({slug}) => {
                                             <option>Sort by price: high to low</option>
                                         </select>
                                     </div>
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
                         <div className="tab-content">
-                            <ProductListGrid products={products}></ProductListGrid>
-                            <ProductListNoGrid products={products}></ProductListNoGrid>
+                            <div className="tab-pane fade active show" id="liton_product_grid">
+                                <ProductListGrid products={products}></ProductListGrid>
+                            </div>
+                            <div className="tab-pane fade" id="liton_product_list">
+                                <ProductListNoGrid products={products}></ProductListNoGrid>
+                            </div>
                         </div>
-                        <div className="ltn__pagination-area text-center">
+                        {/* Bạn có thể bỏ phần này nếu không muốn hiển thị pagination mặc định */}
+                        {/* <div className="ltn__pagination-area text-center">
                             <div className="ltn__pagination">
                                 <ul>
                                     {pageIndex > 1 ? (<li>
@@ -162,7 +139,7 @@ export const CategoryPage = ({slug}) => {
                                     </li>) : ("")}
                                 </ul>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="col-lg-4">
                         <aside className="sidebar ltn__shop-sidebar ltn__right-sidebar">
@@ -172,7 +149,7 @@ export const CategoryPage = ({slug}) => {
                                     Danh mục sản phẩm
                                 </h4>
                                 <ul>
-                                    {categories.map((category, index) => (<Fragment key={index}>
+                                    {categories && categories.map((category, index) => (<Fragment key={index}>
                                         <li>
                                             <Link href={"/category/" + category.slug}>
                                                 {category.name}

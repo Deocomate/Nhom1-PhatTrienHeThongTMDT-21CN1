@@ -22,6 +22,7 @@ export default function ProductListPage() {
     async function fetchProduct(pageIndex = 0) {
         try {
             let response = await apiService.get(`/products?pageIndex=${pageIndex}&pageSize=9`);
+            console.log(response)
             if (response) {
                 let productsResponse = response.content;
                 setProducts(productsResponse);
