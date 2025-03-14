@@ -44,7 +44,6 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @JsonIgnore
     Category category;
 
     @Column(name = "dosage_form")

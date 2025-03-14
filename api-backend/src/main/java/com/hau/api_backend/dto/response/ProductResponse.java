@@ -22,7 +22,7 @@ public class ProductResponse {
     String activeIngredient;
     String indications;
     String manufacturer;
-    Long categoryId;
+    int categoryId;
     String categoryName;
     String dosageForm;
     String noted;
