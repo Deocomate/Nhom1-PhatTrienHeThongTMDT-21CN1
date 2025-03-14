@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,11 +24,24 @@ public class ProductController {
     private final BasePaginationService<Product> productPaginationService;
 
 
+//    @GetMapping
+//    public Page<Product> getProductsByPaginate(
+//            @RequestParam(defaultValue = "0") int pageIndex,
+//            @RequestParam(defaultValue = "10") int pageSize) {
+//        return productPaginationService.getPagedData(productRepository, pageIndex, pageSize);
+//    }
+
     @GetMapping
-    public Page<Product> getProductsByPaginate(
+    public ResponseEntity<Page<Product>> getProducts(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(defaultValue = "false") boolean priority,
+            @RequestParam(defaultValue = "asc") String direction,
             @RequestParam(defaultValue = "0") int pageIndex,
             @RequestParam(defaultValue = "10") int pageSize) {
-        return productPaginationService.getPagedData(productRepository, pageIndex, pageSize);
+
+        Page<Product> products = productService.getProducts(title, sortBy, priority, direction, pageIndex, pageSize);
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping("/{id}")
@@ -51,6 +65,9 @@ public class ProductController {
         Pageable pageable = PageRequest.of(pageIndex, pageSize);
         return productRepository.findByCategoryId(categoryId, pageable);
     }
+
+
+
 //    @GetMapping("/{id}/images")
 //    public ResponseEntity<ApiResponse<List<ProductImageResponse>>> getProductImages(@PathVariable int id) {
 //        ApiResponse<List<ProductImageResponse>> apiResponse = productService.getProductImages(id);

@@ -20,7 +20,8 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-
+    @Column(name = "priority")
+    int priority;
     String title;
     String thumbnail;
     @Column(name = "brand_id")
