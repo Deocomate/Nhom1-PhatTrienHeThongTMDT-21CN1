@@ -115,6 +115,7 @@ return new class extends Migration {
             $table->enum('status', ['waiting', 'processing', 'shipped', 'admin_cancelled', 'customer_cancelled'])->default('waiting');
             $table->enum('payment_method', ['online', 'offline']);
             $table->enum('payment_status', ['fail', 'pending', 'success'])->default('pending');
+            $table->string('note')->nullable();
             $table->integer('total_price');
             $table->timestamps();
         });
