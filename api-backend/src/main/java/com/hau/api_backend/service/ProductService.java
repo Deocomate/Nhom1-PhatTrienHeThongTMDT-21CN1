@@ -120,6 +120,31 @@ public class ProductService {
                 : productRepository.findAll(pageable);
     }
 
+    public Page<Product> getProductsByCategoryId(int categoryId, String sortBy, boolean priority, String direction, int pageIndex, int pageSize) {
+        Pageable pageable;
+
+        // Danh sách các trường hợp được phép sắp xếp
+        if (priority) {
+            // Nếu `priority = true`, luôn sắp xếp theo priority trước
+            Sort sort = direction != null && direction.equalsIgnoreCase("desc")
+                    ? Sort.by("priority").descending()
+                    : Sort.by("priority").ascending();
+            pageable = PageRequest.of(pageIndex, pageSize, sort);
+        } else if (sortBy != null && !sortBy.trim().isEmpty() && contains(allowForSorting, sortBy)) {
+            // Nếu `priority = false`, chỉ sắp xếp theo `sortBy` nếu hợp lệ
+            Sort sort = direction != null && direction.equalsIgnoreCase("desc")
+                    ? Sort.by(sortBy).descending()
+                    : Sort.by(sortBy).ascending();
+            pageable = PageRequest.of(pageIndex, pageSize, sort);
+        } else {
+            // Không có `sortBy` và `priority = false` → Không sắp xếp
+            pageable = PageRequest.of(pageIndex, pageSize);
+        }
+
+        return productRepository.findByCategoryId(categoryId, pageable)
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND, "categoryId"));
+    }
+
 
     public boolean contains(String[] containList, String s) {
         for(String item: containList) {

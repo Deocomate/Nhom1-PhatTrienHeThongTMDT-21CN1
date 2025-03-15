@@ -31,6 +31,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             @Param("maxPrice") Integer maxPrice,
             Pageable pageable);
 
-    Page<Product> findByCategoryId(int categoryId, Pageable pageable);
+    Optional<Page<Product>> findByCategoryId(int categoryId, Pageable pageable);
+
     Page<Product> findByTitleContainingIgnoreCase(String name, Pageable pageable);
 }

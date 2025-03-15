@@ -3,6 +3,8 @@ package com.hau.api_backend.controller;
 import com.hau.api_backend.dto.response.ApiResponse;
 import com.hau.api_backend.dto.response.ProductResponse;
 import com.hau.api_backend.entity.Product;
+import com.hau.api_backend.exception.AppException;
+import com.hau.api_backend.exception.ErrorCode;
 import com.hau.api_backend.repository.ProductRepository;
 import com.hau.api_backend.service.BasePaginationService;
 import com.hau.api_backend.service.ProductService;
@@ -44,6 +46,20 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<Page<Product>> getProducts(
+            @PathVariable int categoryId,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(defaultValue = "false") boolean priority,
+            @RequestParam(defaultValue = "asc") String direction,
+            @RequestParam(defaultValue = "0") int pageIndex,
+            @RequestParam(defaultValue = "10") int pageSize) {
+
+        Page<Product> products = productService.getProductsByCategoryId(categoryId, sortBy, priority, direction, pageIndex, pageSize);
+        return ResponseEntity.ok(products);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<ProductResponse>> getProductById(@PathVariable int id) {
         ApiResponse<ProductResponse> apiResponse = productService.getProductById(id);
@@ -63,7 +79,7 @@ public class ProductController {
             @RequestParam(defaultValue = "10") int pageSize) {
 
         Pageable pageable = PageRequest.of(pageIndex, pageSize);
-        return productRepository.findByCategoryId(categoryId, pageable);
+        return productRepository.findByCategoryId(categoryId, pageable).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND, "categoryId"));
     }
 
 
