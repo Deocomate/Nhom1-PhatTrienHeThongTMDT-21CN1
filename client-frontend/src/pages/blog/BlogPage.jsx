@@ -13,21 +13,21 @@ import { BlogPagination } from "./BlogPagination";
 
 export default function BlogPage() {
   let [blogs, setBlogs] = useState([]);
-  let [pageIndex, setPageIndex] = useState(1); 
+  let [pageIndex, setPageIndex] = useState(1);
   let [pageTotal, setPageTotal] = useState(0);
-  let [pageSize, setPageSize] = useState(3); 
+  let [pageSize, setPageSize] = useState(3);
   let [totalElements, setTotalElements] = useState(0);
 
   async function fetchBlogs(pageIndex = 1, pageSize = 3) {
     try {
       let response = await apiService.get(
-        `/blog?pageIndex=${pageIndex - 1}&pageSize=${pageSize}` 
+        `/blog?pageIndex=${pageIndex - 1}&pageSize=${pageSize}`
       );
       if (response) {
         setBlogs(response.content);
         setPageSize(response.size);
         setPageTotal(response.totalPages);
-        setPageIndex(response.number + 1); 
+        setPageIndex(response.number + 1);
         setTotalElements(response.totalElements);
       } else {
         console.error("Failed to fetch blogs");
@@ -51,50 +51,51 @@ export default function BlogPage() {
       <div className="ltn__blog-area mb-120">
         <div className="container">
           <div className="row">
-            
             <div className="col-lg-8">
               <div className="ltn__blog-list-wrap">
-              <div className="ltn__shop-options">
-                            <ul>
-                                <li>
-                                    <div className="ltn__grid-list-tab-menu ">
-                                        <div className="nav">
-                                            <a className="active show"
-                                               data-bs-toggle="tab"
-                                               href="#liton_product_grid">
-                                                <i className="fas fa-th-large"/>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="showing-product-number text-right">
-                      <span>
-                        Hiển thị {pageSize * (pageIndex - 1) + 1}–
+                <div className="ltn__shop-options">
+                  <ul>
+                    <li>
+                      <div className="ltn__grid-list-tab-menu ">
+                        <div className="nav">
+                          <a
+                            className="active show"
+                            data-bs-toggle="tab"
+                            href="#liton_product_grid"
+                          >
+                            <i className="fas fa-th-large" />
+                          </a>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="showing-product-number text-right">
+                        <span>
+                          Hiển thị {pageSize * (pageIndex - 1) + 1}–
                           {Math.min(pageSize * pageIndex, totalElements)} of{" "}
                           {totalElements} kết quả
-                      </span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="short-by text-center">
-                                        <select className="nice-select">
-                                            <option>Sắp xếp cơ bản</option>
-                                            <option>Độ phổ biến</option>
-                                            <option>Sắp xếp theo giá: Cao đến thấp</option>
-                                            <option>Sắp xếp theo giá: Thấp đến cao</option>
-                                        </select>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+                        </span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="short-by text-center">
+                        <select className="nice-select">
+                          <option>Sắp xếp cơ bản</option>
+                          <option>Độ phổ biến</option>
+                          <option>Sắp xếp theo giá: Cao đến thấp</option>
+                          <option>Sắp xếp theo giá: Thấp đến cao</option>
+                        </select>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
                 {blogs.map((blog, index) => (
                   <Fragment key={index}>
                     {/* Blog Item */}
                     <div className="ltn__blog-item ltn__blog-item-5">
                       <div className="ltn__blog-img">
-                        <Link href={`/blog/${blog.id}`}> 
-                          <img src={`${blog.thumbnail}`} alt={blog.title} /> 
+                        <Link href={`/blog/${blog.id}`}>
+                          <img src={`${blog.thumbnail}`} alt={blog.title} />
                         </Link>
                       </div>
                       <div className="ltn__blog-brief">
@@ -108,9 +109,7 @@ export default function BlogPage() {
                           </ul>
                         </div>
                         <h3 className="ltn__blog-title">
-                          <Link href={`/blog/${blog.id}`}> 
-                            {blog.title}
-                          </Link>
+                          <Link href={`/blog/${blog.slug}`}>{blog.title}</Link>
                         </h3>
                         <div className="ltn__blog-meta">
                           <ul>
@@ -133,25 +132,23 @@ export default function BlogPage() {
                             </li> */}
                           </ul>
                         </div>
-                        <p>
-                          {blog.content.substring(0, 200)}... 
-                        </p>
+                        <p>{blog.content.substring(0, 200)}...</p>
                         <div className="ltn__blog-meta-btn">
                           <div className="ltn__blog-meta">
                             <ul>
                               <li className="ltn__blog-author">
                                 <a href="#">
                                   <img
-                                    src="/assets/img/blog/author.jpg" 
+                                    src="/assets/img/blog/author.jpg"
                                     alt="Author"
                                   />
-                                  Tác giả: Nhà thuốc An Khang 
+                                  Tác giả: Nhà thuốc An Khang
                                 </a>
                               </li>
                             </ul>
                           </div>
                           <div className="ltn__blog-btn">
-                            <Link href={`/blog/${blog.id}`}> 
+                            <Link href={`/blog/${blog.id}`}>
                               <i className="fas fa-arrow-right" />
                               Đọc thêm
                             </Link>
@@ -167,9 +164,9 @@ export default function BlogPage() {
                   <div className="ltn__pagination-area text-center">
                     {/* thanh điều hướng trang */}
                     <BlogPagination
-                        currentPage={pageIndex}
-                        totalPages={pageTotal}
-                        onPageChange={handlePageChange}
+                      currentPage={pageIndex}
+                      totalPages={pageTotal}
+                      onPageChange={handlePageChange}
                     />
                   </div>
                 </div>
