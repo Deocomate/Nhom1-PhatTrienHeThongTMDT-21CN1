@@ -16,6 +16,7 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     Optional<Product> findProductBySlug(String slug);
     Optional<List<Product>> findByCategoryId(int categoryId);
+
     Page<Product> findByCategoryIdIn(List<Integer> categoryIds, Pageable pageable);
     @Query("SELECT p FROM Product p WHERE (:minPrice IS NULL OR p.price >= :minPrice) AND (:maxPrice IS NULL OR p.price <= :maxPrice)")
     Page<Product> findByPriceBetween(
@@ -31,5 +32,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             Pageable pageable);
 
     Page<Product> findByCategoryId(int categoryId, Pageable pageable);
-
+    Page<Product> findByTitleContainingIgnoreCase(String name, Pageable pageable);
 }
