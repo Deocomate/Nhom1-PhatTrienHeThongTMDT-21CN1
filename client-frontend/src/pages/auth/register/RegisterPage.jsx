@@ -1,10 +1,11 @@
 "use client"
 import BreadCrumbDefault from "@/components/breadcrumbs/BreadCrumbDefault";
-import React, { useState } from "react";
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/auth/AuthProvider';
+import React, {useState} from "react";
+import {useRouter} from 'next/navigation';
+import {useAuth} from '@/auth/AuthProvider';
 import axios from "axios"; // Import useAuth
 import Link from "next/link";
+import {toast} from "react-toastify";
 
 export default function RegisterPage() {
     const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ export default function RegisterPage() {
     const [address, setAddress] = useState("");
     const [errors, setErrors] = useState([]); // State to hold error message
     const router = useRouter();
-    const { signup } = useAuth(); // Get signup function
+    const {signup} = useAuth(); // Get signup function
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,6 +29,7 @@ export default function RegisterPage() {
             if (res.status > 201) {
                 setErrors(res.data.error);
             } else {
+                toast.success("Đăng ký tài khoản thành công! Vui lòng đăng nhập.")
                 router.push("/login");
             }
         } catch (err) {
@@ -43,7 +45,7 @@ export default function RegisterPage() {
                     <div className="col-lg-12">
                         <div className="section-title-area text-center">
                             <h1 className="section-title">
-                                Đăng Ký <br />
+                                Đăng Ký <br/>
                                 Tài Khoản Mới
                             </h1>
                         </div>

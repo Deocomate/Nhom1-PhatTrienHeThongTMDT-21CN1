@@ -10,7 +10,6 @@ export default function ProductListGrid({products = []}) {
         <div className="ltn__product-tab-content-inner ltn__product-grid-view">
             <div className="row">
                 {products.map((product, index) => (<ProductCardGrid key={index} product={product}></ProductCardGrid>))}
-                {/* ltn__product-item */}
             </div>
         </div>
     </div>);

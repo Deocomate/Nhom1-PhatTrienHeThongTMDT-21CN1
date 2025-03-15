@@ -18,18 +18,14 @@ const OrderDetailsPage = ({orderId}) => {
             if (id) {
                 setLoading(true);
                 setError(null);
-                try {
-                    const response = await apiService.get(`/orders/${id}`);
-                    if (response.code == 200) {
-                        setOrder(response.data);
-                    } else {
-                        setError('Không tìm thấy đơn hàng.');
-                    }
-                } catch (error) {
-                    setError('Đã xảy ra lỗi khi tải chi tiết đơn hàng.');
-                    console.error("Error fetching order details:", error);
-                } finally {
-                    setLoading(false);
+                const response = await apiService.get(`/orders/${id}`);
+                if (response.code == 200) {
+                    setOrder(response.data);
+                    setLoading(false)
+                } else {
+                    setOrder(null)
+                    setError(response.message);
+                    setLoading(false)
                 }
             }
         };
@@ -48,7 +44,6 @@ const OrderDetailsPage = ({orderId}) => {
     if (!order) {
         return <div>Không tìm thấy đơn hàng.</div>;
     }
-    console.log(order)
 
     return (<>
             <BreadCrumbDefault name={`Chi tiết đơn hàng #${order.id}`}></BreadCrumbDefault>

@@ -13,10 +13,22 @@ export const CategoryPage = ({slug}) => {
 
     let [products, setProducts] = useState();
     let [categories, setCategories] = useState();
+    let [category, setCategory] = useState()
+
+    const fetchCategoryDetail = async (slug) => {
+        let response = await apiService.get(`/categories/${slug}`)
+        if (response.code == 200) {
+            console.log(response.data)
+            setCategory(response.data)
+        } else {
+            alert("Không tồn tại sản phẩm này !!!")
+        }
+    }
 
     const fetchProductByCategorySlug = async (slug) => {
         try {
-            let response = await apiService.get(`/categories/productWithCategory/${slug}`);
+            let response = await apiService.get(`/categories/productWithCategory/${slug}?pageIndex=0&pageSize=9`);
+            console.log(response)
             if (response && response.data) {
                 setProducts(response.data.products);
                 setCategories(response.data.categories);
@@ -30,12 +42,13 @@ export const CategoryPage = ({slug}) => {
 
     useEffect(() => {
         if (slug) {
+            fetchCategoryDetail(slug).then()
             fetchProductByCategorySlug(slug).then();
         }
-    }, [slug]);
+    }, []);
 
     return (<>
-        <BreadCrumbDefault name="Sản phẩm"></BreadCrumbDefault>
+        <BreadCrumbDefault name={"Danh mục sản phẩm > " + category?.name}></BreadCrumbDefault>
         {/* PRODUCT DETAILS AREA START */}
         <div className="ltn__product-area ltn__product-gutter mb-120">
             <div className="container">
@@ -50,9 +63,6 @@ export const CategoryPage = ({slug}) => {
                                                data-bs-toggle="tab"
                                                href="#liton_product_grid">
                                                 <i className="fas fa-th-large"/>
-                                            </a>
-                                            <a data-bs-toggle="tab" href="#liton_product_list">
-                                                <i className="fas fa-list"/>
                                             </a>
                                         </div>
                                     </div>
@@ -84,62 +94,7 @@ export const CategoryPage = ({slug}) => {
                             <div className="tab-pane fade active show" id="liton_product_grid">
                                 <ProductListGrid products={products}></ProductListGrid>
                             </div>
-                            <div className="tab-pane fade" id="liton_product_list">
-                                <ProductListNoGrid products={products}></ProductListNoGrid>
-                            </div>
                         </div>
-                        {/* Bạn có thể bỏ phần này nếu không muốn hiển thị pagination mặc định */}
-                        {/* <div className="ltn__pagination-area text-center">
-                            <div className="ltn__pagination">
-                                <ul>
-                                    {pageIndex > 1 ? (<li>
-                                        <a href="#"
-                                           onClick={(e) => {
-                                               e.preventDefault();
-                                               fetchProduct(pageIndex - 1);
-                                           }}>
-                                            <i className="fas fa-angle-double-left"/>
-                                        </a>
-                                    </li>) : ("")}
-                                    {pageIndex > 1 ? (<li>
-                                        <a
-                                            href="#"
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                fetchProduct(pageIndex - 1);
-                                            }}
-                                        >
-                                            {pageIndex - 1}
-                                        </a>
-                                    </li>) : ("")}
-                                    <li className="active">
-                                        <a href="#">{pageIndex}</a>
-                                    </li>
-                                    {pageIndex < pageTotal ? (<li>
-                                        <a
-                                            href="#"
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                fetchProduct(pageIndex + 1);
-                                            }}
-                                        >
-                                            {pageIndex + 1}
-                                        </a>
-                                    </li>) : ("")}
-                                    {pageIndex < pageTotal ? (<li>
-                                        <a
-                                            href="#"
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                fetchProduct(pageIndex + 1);
-                                            }}
-                                        >
-                                            <i className="fas fa-angle-double-right"/>
-                                        </a>
-                                    </li>) : ("")}
-                                </ul>
-                            </div>
-                        </div> */}
                     </div>
                     <div className="col-lg-4">
                         <aside className="sidebar ltn__shop-sidebar ltn__right-sidebar">
@@ -159,99 +114,27 @@ export const CategoryPage = ({slug}) => {
                                     </Fragment>))}
                                 </ul>
                             </div>
-                            {/* Top Rated Product Widget */}
-                            <TopRatedProducts></TopRatedProducts>
                             {/* Search Widget */}
                             <div className="widget ltn__search-widget">
                                 <h4 className="ltn__widget-title ltn__widget-title-border">
-                                    Search Objects
+                                    Tìm kiếm
                                 </h4>
                                 <form action="#">
                                     <input
                                         type="text"
                                         name="search"
-                                        placeholder="Search your keyword..."
+                                        placeholder="Tìm kiếm từ khoá..."
                                     />
                                     <button type="submit">
                                         <i className="fas fa-search"/>
                                     </button>
                                 </form>
                             </div>
-                            {/* Tagcloud Widget */}
-                            <div className="widget ltn__tagcloud-widget">
-                                <h4 className="ltn__widget-title ltn__widget-title-border">
-                                    Popular Tags
-                                </h4>
-                                <ul>
-                                    <li>
-                                        <a href="#">Body</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Doctor</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Drugs</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Eye</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Face</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Hand</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Mask</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Medicine</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Price</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Sanitizer</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Virus</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            {/* Type Widget */}
-                            <ProductTypeWidget></ProductTypeWidget>
-                            {/* Banner Widget */}
-                            <BannerWidget></BannerWidget>
                         </aside>
                     </div>
                 </div>
             </div>
         </div>
         {/* PRODUCT DETAILS AREA END */}
-        {/* CALL TO ACTION START (call-to-action-6) */}
-        <div className="ltn__call-to-action-area call-to-action-6 before-bg-bottom"
-             data-bs-bg="/assets/img/1.jpg--">
-            <div className="container">
-                <div className="row">
-                    <div className="col-lg-12">
-                        <div
-                            className="call-to-action-inner call-to-action-inner-6 ltn__secondary-bg position-relative text-center---">
-                            <div className="coll-to-info text-color-white">
-                                <h1>
-                                    Buy medical disposable face mask <br/> to protect your
-                                    loved ones
-                                </h1>
-                            </div>
-                            <div className="btn-wrapper">
-                                <a className="btn btn-effect-3 btn-white" href="shop.html">
-                                    Explore Products <i className="icon-next"/>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {/* CALL TO ACTION END */}
     </>);
 }

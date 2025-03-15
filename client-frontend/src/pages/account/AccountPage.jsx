@@ -31,8 +31,7 @@ export default function AccountPage() {
                         setOrders(response.data);
 
                     } else {
-                        console.error("Order data is missing:", response);
-                        setError("Không thể lấy dữ liệu đơn hàng."); // Set error message
+                        setError("Không có đơn hàng nào."); // Set error message
                     }
                 }
             } catch (error) {
@@ -115,7 +114,8 @@ export default function AccountPage() {
                                                     </p>
                                                     {params.get("paymentStatus") == "success" ? (<>
                                                         <div className="alert alert-success">
-                                                            Thanh toán thành công, vui lòng kiểm tra thông tin đơn hàng trong Email của bạn
+                                                            Thanh toán thành công, vui lòng kiểm tra thông tin đơn hàng
+                                                            trong Email của bạn
                                                         </div>
                                                     </>) : (<></>)}
                                                 </div>

@@ -13,7 +13,6 @@ export default function ProductCardGrid({product, index}) {
     let {cart, addToCart} = useCart()
     let {wishlist, addToWishList} = useWishList()
 
-
     return (<>
         <div key={index} className="col-xl-4 col-sm-6 col-6">
             <div className="ltn__product-item ltn__product-item-3 text-center">
@@ -21,11 +20,6 @@ export default function ProductCardGrid({product, index}) {
                     <Link href={"/products/" + product.slug}>
                         <img src={product.thumbnail} alt="#"/>
                     </Link>
-                    {/*<div className="product-badge">*/}
-                    {/*    <ul>*/}
-                    {/*        <li className="sale-badge">New</li>*/}
-                    {/*    </ul>*/}
-                    {/*</div>*/}
                     <div className="product-hover-action">
                         <ul>
                             <li>

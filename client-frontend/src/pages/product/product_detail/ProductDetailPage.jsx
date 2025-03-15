@@ -1,4 +1,3 @@
-// pages/product/product_detail/ProductDetailPage.jsx
 "use client"
 
 import BreadCrumbDefault from "@/components/breadcrumbs/BreadCrumbDefault";
@@ -10,17 +9,23 @@ import {formatNumber} from "@/utils/NumberUltils";
 import {useCart} from "@/contexts/CartContext";
 import {useWishList} from "@/contexts/WishListContext";
 import Link from "next/link";
-import {ProductDetailImageList} from "@/pages/product/product_detail/ProductDetailImageList";
 import {ProductComments} from "@/pages/product/product_detail/ProductComments";
+
+// Import Swiper React components
+import {Swiper, SwiperSlide} from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
 
 export default function ProductDetailPage({id}) {
     const [quantityInput, setQuantityInput] = useState(1)
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0); // For image slider
     const {addToCart} = useCart();
     const {addToWishList} = useWishList();
+
+    console.log(product)
 
     useEffect(() => {
         const fetchProductDetail = async () => {
@@ -99,22 +104,33 @@ export default function ProductDetailPage({id}) {
         <div className="ltn__shop-details-area pb-85">
             <div className="container">
                 <div className="row">
-                    <div className="col-lg-8 col-md-12">
+                    <div className="col-lg-12 col-md-12">
                         <div className="ltn__shop-details-inner mb-60">
                             <div className="row">
-                                <div className="col-md-6">
+                                <div className="col-md-8">
                                     <div className="ltn__shop-details-img-gallery">
-                                        {/* Replace the old image gallery with this: */}
-                                        <ProductDetailImageList images={productImagesResponses} title={title}/>
+                                        {productImagesResponses && productImagesResponses.length > 0 ? (<Swiper
+                                            spaceBetween={30}
+                                            slidesPerView={1}
+                                            loop={true}
+                                        >
+                                            {productImagesResponses.map((image, index) => (<SwiperSlide key={index}>
+                                                <div className="ltn__shop-details-img">
+                                                    <img src={image.url} alt={title}/>
+                                                </div>
+                                            </SwiperSlide>))}
+                                        </Swiper>) : (<div className="ltn__shop-details-img">
+                                            <img src="/assets/img/product-3/1.jpg" alt="Placeholder"/>
+                                        </div>)}
                                     </div>
                                 </div>
-                                <div className="col-md-6">
+                                <div className="col-md-4">
                                     <div className="modal-product-info shop-details-info pl-0">
-                                        {/*  Rating, remove hardcoded rating. If you have rating data, add it here. */}
+                                        {/* Rating, remove hardcoded rating. If you have rating data, add it here. */}
                                         <h3>{title}</h3>
                                         <div className="product-price">
                                             <span>{formatNumber(price)}</span>
-                                            {/*  Add a discounted price if available  */}
+                                            {/* Add a discounted price if available  */}
                                         </div>
                                         <div className="modal-product-meta ltn__product-details-menu-1">
                                             <ul>
@@ -124,10 +140,7 @@ export default function ProductDetailPage({id}) {
                                                 </li>
                                                 <li>
                                                     <strong>Danh mục:</strong>
-                                                    <span>
-                                                            <Link
-                                                                href={`/category/${product.categoryId}`}>{categoryName}</Link>
-                                                        </span>
+                                                    <span>{categoryName}</span>
                                                 </li>
                                                 <li>
                                                     <strong>Loại:</strong>
@@ -253,11 +266,6 @@ export default function ProductDetailPage({id}) {
                             </div>
                         </div>
                         {/* Shop Tab End */}
-                    </div>
-                    <div className="col-lg-4">
-                        <aside className="sidebar ltn__shop-sidebar ltn__right-sidebar">
-                            <TopRatedProducts/>
-                        </aside>
                     </div>
                 </div>
             </div>
