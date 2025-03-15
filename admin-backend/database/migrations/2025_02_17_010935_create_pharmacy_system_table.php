@@ -179,27 +179,24 @@ return new class extends Migration {
             $table->string("id")->primary(); // Đặt 'id' làm primary key
             $table->string("expiry_time");
         });
+
+        Schema::create('pharmacy_homepage', function (Blueprint $table) {
+            $table->id();
+            $table->json('top_banner');
+            $table->string('banner_2');
+            $table->string('banner_3');
+            $table->string('category_1_banner');
+            $table->string('category_1_title');
+            $table->string('category_1_id')->nullable();
+            $table->string('category_2_banner');
+            $table->string('category_2_title');
+            $table->string('category_2_id')->nullable();
+            $table->json('most_searches');
+            $table->timestamps();
+        });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('invalidated_token');
-        Schema::dropIfExists('customer_cares');
-        Schema::dropIfExists('blogs');
-        Schema::dropIfExists('blog_categories');
-        Schema::dropIfExists('payments');
-        Schema::dropIfExists('order_details');
-        Schema::dropIfExists('orders');
-        Schema::dropIfExists('reply_comments');
-        Schema::dropIfExists('comments');
-        Schema::dropIfExists('wishlists');
-        Schema::dropIfExists('product_images');
-        Schema::dropIfExists('products');
-        Schema::dropIfExists('brands');
-        Schema::dropIfExists('categories');
-        Schema::dropIfExists('customers');
     }
 };

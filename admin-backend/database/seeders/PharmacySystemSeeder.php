@@ -60,6 +60,8 @@ class PharmacySystemSeeder extends Seeder
         // Seed orders and related tables
         $this->seedOrders(100);
 
+        $this->seedHomePageSettings();
+
         return "Pharmacy database seeded successfully with sample data!";
     }
 
@@ -463,6 +465,8 @@ class PharmacySystemSeeder extends Seeder
             $status = $statuses[array_rand($statuses)];
             $paymentMethod = $paymentMethods[array_rand($paymentMethods)];
             $paymentStatus = $paymentStatuses[array_rand($paymentStatuses)];
+            $orderNote = "None";
+
 
             // If status is 'cancelled', payment status should be 'fail'
             if ($status === 'admin_cancelled') {
@@ -481,6 +485,7 @@ class PharmacySystemSeeder extends Seeder
                 'payment_method' => $paymentMethod,
                 'payment_status' => $paymentStatus,
                 'total_price' => 0, // Temporary value
+                'note' => $orderNote,
                 'created_at' => $createdAt,
                 'updated_at' => $createdAt
             ]);
@@ -538,5 +543,34 @@ class PharmacySystemSeeder extends Seeder
                 ]);
             }
         }
+    }
+
+    private function seedHomePageSettings()
+    {
+        $faker = Faker::create();
+        $imageUrl = asset("/assets/img/placeholder.png"); // Placeholder image
+
+        DB::table('pharmacy_homepage')->insert([
+            'top_banner' => json_encode([
+                $imageUrl,
+                $imageUrl,
+                $imageUrl
+            ]),
+            'banner_2' => $imageUrl,
+            'banner_3' => $imageUrl,
+            'category_1_banner' => $imageUrl,
+            'category_1_title' => 'Category 1 Title',
+            'category_1_id' => 1, // Replace with a valid category ID if you have categories.  Or NULL.
+            'category_2_banner' => $imageUrl,
+            'category_2_title' => 'Category 2 Title',
+            'category_2_id' => 2,  // Replace with a valid category ID if you have categories. Or NULL.
+            'most_searches' => json_encode([
+                'Search Term 1',
+                'Search Term 2',
+                'Search Term 3',
+            ]),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

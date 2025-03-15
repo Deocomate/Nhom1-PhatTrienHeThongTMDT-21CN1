@@ -3,8 +3,8 @@
 
     <!-- ADMIN BASE -->
     <li class="nav-header">ADMIN</li>
-    <x-menus.menu-item :route="route('admin.index')" name="Trang chủ" icon="fas fa-tachometer-alt">
-        <x-menus.nav-item :route="route('admin.index')" name="Tổng quan"></x-menus.nav-item>
+    <x-menus.menu-item :route="route('admin.homepage.index')" name="Trang chủ" icon="fas fa-tachometer-alt">
+        <x-menus.nav-item :route="route('admin.homepage.index')" name="Tổng quan"></x-menus.nav-item>
         <x-menus.nav-item :route="route('admin.test.form')" name="Test Form"></x-menus.nav-item>
     </x-menus.menu-item>
 
