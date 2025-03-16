@@ -4,8 +4,9 @@ import {Autoplay} from 'swiper/modules';
 import 'swiper/css';
 import Image from "next/image";
 
-export const HomePageBanner = () => {
-    const bannerImages = ["/assets/default/homepage-banner-1.png", "/assets/default/homepage-banner-2.png"];
+export const HomePageBanner = ({homePageData}) => {
+
+    const bannerImages = homePageData.topBanner;
 
     return (<>
         <section className={"py-3"}>
@@ -14,21 +15,20 @@ export const HomePageBanner = () => {
                     <Swiper
                         loop={true}
                         spaceBetween={5}
-                        slidesPerView={1}
-                    >
+                        slidesPerView={1}>
                         {bannerImages.map((image, index) => (<SwiperSlide key={index}>
                             <img src={image} style={{
-                                width: "100%",height:"400px", objectFit: "cover",
+                                width: "100%", height: "400px", objectFit: "cover",
                             }} alt={`Banner ${index + 1}`}/>
                         </SwiperSlide>))}
                     </Swiper>
                 </div>
                 <div className="div2">
-                    <img src="/assets/default/homepage-banner-right-1.png"
+                    <img src={homePageData.banner2 || "/assets/default/placeholder.png"}
                          style={{width: '100%', height: '100%', objectFit: 'cover'}} alt=""/>
                 </div>
                 <div className="div3">
-                    <img src="/assets/default/homepage-banner-right-2.png"
+                    <img src={homePageData.banner3 || "/assets/default/placeholder.png"}
                          style={{width: '100%', height: '100%', objectFit: 'cover'}} alt=""/>
                 </div>
             </div>
