@@ -24,12 +24,12 @@ export default function ProductListPage() {
             let response = await apiService.get(`/products?pageIndex=${pageIndex}&pageSize=9`);
             console.log(response)
             if (response) {
-                let productsResponse = response.content;
+                let productsResponse = response.data.content;
                 setProducts(productsResponse);
-                setPageSize(response.size);
-                setPageTotal(response.totalPages);
-                setPageIndex(response.number + 1); // Display page numbers starting from 1
-                setTotalElements(response.totalElements);
+                setPageSize(response.data.size);
+                setPageTotal(response.data.totalPages);
+                setPageIndex(response.data.number + 1); // Display page numbers starting from 1
+                setTotalElements(response.data.totalElements);
             } else {
                 console.error("Failed to fetch products");
             }
@@ -137,8 +137,6 @@ export default function ProductListPage() {
                                         </Fragment>))}
                                 </ul>
                             </div>
-                            {/*<TopRatedProducts></TopRatedProducts>*/}
-                            {/* Search Widget */}
                             <div className="widget ltn__search-widget">
                                 <h4 className="ltn__widget-title ltn__widget-title-border">
                                     Tìm kiếm sản phẩm

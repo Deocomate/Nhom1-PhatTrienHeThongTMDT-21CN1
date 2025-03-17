@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Navigation, Pagination, Scrollbar, A11y} from 'swiper/modules';
 import 'swiper/css';
@@ -6,16 +6,33 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import Link from 'next/link';
-import {formatNumber} from "@/utils/NumberUltils"; // Path này có vẻ ổn, giữ nguyên
+import {formatNumber} from "@/utils/NumberUltils";
+import apiService from "@/lib/api/apiService";
 
-export const ProductsByCategoryCarousel = () => {
+export const ProductsByCategoryCarousel = ({banner, title, categoryId}) => {
+
+    let [categories, setCategories] = useState([])
+
+    const fetchCategory = async () => {
+        if (categoryId) {
+            let response = await apiService.get("/products/category/" + categoryId)
+            if (response.content.length >= 0) {
+                console.log(response.content)
+                setCategories(response.content);
+            }
+        }
+    }
+    useEffect(() => {
+        fetchCategory().then()
+    }, [categoryId]);
+
     return (<>
         <div className={"banner mb-3"}>
-            <img src="/assets/default/banner-placeholder.png" className={"w-100"} alt=""/>
+            <img src={banner || "/assets/default/placeholder.png"} className={"w-100"} alt=""/>
         </div>
         <div className={"border rounded-3 py-4 px-4"}>
             <div className={"header d-flex justify-content-between align-items-center mb-3"}>
-                <h3 className={"mb-0 "}>Tủ thuốc gia đình</h3>
+                <h3 className={"mb-0 "}>{title}</h3>
                 <Link href="/all-products" passHref> {/*  Thay đổi: Dùng Link của Next.js để tối ưu */}
                     <button className={"btn-all btn btn-sm btn-success py-2 px-3"}>Xem tất cả</button>
                 </Link>
@@ -43,30 +60,30 @@ export const ProductsByCategoryCarousel = () => {
                     onSlideChange={() => console.log('slide change')}
                     onSwiper={(swiper) => console.log(swiper)}
                 >
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, index) => ( // Thêm nhiều item hơn để test
+                    {categories.map((item, index) => ( // Thêm nhiều item hơn để test
                         <SwiperSlide className={"p-1"} key={index}>
                             <div className={"product-card"}>
                                 <div className="card" style={{overflow: "hidden"}}>
-                                    <Link href={`/product/${index + 1}`}
+                                    <Link href={`/products/${item.slug}`}
                                           passHref> {/* Thay đổi: Thêm Link vào từng sản phẩm */}
-                                        <img src="/assets/default/placeholder.png"
+                                        <img src={item.thumbnail}
                                              style={{height: "200px", objectFit: "cover"}}
                                              className="w-100" alt=""/>
                                     </Link>
                                     <div className="card-body pb-0">
                                         <h5 className={"fw-normal"}>
-                                            <Link href={`/product/${index + 1}`}
-                                                  passHref> {/* Thay đổi: Thêm Link vào tên sản phẩm */}
-                                                Dung dịch Natri Clorid Phaedic 0.9% vệ sinh mắt, ...
+                                            <Link href={`/products/${item.slug}`}
+                                                  passHref>
+                                                {item.title}
                                             </Link>
                                         </h5>
-                                        <p className="mb-3"><b className="text-success">{formatNumber(4322)}</b> /
+                                        <p className="mb-3"><b className="text-success">{formatNumber(item.price)}</b> /
                                             Sản
                                             phẩm
                                         </p>
                                     </div>
                                     <div className={"card-footer bg-white border-0"}>
-                                        <Link href={`/product/${index + 1}`}
+                                        <Link href={`/products/${item.slug}`}
                                               passHref>  {/* Thay đổi: Chuyển button thành Link */}
                                             <button className={"btn btn-sm p-2 btn-success w-100"}>Xem chi tiết
                                             </button>

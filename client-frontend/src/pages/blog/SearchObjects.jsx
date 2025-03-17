@@ -5,7 +5,7 @@ export default function SearchObjects() {
     <>
       <div className="widget ltn__search-widget">
         <h4 className="ltn__widget-title ltn__widget-title-border-2">
-          Tìm kiếm log
+          Tìm kiếm Blog
         </h4>
         <form action="#">
           <input

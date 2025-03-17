@@ -2,7 +2,7 @@
 import axios from "axios";
 
 class ApiService {
-    constructor(baseURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api") {
+    constructor(baseURL = process.env.NEXT_PUBLIC_API_URL || "") {
 
         console.log(process.env.NEXT_PUBLIC_API_URL)
         this.tokenKey = "jwt_token";

@@ -14,16 +14,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,7 +79,7 @@ public class ProductService {
     public ApiResponse<ProductResponse> getProductBySlug(String slug) {
         Product product = productRepository.findProductBySlug(slug)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND, "slug"));
-        ProductResponse productResponse = productMapper.toProductWithCommentResponse(product);
+        ProductResponse productResponse = productMapper.toProductResponse(product);
 
         return ApiResponse.<ProductResponse>builder()
                 .code(HttpStatus.OK.value())
@@ -94,55 +89,75 @@ public class ProductService {
                 .build();
     }
 
-    public Page<Product> getProducts(String title, String sortBy, boolean priority, String direction, int pageIndex, int pageSize) {
+    public ApiResponse<Page<ProductResponse>> getProducts(String title, String sortBy, boolean priority, String direction, int pageIndex, int pageSize) {
         Pageable pageable;
 
-        // Danh sách các trường hợp được phép sắp xếp
         if (priority) {
-            // Nếu `priority = true`, luôn sắp xếp theo priority trước
             Sort sort = direction != null && direction.equalsIgnoreCase("desc")
                     ? Sort.by("priority").descending()
                     : Sort.by("priority").ascending();
             pageable = PageRequest.of(pageIndex, pageSize, sort);
         } else if (sortBy != null && !sortBy.trim().isEmpty() && contains(allowForSorting, sortBy)) {
-            // Nếu `priority = false`, chỉ sắp xếp theo `sortBy` nếu hợp lệ
             Sort sort = direction != null && direction.equalsIgnoreCase("desc")
                     ? Sort.by(sortBy).descending()
                     : Sort.by(sortBy).ascending();
             pageable = PageRequest.of(pageIndex, pageSize, sort);
         } else {
-            // Không có `sortBy` và `priority = false` → Không sắp xếp
             pageable = PageRequest.of(pageIndex, pageSize);
         }
 
-        return (title != null && !title.trim().isEmpty())
+        Page<Product> productPage = (title != null && !title.trim().isEmpty())
                 ? productRepository.findByTitleContainingIgnoreCase(title, pageable)
                 : productRepository.findAll(pageable);
+
+        List<ProductResponse> productResponses = productPage.getContent().stream()
+                .map(product -> {
+                    ProductResponse response = productMapper.toProductResponse(product);
+                    checkThumbnail(response);
+                    return response;
+                })
+                .collect(Collectors.toList());
+
+        return ApiResponse.<Page<ProductResponse>>builder()
+                .code(HttpStatus.OK.value())
+                .message(SuccessMessage.GET_ALL_PRODUCT.getMessage())
+                .data(new PageImpl<>(productResponses, pageable, productPage.getTotalElements()))
+                .timestamp(LocalDateTime.now())
+                .build();
+
     }
 
-    public Page<Product> getProductsByCategoryId(int categoryId, String sortBy, boolean priority, String direction, int pageIndex, int pageSize) {
+
+    public ApiResponse<Page<ProductResponse>> getProductsByCategoryId(int categoryId, String sortBy, boolean priority, String direction, int pageIndex, int pageSize) {
         Pageable pageable;
 
-        // Danh sách các trường hợp được phép sắp xếp
         if (priority) {
-            // Nếu `priority = true`, luôn sắp xếp theo priority trước
-            Sort sort = direction != null && direction.equalsIgnoreCase("desc")
-                    ? Sort.by("priority").descending()
-                    : Sort.by("priority").ascending();
+            Sort sort = "desc".equalsIgnoreCase(direction) ? Sort.by("priority").descending() : Sort.by("priority").ascending();
             pageable = PageRequest.of(pageIndex, pageSize, sort);
         } else if (sortBy != null && !sortBy.trim().isEmpty() && contains(allowForSorting, sortBy)) {
-            // Nếu `priority = false`, chỉ sắp xếp theo `sortBy` nếu hợp lệ
-            Sort sort = direction != null && direction.equalsIgnoreCase("desc")
-                    ? Sort.by(sortBy).descending()
-                    : Sort.by(sortBy).ascending();
+            Sort sort = "desc".equalsIgnoreCase(direction) ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
             pageable = PageRequest.of(pageIndex, pageSize, sort);
         } else {
-            // Không có `sortBy` và `priority = false` → Không sắp xếp
             pageable = PageRequest.of(pageIndex, pageSize);
         }
 
-        return productRepository.findByCategoryId(categoryId, pageable)
+        Page<Product> productPage = productRepository.findByCategoryId(categoryId, pageable)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND, "categoryId"));
+
+        List<ProductResponse> productResponses = productPage.getContent().stream()
+                .map(product -> {
+                    ProductResponse response = productMapper.toProductResponse(product);
+                    checkThumbnail(response);
+                    return response;
+                })
+                .collect(Collectors.toList());
+
+        return ApiResponse.<Page<ProductResponse>>builder()
+                .code(HttpStatus.OK.value())
+                .message(SuccessMessage.GET_ALL_PRODUCT.getMessage())
+                .data(new PageImpl<>(productResponses, pageable, productPage.getTotalElements()))
+                .timestamp(LocalDateTime.now())
+                .build();
     }
 
 

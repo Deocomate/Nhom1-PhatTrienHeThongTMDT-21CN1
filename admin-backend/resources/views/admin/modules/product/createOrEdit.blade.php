@@ -53,7 +53,7 @@ $isEdit = isset($product) && $product;
                                :value="$product ? $product->registration_number : ''"/>
 
                 <x-inputs.image-link-array label="Thư viện ảnh" name="images"
-                                           :value="$product && isset($product->images) ? $product->images : []"></x-inputs.image-link-array>
+                                           :value="$productImages && isset($productImages) ? $productImages : []"></x-inputs.image-link-array>
 
                 <button type="submit" class="btn btn-primary">{{ $isEdit ? 'Sửa' : 'Tạo' }}</button>
             </form>

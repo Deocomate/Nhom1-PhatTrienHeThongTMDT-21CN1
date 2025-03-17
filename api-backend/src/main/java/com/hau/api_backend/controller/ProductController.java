@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +33,7 @@ public class ProductController {
 //    }
 
     @GetMapping
-    public ResponseEntity<Page<Product>> getProducts(
+    public ResponseEntity<ApiResponse<Page<ProductResponse>>> getProducts(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String sortBy,
             @RequestParam(defaultValue = "false") boolean priority,
@@ -42,13 +41,13 @@ public class ProductController {
             @RequestParam(defaultValue = "0") int pageIndex,
             @RequestParam(defaultValue = "10") int pageSize) {
 
-        Page<Product> products = productService.getProducts(title, sortBy, priority, direction, pageIndex, pageSize);
-        return ResponseEntity.ok(products);
+        ApiResponse<Page<ProductResponse>> apiResponse = productService.getProducts(title, sortBy, priority, direction, pageIndex, pageSize);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
 
     @GetMapping("/category/{categoryId}")
-    public ResponseEntity<Page<Product>> getProducts(
+    public ResponseEntity<ApiResponse<Page<ProductResponse>>> getProductByCategory(
             @PathVariable int categoryId,
             @RequestParam(required = false) String sortBy,
             @RequestParam(defaultValue = "false") boolean priority,
@@ -56,8 +55,9 @@ public class ProductController {
             @RequestParam(defaultValue = "0") int pageIndex,
             @RequestParam(defaultValue = "10") int pageSize) {
 
-        Page<Product> products = productService.getProductsByCategoryId(categoryId, sortBy, priority, direction, pageIndex, pageSize);
-        return ResponseEntity.ok(products);
+        ApiResponse<Page<ProductResponse>> apiResponse = productService.getProductsByCategoryId(categoryId, sortBy, priority, direction, pageIndex, pageSize);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+
     }
 
     @GetMapping("/{id}")
@@ -82,11 +82,10 @@ public class ProductController {
         return productRepository.findByCategoryId(categoryId, pageable).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND, "categoryId"));
     }
 
-
-
 //    @GetMapping("/{id}/images")
 //    public ResponseEntity<ApiResponse<List<ProductImageResponse>>> getProductImages(@PathVariable int id) {
 //        ApiResponse<List<ProductImageResponse>> apiResponse = productService.getProductImages(id);
 //        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 //    }
+
 }
