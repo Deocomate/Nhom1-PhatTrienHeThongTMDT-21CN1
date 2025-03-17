@@ -58,17 +58,17 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'registration_number' => 'required|unique:products|max:255',
         ]);
-    
+
         // Generate slug from title
         $validated['slug'] = Str::slug($validated['title']);
-    
+
         // Remove 'images' from the product data
         $productData = $validated;
         unset($productData['images']);
-    
+
         // Insert the product
         $productId = DB::table('products')->insertGetId($productData);
-    
+
         // Insert related images
         foreach ($validated['images'] as $image) {
             DB::table('product_images')->insert([
@@ -78,7 +78,7 @@ class ProductController extends Controller
                 'updated_at' => now(),
             ]);
         }
-    
+
         return redirect()->route('admin.product.index')->with('success', 'Sản phẩm đã được tạo thành công!');
     }
 
@@ -100,22 +100,22 @@ class ProductController extends Controller
             ->select('products.*', 'brands.name as brand_name')
             ->where('products.id', $id)
             ->first();
-    
+
+        $productImages = [];
+        $productImagesResponse = DB::table('product_images')->where('product_id', $id)->get();
+        foreach ($productImagesResponse as $productImage) {
+            $productImages[] = $productImage->url;
+        }
+
+
         if (!$product) {
             abort(404);
         }
-    
-        // Ensure images field is decoded if it exists
-        if (isset($product->images)) {
-            $product->images = json_decode($product->images);
-        } else {
-            $product->images = [];
-        }
-    
+
         $categories = DB::table('categories')->get();
         $brands = DB::table('brands')->get();  // Ensure brands are fetched for the dropdown
-    
-        return view('admin.modules.product.createOrEdit', compact('product', 'categories', 'brands'));
+
+        return view('admin.modules.product.createOrEdit', compact('product', 'categories', 'brands', 'productImages'));
     }
 
     /**
@@ -140,15 +140,15 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'registration_number' => 'required|unique:products,registration_number,' . $id . '|max:255',
         ]);
-    
+
         // Update the product without the images field
         $productData = $validated;
         unset($productData['images']);
         DB::table('products')->where('id', $id)->update($productData);
-    
+
         // Delete existing images for the product
         DB::table('product_images')->where('product_id', $id)->delete();
-    
+
         // Insert updated images
         foreach ($validated['images'] as $image) {
             DB::table('product_images')->insert([
@@ -158,7 +158,7 @@ class ProductController extends Controller
                 'updated_at' => now(),
             ]);
         }
-    
+
         return redirect()->route('admin.product.index')->with('success', 'Sản phẩm đã được cập nhật thành công!');
     }
 
