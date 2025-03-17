@@ -46,7 +46,7 @@ public class CustomerCareService {
 
 
         return ApiResponse.<CustomerCareResponse>builder()
-                .code(HttpStatus.OK.value())
+                .code(HttpStatus.CREATED.value())
                 .message(SuccessMessage.CREATED_CUSTOMER_CARE.getMessage())
                 .data(customerCareResponse)
                 .timestamp(LocalDateTime.now())
