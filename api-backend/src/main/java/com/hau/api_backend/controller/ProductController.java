@@ -16,8 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
@@ -35,7 +33,7 @@ public class ProductController {
 //    }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<ProductResponse>>> getProducts(
+    public ResponseEntity<ApiResponse<Page<ProductResponse>>> getProducts(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String sortBy,
             @RequestParam(defaultValue = "false") boolean priority,
@@ -43,13 +41,13 @@ public class ProductController {
             @RequestParam(defaultValue = "0") int pageIndex,
             @RequestParam(defaultValue = "10") int pageSize) {
 
-        ApiResponse<List<ProductResponse>> apiResponse = productService.getProducts(title, sortBy, priority, direction, pageIndex, pageSize);
+        ApiResponse<Page<ProductResponse>> apiResponse = productService.getProducts(title, sortBy, priority, direction, pageIndex, pageSize);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
 
     @GetMapping("/category/{categoryId}")
-    public ResponseEntity<ApiResponse<List<ProductResponse>>> getProductByCategory(
+    public ResponseEntity<ApiResponse<Page<ProductResponse>>> getProductByCategory(
             @PathVariable int categoryId,
             @RequestParam(required = false) String sortBy,
             @RequestParam(defaultValue = "false") boolean priority,
@@ -57,7 +55,7 @@ public class ProductController {
             @RequestParam(defaultValue = "0") int pageIndex,
             @RequestParam(defaultValue = "10") int pageSize) {
 
-        ApiResponse<List<ProductResponse>> apiResponse = productService.getProductsByCategoryId(categoryId, sortBy, priority, direction, pageIndex, pageSize);
+        ApiResponse<Page<ProductResponse>> apiResponse = productService.getProductsByCategoryId(categoryId, sortBy, priority, direction, pageIndex, pageSize);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
 
     }

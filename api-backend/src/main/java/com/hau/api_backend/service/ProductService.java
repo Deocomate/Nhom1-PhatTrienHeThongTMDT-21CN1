@@ -14,16 +14,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -94,7 +89,7 @@ public class ProductService {
                 .build();
     }
 
-    public ApiResponse<List<ProductResponse>> getProducts(String title, String sortBy, boolean priority, String direction, int pageIndex, int pageSize) {
+    public ApiResponse<Page<ProductResponse>> getProducts(String title, String sortBy, boolean priority, String direction, int pageIndex, int pageSize) {
         Pageable pageable;
 
         if (priority) {
@@ -123,16 +118,17 @@ public class ProductService {
                 })
                 .collect(Collectors.toList());
 
-        return ApiResponse.<List<ProductResponse>>builder()
+        return ApiResponse.<Page<ProductResponse>>builder()
                 .code(HttpStatus.OK.value())
                 .message(SuccessMessage.GET_ALL_PRODUCT.getMessage())
-                .data(productResponses)
+                .data(new PageImpl<>(productResponses, pageable, productPage.getTotalElements()))
                 .timestamp(LocalDateTime.now())
                 .build();
+
     }
 
 
-    public ApiResponse<List<ProductResponse>> getProductsByCategoryId(int categoryId, String sortBy, boolean priority, String direction, int pageIndex, int pageSize) {
+    public ApiResponse<Page<ProductResponse>> getProductsByCategoryId(int categoryId, String sortBy, boolean priority, String direction, int pageIndex, int pageSize) {
         Pageable pageable;
 
         if (priority) {
@@ -156,10 +152,10 @@ public class ProductService {
                 })
                 .collect(Collectors.toList());
 
-        return ApiResponse.<List<ProductResponse>>builder()
+        return ApiResponse.<Page<ProductResponse>>builder()
                 .code(HttpStatus.OK.value())
                 .message(SuccessMessage.GET_ALL_PRODUCT.getMessage())
-                .data(productResponses)
+                .data(new PageImpl<>(productResponses, pageable, productPage.getTotalElements()))
                 .timestamp(LocalDateTime.now())
                 .build();
     }
