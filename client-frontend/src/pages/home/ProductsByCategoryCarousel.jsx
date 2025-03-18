@@ -16,7 +16,7 @@ export const ProductsByCategoryCarousel = ({banner, title, categoryId}) => {
     const fetchCategory = async () => {
         if (categoryId) {
             let response = await apiService.get("/products/category/" + categoryId)
-            if (response.content.length >= 0) {
+            if (response.data.content?.length >= 0) {
                 console.log(response.content)
                 setCategories(response.content);
             }
