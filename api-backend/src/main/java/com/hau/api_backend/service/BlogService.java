@@ -78,7 +78,7 @@ public class BlogService {
 
         List<BlogResponse> blogResponses = blogPage.getContent().stream()
                 .map(blog -> {
-                    BlogResponse response = blogMapper.toBlogResponse(blog);
+                    BlogResponse response = mapBlogWithCategory(blog); // Use the existing method that handles blogCategory
                     checkThumbnail(response);
                     return response;
                 }).collect(Collectors.toList());
@@ -89,7 +89,6 @@ public class BlogService {
                 .data(new PageImpl<>(blogResponses, pageable, blogPage.getTotalElements()))
                 .timestamp(LocalDateTime.now())
                 .build();
-
     }
 
 
