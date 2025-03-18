@@ -16,9 +16,9 @@ export const ProductsByCategoryCarousel = ({banner, title, categoryId}) => {
     const fetchCategory = async () => {
         if (categoryId) {
             let response = await apiService.get("/products/category/" + categoryId)
+            console.log(response.data)
             if (response.data.content?.length >= 0) {
-                console.log(response.content)
-                setCategories(response.content);
+                setCategories(response.data.content);
             }
         }
     }
@@ -33,16 +33,15 @@ export const ProductsByCategoryCarousel = ({banner, title, categoryId}) => {
         <div className={"border rounded-3 py-4 px-4"}>
             <div className={"header d-flex justify-content-between align-items-center mb-3"}>
                 <h3 className={"mb-0 "}>{title}</h3>
-                <Link href="/all-products" passHref> {/*  Thay đổi: Dùng Link của Next.js để tối ưu */}
+                <Link href={"/category/"} passHref>
                     <button className={"btn-all btn btn-sm btn-success py-2 px-3"}>Xem tất cả</button>
                 </Link>
             </div>
             <div className={"product-list"}>
                 <Swiper
                     className={"product-item"}
-                    modules={[Scrollbar]} // Thêm các module
-                    spaceBetween={5} // Tăng khoảng cách, 5 có thể hơi nhỏ
-                    // scrollbar={{ draggable: true }}   // Bật scrollbar (tùy chọn)
+                    modules={[Scrollbar]}
+                    spaceBetween={5}
                     breakpoints={{
                         320: {
                             slidesPerView: 1.3, spaceBetween: 5,

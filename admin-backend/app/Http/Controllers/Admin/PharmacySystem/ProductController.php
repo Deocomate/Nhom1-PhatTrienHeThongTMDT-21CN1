@@ -32,8 +32,9 @@ class ProductController extends Controller
     {
         $product = null;
         $categories = DB::table('categories')->get();
+        $productImages = [];
         $brands = DB::table('brands')->get();  // Fetch brands for the dropdown
-        return view('admin.modules.product.createOrEdit', compact('product', 'categories', 'brands'));
+        return view('admin.modules.product.createOrEdit', compact('productImages', 'product', 'categories', 'brands'));
     }
 
     /**

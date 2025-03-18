@@ -40,8 +40,6 @@ public class SecurityConfig {
             "/api/products/getAllProductByCategoryId/{categoryId}",
             "api/blog", "/api/blog/getBlogBySlug/{slug:[a-zA-Z0-9-]+}", "api/products/search", "/api/products/category/{id}",
             "/api/homepage"
-
-
     };
 
     private final String[] PUBLIC_DELETE_ENDPOINTS = {""};

@@ -60,7 +60,7 @@ const HomePage = () => {
                 ></ProductsByCategoryCarousel>
             </section>
             <section className={"py-3"}>
-                <MostSearch></MostSearch>
+                <MostSearch mostSearches={homePageData.mostSearches}></MostSearch>
             </section>
             <section className={"py-3"}>
                 <HomePageSubBanner></HomePageSubBanner>
