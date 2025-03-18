@@ -22,6 +22,4 @@ public class BlogResponse {
     int priority;
     LocalDateTime created_at;
     LocalDateTime updated_at;
-    List<Blog> blogs;
-
 }
