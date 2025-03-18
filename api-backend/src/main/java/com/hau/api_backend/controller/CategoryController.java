@@ -46,6 +46,13 @@ public class CategoryController {
         return categoryBasePaginationService.getPagedData(categoryRepository, pageIndex, pageSize);
     }
 
+    @GetMapping("/id/{categoryId}")
+    public ResponseEntity<ApiResponse<CategoryResponse>> getCategoryById(@PathVariable int categoryId) {
+        ApiResponse<CategoryResponse> apiResponse = categoryService.getCategoryById(categoryId);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+
     @GetMapping("/parent")
     public ResponseEntity<ApiResponse<List<CategoryResponse>>> getCategoryByParentId(@RequestParam(value = "parentId", required = false) Integer parentId) {
         ApiResponse<List<CategoryResponse>> apiResponse = categoryService.getCategoryByParentId(parentId);

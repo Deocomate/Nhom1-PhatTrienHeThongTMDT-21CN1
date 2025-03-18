@@ -39,7 +39,7 @@ public class SecurityConfig {
             "/api/categories/{slug}",
             "/api/products/getAllProductByCategoryId/{categoryId}",
             "api/blog", "/api/blog/getBlogBySlug/{slug:[a-zA-Z0-9-]+}", "api/products/search", "/api/products/category/{id}",
-            "/api/homepage"
+            "/api/homepage", "/api/categories/id/{categoryId}",
 
 
     };
