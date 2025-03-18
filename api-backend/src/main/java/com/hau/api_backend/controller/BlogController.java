@@ -40,9 +40,11 @@ public class BlogController {
 //    }
 
     @GetMapping
-    public Page<Blog> getBlogsByPaginate(
+    public ResponseEntity<ApiResponse<Page<BlogResponse>>> getBlogsByPaginate(
             @RequestParam(defaultValue = "0") int pageIndex,
             @RequestParam(defaultValue = "10") int pageSize) {
-        return blogPaginationService.getPagedData(blogRepository, pageIndex, pageSize);
+
+        ApiResponse<Page<BlogResponse>> apiResponse = blogService.getBlogs(pageIndex, pageSize);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }

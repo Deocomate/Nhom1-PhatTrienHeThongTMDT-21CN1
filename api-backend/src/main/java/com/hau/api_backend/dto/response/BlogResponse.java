@@ -21,6 +21,7 @@ public class BlogResponse {
     String slug;
     int priority;
     LocalDateTime created_at;
+    LocalDateTime updated_at;
     List<Blog> blogs;
 
 }
