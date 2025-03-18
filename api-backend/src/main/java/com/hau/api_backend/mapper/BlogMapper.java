@@ -11,5 +11,6 @@ public interface BlogMapper {
 
     @Mapping(target = "blogs", ignore = true)
     @Mapping(target = "blogCategory", ignore = true)
+//    @Mapping(source = "updated_at", target = "updated_at") // Explicit mapping for updated_at
     BlogResponse toBlogResponse(Blog blog);
 }
