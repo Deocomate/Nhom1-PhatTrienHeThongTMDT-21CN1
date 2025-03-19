@@ -3,13 +3,8 @@ import React, {Fragment, useEffect, useState} from "react";
 import apiService from "@/lib/api/apiService";
 import BreadCrumbDefault from "@/components/breadcrumbs/BreadCrumbDefault";
 import ProductListGrid from "@/pages/product/ProductListGrid";
-import ProductListNoGrid from "@/pages/product/ProductListNoGrid";
 import Link from "next/link";
-import TopRatedProducts from "@/pages/product/product_detail/TopRatedProducts";
-import ProductTypeWidget from "@/pages/product/ProductTypeWidget";
-import BannerWidget from "@/pages/product/product_detail/BannerWidget";
 import {SearchProductWidget} from "@/pages/product/SearchProductWidget";
-import {useSearchParams} from "next/navigation";
 
 export const CategoryPage = ({slug}) => {
     let [products, setProducts] = useState();
