@@ -1,5 +1,6 @@
 package com.hau.api_backend.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,6 +38,7 @@ public class SecurityConfig {
 
     private final CustomJwtAuthenticationConverter customJwtAuthenticationConverter;
 
+    @Autowired
     public SecurityConfig(CustomJwtAuthenticationConverter customJwtAuthenticationConverter) {
         this.customJwtAuthenticationConverter = customJwtAuthenticationConverter;
     }
