@@ -25,6 +25,7 @@ public class BlogController {
     BlogService blogService;
     BasePaginationService<Blog> blogPaginationService;
     BlogRepository blogRepository;
+
     @GetMapping("/getBlogBySlug/{slug:[a-zA-Z0-9-]+}")
     public ResponseEntity<ApiResponse<BlogResponse>> getBlogBySlug(@PathVariable String slug) {
         ApiResponse<BlogResponse> apiResponse = blogService.getBlogBySlug(slug);
@@ -40,11 +41,7 @@ public class BlogController {
 //    }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<Page<BlogResponse>>> getBlogsByPaginate(
-            @RequestParam(required = false) String title,
-            @RequestParam(defaultValue = "0") int pageIndex,
-            @RequestParam(defaultValue = "10") int pageSize) {
-
+    public ResponseEntity<ApiResponse<Page<BlogResponse>>> getBlogsByPaginate(@RequestParam(required = false) String title, @RequestParam(defaultValue = "0") int pageIndex, @RequestParam(defaultValue = "10") int pageSize) {
         ApiResponse<Page<BlogResponse>> apiResponse = blogService.getBlogs(title, pageIndex, pageSize);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }

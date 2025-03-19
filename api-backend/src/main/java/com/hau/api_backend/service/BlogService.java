@@ -51,23 +51,16 @@ public class BlogService {
 //    }
 
     public ApiResponse<BlogResponse> getBlogBySlug(String slug) {
-        Blog blog = blogRepository.findBlogBySlug(slug)
-                .orElseThrow(() -> new AppException(ErrorCode.BLOG_NOT_FOUND, "slug")); // Thay AppException bằng xử lý exception thích hợp
+        Blog blog = blogRepository.findBlogBySlug(slug).orElseThrow(() -> new AppException(ErrorCode.BLOG_NOT_FOUND, "slug")); // Thay AppException bằng xử lý exception thích hợp
 
-        return ApiResponse.<BlogResponse>builder()
-                .code(HttpStatus.OK.value())
-                .message("Lấy bài viết theo slug thành công")
-                .data(mapBlogWithCategory(blog)) // Sử dụng phương thức riêng
-                .timestamp(LocalDateTime.now())
-                .build();
+        return ApiResponse.<BlogResponse>builder().code(HttpStatus.OK.value()).message("Lấy bài viết theo slug thành công").data(mapBlogWithCategory(blog)) // Sử dụng phương thức riêng
+                .timestamp(LocalDateTime.now()).build();
     }
 
     // Phương thức riêng để map Blog và BlogCategory
     private BlogResponse mapBlogWithCategory(Blog blog) {
         BlogResponse blogResponse = blogMapper.toBlogResponse(blog);
-        blogResponse.setBlogCategory(blogCategoryRepository.findById(blog.getBlogCategoryId())
-                .map(blogCategoryMapper::toBlogCategoryResponse)
-                .orElse(null));
+        blogResponse.setBlogCategory(blogCategoryRepository.findById(blog.getBlogCategoryId()).map(blogCategoryMapper::toBlogCategoryResponse).orElse(null));
         return blogResponse;
     }
 
@@ -82,26 +75,17 @@ public class BlogService {
             blogPage = blogRepository.findAll(pageable);
         }
 
-        List<BlogResponse> blogResponses = blogPage.getContent().stream()
-                .map(blog -> {
-                    BlogResponse response = mapBlogWithCategory(blog);
-                    checkThumbnail(response);
-                    return response;
-                }).collect(Collectors.toList());
+        List<BlogResponse> blogResponses = blogPage.getContent().stream().map(blog -> {
+            BlogResponse response = mapBlogWithCategory(blog);
+            checkThumbnail(response);
+            return response;
+        }).collect(Collectors.toList());
 
-        return ApiResponse.<Page<BlogResponse>>builder()
-                .code(HttpStatus.OK.value())
-                .message(SuccessMessage.GET_ALL_BLOG.getMessage())
-                .data(new PageImpl<>(blogResponses, pageable, blogPage.getTotalElements()))
-                .timestamp(LocalDateTime.now())
-                .build();
+        return ApiResponse.<Page<BlogResponse>>builder().code(HttpStatus.OK.value()).message(SuccessMessage.GET_ALL_BLOG.getMessage()).data(new PageImpl<>(blogResponses, pageable, blogPage.getTotalElements())).timestamp(LocalDateTime.now()).build();
     }
 
 
-
-
     private void checkThumbnail(BlogResponse response) {
-        if(response.getThumbnail() != null)
-            response.setThumbnail(appBaseUrl + response.getThumbnail());
+        if (response.getThumbnail() != null) response.setThumbnail(appBaseUrl + response.getThumbnail());
     }
 }
