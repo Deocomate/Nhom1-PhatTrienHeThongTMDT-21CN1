@@ -41,10 +41,11 @@ public class BlogController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<Page<BlogResponse>>> getBlogsByPaginate(
+            @RequestParam(required = false) String title,
             @RequestParam(defaultValue = "0") int pageIndex,
             @RequestParam(defaultValue = "10") int pageSize) {
 
-        ApiResponse<Page<BlogResponse>> apiResponse = blogService.getBlogs(pageIndex, pageSize);
+        ApiResponse<Page<BlogResponse>> apiResponse = blogService.getBlogs(title, pageIndex, pageSize);
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }
