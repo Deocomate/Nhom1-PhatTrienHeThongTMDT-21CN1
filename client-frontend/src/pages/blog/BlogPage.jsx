@@ -21,12 +21,13 @@ export default function BlogPage() {
     async function fetchBlogs(pageIndex = 1, pageSize = 3) {
         try {
             let response = await apiService.get(`/blog?pageIndex=${pageIndex - 1}&pageSize=${pageSize}`);
+            console.log(response)
             if (response) {
-                setBlogs(response.content);
-                setPageSize(response.size);
-                setPageTotal(response.totalPages);
-                setPageIndex(response.number + 1);
-                setTotalElements(response.totalElements);
+                setBlogs(response.data.content);
+                setPageSize(response.data.size);
+                setPageTotal(response.data.totalPages);
+                setPageIndex(response.data.number + 1);
+                setTotalElements(response.data.totalElements);
             } else {
                 console.error("Failed to fetch blogs");
             }

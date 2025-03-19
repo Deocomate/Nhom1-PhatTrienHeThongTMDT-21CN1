@@ -25,8 +25,6 @@ export default function ProductDetailPage({id}) {
     const {addToCart} = useCart();
     const {addToWishList} = useWishList();
 
-    console.log(product)
-
     useEffect(() => {
         const fetchProductDetail = async () => {
             setLoading(true);
@@ -225,15 +223,13 @@ export default function ProductDetailPage({id}) {
                                     <a
                                         className="active show"
                                         data-bs-toggle="tab"
-                                        href="#liton_tab_details_1_1"
-                                    >
+                                        href="#liton_tab_details_1_1">
                                         Mô tả
                                     </a>
                                     <a
                                         data-bs-toggle="tab"
                                         href="#liton_tab_details_1_2"
-                                        className=""
-                                    >
+                                        className="">
                                         Đánh giá
                                     </a>
                                 </div>
@@ -256,12 +252,10 @@ export default function ProductDetailPage({id}) {
                                             <h4 className="title-2">Lưu ý</h4>
                                             <p dangerouslySetInnerHTML={{__html: noted}}/>
                                         </>)}
-
-
                                     </div>
                                 </div>
                                 <div className="tab-pane fade" id="liton_tab_details_1_2">
-                                    <ProductComments comments={commentsResponses}></ProductComments>
+                                    <ProductComments product={product} comments={commentsResponses}></ProductComments>
                                 </div>
                             </div>
                         </div>

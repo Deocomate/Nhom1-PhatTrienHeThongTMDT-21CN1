@@ -8,9 +8,10 @@ import Link from "next/link";
 import TopRatedProducts from "@/pages/product/product_detail/TopRatedProducts";
 import ProductTypeWidget from "@/pages/product/ProductTypeWidget";
 import BannerWidget from "@/pages/product/product_detail/BannerWidget";
+import {SearchProductWidget} from "@/pages/product/SearchProductWidget";
+import {useSearchParams} from "next/navigation";
 
 export const CategoryPage = ({slug}) => {
-
     let [products, setProducts] = useState();
     let [categories, setCategories] = useState();
     let [category, setCategory] = useState()
@@ -67,27 +68,6 @@ export const CategoryPage = ({slug}) => {
                                         </div>
                                     </div>
                                 </li>
-                                {/* Bạn có thể bỏ phần này nếu không muốn hiển thị thông tin phân trang và sắp xếp mặc định */}
-                                {/* <li>
-                                    <div className="showing-product-number text-right">
-                      <span>
-                        Showing {pageSize * (pageIndex - 1) + 1}–
-                          {Math.min(pageSize * pageIndex, totalElements)} of{" "}
-                          {totalElements} results
-                      </span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="short-by text-center">
-                                        <select className="nice-select">
-                                            <option>Default Sorting</option>
-                                            <option>Sort by popularity</option>
-                                            <option>Sort by new arrivals</option>
-                                            <option>Sort by price: low to high</option>
-                                            <option>Sort by price: high to low</option>
-                                        </select>
-                                    </div>
-                                </li> */}
                             </ul>
                         </div>
                         <div className="tab-content">
@@ -115,21 +95,7 @@ export const CategoryPage = ({slug}) => {
                                 </ul>
                             </div>
                             {/* Search Widget */}
-                            <div className="widget ltn__search-widget">
-                                <h4 className="ltn__widget-title ltn__widget-title-border">
-                                    Tìm kiếm
-                                </h4>
-                                <form action="#">
-                                    <input
-                                        type="text"
-                                        name="search"
-                                        placeholder="Tìm kiếm từ khoá..."
-                                    />
-                                    <button type="submit">
-                                        <i className="fas fa-search"/>
-                                    </button>
-                                </form>
-                            </div>
+                            <SearchProductWidget></SearchProductWidget>
                         </aside>
                     </div>
                 </div>

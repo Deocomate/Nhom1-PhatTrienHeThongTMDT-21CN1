@@ -3,6 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import {useCart} from "@/contexts/CartContext";
 import {formatNumber} from "@/utils/NumberUltils";
+import {HeaderSearch} from "@/components/layouts/header/HeaderSearch";
 
 export default function HeaderMiddle() {
 
@@ -33,22 +34,7 @@ export default function HeaderMiddle() {
                                     </p>
                                 </div>
                             </div>
-                            {/* header-search-2 */}
-                            <div className="header-search-2">
-                                <form id="#123" method="get" action="#">
-                                    <input
-                                        type="text"
-                                        name="search"
-                                        defaultValue=""
-                                        placeholder="Tìm kiếm sản phẩm..."
-                                    />
-                                    <button type="submit">
-                                            <span>
-                                                <i className="icon-search"/>
-                                            </span>
-                                    </button>
-                                </form>
-                            </div>
+                            <HeaderSearch></HeaderSearch>
                         </div>
                     </div>
                     <div className="col">

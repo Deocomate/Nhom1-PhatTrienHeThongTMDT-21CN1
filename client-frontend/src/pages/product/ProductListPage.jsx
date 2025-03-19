@@ -9,6 +9,8 @@ import TopRatedProducts from "./product_detail/TopRatedProducts";
 import {router} from "next/client";
 import Link from "next/link";
 import {ProductPagination} from "@/pages/product/ProductPagination";
+import {useParams, useSearchParams} from "next/navigation";
+import {SearchProductWidget} from "@/pages/product/SearchProductWidget";
 
 export default function ProductListPage() {
     let [products, setProducts] = useState([]);
@@ -19,10 +21,20 @@ export default function ProductListPage() {
     let [categoryParentId, setCategoryParentId] = useState(null);
     let [categories, setCategories] = useState([]);
 
+    const searchParams = useSearchParams()
+    const title = searchParams.get('title')
+
+
     async function fetchProduct(pageIndex = 0) {
         try {
-            let response = await apiService.get(`/products?pageIndex=${pageIndex}&pageSize=9`);
-            console.log(response)
+            let response;
+
+            if (title != null) {
+                response = await apiService.get(`/products?title=${title}&pageIndex=${pageIndex}&pageSize=9`);
+            } else {
+                response = await apiService.get(`/products?pageIndex=${pageIndex}&pageSize=9`);
+            }
+
             if (response) {
                 let productsResponse = response.data.content;
                 setProducts(productsResponse);
@@ -60,7 +72,7 @@ export default function ProductListPage() {
     useEffect(() => {
         fetchProduct(0).then() // Load initial page (page 0 for API)
         fetchCategories(categoryParentId).then()
-    }, []);
+    }, [title]);
 
     useEffect(() => {
         // fetchProduct(1).then()
@@ -137,21 +149,7 @@ export default function ProductListPage() {
                                         </Fragment>))}
                                 </ul>
                             </div>
-                            <div className="widget ltn__search-widget">
-                                <h4 className="ltn__widget-title ltn__widget-title-border">
-                                    Tìm kiếm sản phẩm
-                                </h4>
-                                <form action="#">
-                                    <input
-                                        type="text"
-                                        name="search"
-                                        placeholder="Tìm kiếm theo từ khoá..."
-                                    />
-                                    <button type="submit">
-                                        <i className="fas fa-search"/>
-                                    </button>
-                                </form>
-                            </div>
+                            <SearchProductWidget></SearchProductWidget>
                         </aside>
                     </div>
                 </div>

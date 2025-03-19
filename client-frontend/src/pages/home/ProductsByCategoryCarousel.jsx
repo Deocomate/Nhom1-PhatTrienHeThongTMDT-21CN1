@@ -12,8 +12,19 @@ import apiService from "@/lib/api/apiService";
 export const ProductsByCategoryCarousel = ({banner, title, categoryId}) => {
 
     let [categories, setCategories] = useState([])
+    let [category, setCategory] = useState({
+        "id": "", "name": "", "thumbnail": "", "slug": "", "priority": "", "parentId": "", "productsResponses": ""
+    })
 
-    const fetchCategory = async () => {
+    const fetchCategoryListInfo = async () => {
+        if (categoryId) {
+            let response = await apiService.get("/categories/id/" + categoryId)
+            if (response.code == 200) {
+                setCategory(response.data)
+            }
+        }
+    }
+    const fetchCategoryList = async () => {
         if (categoryId) {
             let response = await apiService.get("/products/category/" + categoryId)
             console.log(response.data)
@@ -23,7 +34,8 @@ export const ProductsByCategoryCarousel = ({banner, title, categoryId}) => {
         }
     }
     useEffect(() => {
-        fetchCategory().then()
+        fetchCategoryList().then()
+        fetchCategoryListInfo().then()
     }, [categoryId]);
 
     return (<>
@@ -33,7 +45,7 @@ export const ProductsByCategoryCarousel = ({banner, title, categoryId}) => {
         <div className={"border rounded-3 py-4 px-4"}>
             <div className={"header d-flex justify-content-between align-items-center mb-3"}>
                 <h3 className={"mb-0 "}>{title}</h3>
-                <Link href={"/category/"} passHref>
+                <Link href={"/category/" + category.slug} passHref>
                     <button className={"btn-all btn btn-sm btn-success py-2 px-3"}>Xem tất cả</button>
                 </Link>
             </div>
