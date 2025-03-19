@@ -119,5 +119,18 @@ public class CategoryService {
 
     }
 
+    public ApiResponse<CategoryResponse> getCategoryById(int id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND, "id"));
+
+        CategoryResponse categoryResponses = categoryMapper.toCategoryResponse(category);
+
+        return ApiResponse.<CategoryResponse>builder()
+                .code(HttpStatus.OK.value())
+                .message(SuccessMessage.GET_CATEGORY_BY_ID.getMessage())
+                .data(categoryResponses)
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
 
 }

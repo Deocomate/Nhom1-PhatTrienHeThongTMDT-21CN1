@@ -28,19 +28,7 @@ public class SecurityConfig {
 
     };
 
-    private final String[] PUBLIC_GET_ENDPOINTS = { "/api/products", "/api/products/{productId}/thumbnail",
-            "/api/products/{productId}/images", "/api/products/{id}",
-            "/api/comments", "/api/blog_category", "api/blog_category/getBlogCategoryBySlug/{slug:[a-zA-Z0-9-]+}",
-            "/api/comments/product/{id}", "/api/vnpay/vnpay_return",
-            "/api/products/slug/{slug}",
-            "/api/categories", "/api/categories/parent",
-            "/api/categories/slug/{parentSlug}", "/api/categories/productWithCategory",
-            "/api/categories/productWithCategory/{categorySlug}",
-            "/api/categories/{slug}",
-            "/api/products/getAllProductByCategoryId/{categoryId}",
-            "api/blog", "/api/blog/getBlogBySlug/{slug:[a-zA-Z0-9-]+}", "api/products/search", "/api/products/category/{id}",
-            "/api/homepage"
-    };
+    private final String[] PUBLIC_GET_ENDPOINTS = {"/api/products", "/api/products/{productId}/thumbnail", "/api/products/{productId}/images", "/api/products/{id}", "/api/comments", "/api/blog_category", "api/blog_category/getBlogCategoryBySlug/{slug:[a-zA-Z0-9-]+}", "/api/comments/product/{id}", "/api/vnpay/vnpay_return", "/api/products/slug/{slug}", "/api/categories", "/api/categories/parent", "/api/categories/slug/{parentSlug}", "/api/categories/productWithCategory", "/api/categories/productWithCategory/{categorySlug}", "/api/categories/{slug}", "/api/products/getAllProductByCategoryId/{categoryId}", "api/blog", "/api/blog/getBlogBySlug/{slug:[a-zA-Z0-9-]+}", "api/products/search", "/api/products/category/{id}", "/api/homepage", "/api/homepage", "/api/categories/id/{categoryId}",};
 
     private final String[] PUBLIC_DELETE_ENDPOINTS = {""};
 
