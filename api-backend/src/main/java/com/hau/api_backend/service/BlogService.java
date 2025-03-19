@@ -72,13 +72,19 @@ public class BlogService {
     }
 
 
-    public ApiResponse<Page<BlogResponse>> getBlogs(int pageIndex, int pageSize){
+    public ApiResponse<Page<BlogResponse>> getBlogs(String title, int pageIndex, int pageSize) {
         Pageable pageable = PageRequest.of(pageIndex, pageSize);
-        Page<Blog> blogPage = blogRepository.findAll(pageable);
+        Page<Blog> blogPage;
+
+        if (title != null && !title.isEmpty()) {
+            blogPage = blogRepository.searchByTitle(title, pageable).orElseThrow(() -> new AppException(ErrorCode.BLOG_NOT_FOUND));
+        } else {
+            blogPage = blogRepository.findAll(pageable);
+        }
 
         List<BlogResponse> blogResponses = blogPage.getContent().stream()
                 .map(blog -> {
-                    BlogResponse response = mapBlogWithCategory(blog); // Use the existing method that handles blogCategory
+                    BlogResponse response = mapBlogWithCategory(blog);
                     checkThumbnail(response);
                     return response;
                 }).collect(Collectors.toList());
@@ -90,6 +96,8 @@ public class BlogService {
                 .timestamp(LocalDateTime.now())
                 .build();
     }
+
+
 
 
     private void checkThumbnail(BlogResponse response) {
