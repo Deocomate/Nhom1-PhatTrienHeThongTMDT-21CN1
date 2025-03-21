@@ -1,0 +1,13 @@
+Giới thiêu:
+Dự án app mobile pharmacy (mua bán thuốc online)
+
+Các thư viện đã cài đặt và có thể sử dụng:
+
+1. NativeWind (Tailwind cho react native)
+2. React Native Element
+
+Hướng dẫn xây dựng module trong dự án:
+
+Chỉ sử dụng các màu có sẵn của thư viện tailwind (native wind)
+Không tự tạo thêm các màu ở ngoài, không tạo thêm file ngoài module layout đang cần xây dựng
+Yêu cầu sử hiển thị giao diện người dùng với tiếng Việt, không phải tiếng Anh

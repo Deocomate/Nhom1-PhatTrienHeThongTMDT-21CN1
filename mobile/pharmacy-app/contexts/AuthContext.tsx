@@ -1,103 +1,109 @@
-// contexts/AuthContext.tsx
-import React, {createContext, useState, useEffect, useContext, ReactNode} from 'react';
-import {authService} from '@/services/authService'; // Import authService
-import apiService, {setAuthToken, removeAuthToken} from '@/services/api';
-import * as SplashScreen from 'expo-splash-screen'; // Import SplashScreen
+// auth/AuthContext.tsx
+import React, {createContext, useState, useEffect, useContext} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Thay thế js-cookie
+import {useNavigation} from '@react-navigation/native'; // Thay thế next/navigation
+import apiService from '../services/apiService'; // Đảm bảo đường dẫn chính xác
 
-interface AuthContextProps {
-    user: any;
+// Định nghĩa kiểu dữ liệu cho AuthContext
+interface AuthContextType {
+    user: any | null;
     loading: boolean;
     login: (email: string, password: string) => Promise<any>;
     logout: () => Promise<void>;
-    register: (userData: any) => Promise<any>; // Add register function
-    setUser: (user: any) => void;
+    signup: (userData: any) => Promise<any>;
+    setUser: React.Dispatch<React.SetStateAction<any | null>>;
 }
 
-const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-interface AuthProviderProps {
-    children: ReactNode;
-}
-
-
-export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+export const AuthProvider: any = ({children}) => {
+    const [user, setUser] = useState<any | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const navigation = useNavigation(); // Sử dụng useNavigation
 
     useEffect(() => {
-        async function loadResourcesAndDataAsync() {
-            try {
-                SplashScreen.preventAutoHideAsync();
-                const token = await apiService.getToken(); // Sửa dụng apiService để get Token
-                if (token) {
-                    const userData = await authService.introspect(token); // Check token
-                    if (userData.valid) {
-                        setUser(userData.customer);  // Set user data
-                    } else {
-                        await removeAuthToken(); // Remove invalid token
-                    }
-                }
-            } catch (e) {
-                console.warn(e);
-            } finally {
-                setLoading(false);
-                SplashScreen.hideAsync();
-            }
-        }
-
-        loadResourcesAndDataAsync();
-    }, []);
-
-
-    const login = async (email, password) => {
-        try {
-            const response = await authService.login(email, password);
-            if (response.authenticated) {
-                await setAuthToken(response.token);
-                const userData = await authService.introspect(response.token);
-                if (userData.valid) {
-                    setUser(userData.customer);
-                }
-            }
-            return response; // Trả về response để xử lý thông báo ở component
-        } catch (error) {
-            console.error("Login error:", error);
-            throw error;
-        }
-    };
-
-
-    const logout = async () => {
-        try {
-            const token = await apiService.getToken(); // Sửa dụng apiService để get Token
+        const getToken = async () => {
+            const token = await AsyncStorage.getItem('token');
             if (token) {
-                await authService.logout(token);
+                await apiService.setToken(token);
+                await introspectToken(token);
+            } else {
+                setLoading(false);
             }
-        } catch (error) {
-            console.error('Logout error:', error);
-        } finally {
-            await removeAuthToken(); // Xóa token
-            setUser(null);
-        }
-    };
+        };
+        getToken();
+    },);
 
-    //Hàm đăng ký
-    const register = async (userData: any) => {
+    const signup = async (userData: any) => {
         try {
-            const response = await authService.register(userData);
+            const response = await apiService.post('/customers', userData);
             return response;
         } catch (error) {
-            throw error;
+            return error;
         }
     };
 
-    const value = {
+    const login = async (email: string, password: string) => {
+        try {
+            const response = await apiService.post('/auth/login', {email, password});
+            console.log(response.code);
+            if (response.code <= 201) {
+                let token = response.data.token;
+                await apiService.setToken(token);
+                await AsyncStorage.setItem('token', token); // Lưu token vào AsyncStorage
+                await introspectToken(token);
+            } else {
+                alert(response.message);
+            }
+            navigation.navigate('AccountScreen' as never); // Sử dụng navigation.navigate
+            return response;
+        } catch (error) {
+            console.error('Login error:', error);
+            return error;
+        }
+    };
+
+    const logout = async () => {
+        const token = await AsyncStorage.getItem('token');
+        if (token) {
+            try {
+                await apiService.post('/auth/logout', {token});
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        }
+        await AsyncStorage.removeItem('token'); // Xóa token khỏi AsyncStorage
+        await apiService.removeToken();
+        setUser(null);
+        navigation.navigate('LoginScreen' as never); // Sử dụng navigation.navigate
+    };
+
+    const introspectToken = async (token: string) => {
+        try {
+            const response = await apiService.post('/auth/introspect', {token});
+            if (response.code == 200) {
+                setUser(response.data.customer);
+            } else {
+                await AsyncStorage.removeItem('token');
+                await apiService.removeToken();
+                setUser(null);
+            }
+        } catch (error) {
+            await AsyncStorage.removeItem('token');
+            await apiService.removeToken();
+            setUser(null);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const value: AuthContextType = {
         user,
         loading,
         login,
         logout,
+        signup,
         setUser,
-        register // Include register in context value
     };
 
     return (

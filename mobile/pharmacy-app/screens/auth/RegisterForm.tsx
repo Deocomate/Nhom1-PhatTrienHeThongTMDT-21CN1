@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity, ActivityIndicator, Alert, ScrollView} from 'react-native';
 import {useAuth} from '@/contexts/AuthContext';
-import errorOverlay from "@expo/metro-runtime/src/error-overlay/ErrorOverlay";
 
 export default function RegisterForm() {
-    const {register, isLoading, error} = useAuth();
+
+    const {signup, loading} = useAuth();
 
     const [formData, setFormData] = useState({
         name: '',
@@ -83,7 +83,7 @@ export default function RegisterForm() {
     const handleSubmit = async () => {
         if (validateForm()) {
             try {
-                await register(formData.name, formData.email, formData.password);
+                // await sign(formData.name, formData.email, formData.password);
             } catch (err) {
                 Alert.alert('Registration Error', 'Failed to create account. Please try again.');
             }
@@ -176,21 +176,14 @@ export default function RegisterForm() {
                 ) : null}
             </View>
 
-            {/* Error message from auth contexts */}
-            {error && (
-                <View className="mb-4 p-3 bg-red-50 rounded-lg">
-                    <Text className="text-red-500 text-center">{error}</Text>
-                </View>
-            )}
-
             <TouchableOpacity
                 onPress={handleSubmit}
-                disabled={isLoading}
+                disabled={loading}
                 className={`py-3 px-4 rounded-lg items-center ${
-                    isLoading ? 'bg-emerald-300' : 'bg-emerald-500'
+                    loading ? 'bg-emerald-300' : 'bg-emerald-500'
                 }`}
             >
-                {isLoading ? (
+                {loading ? (
                     <ActivityIndicator color="#ffffff" size="small"/>
                 ) : (
                     <Text className="text-white font-bold text-lg">Create Account</Text>

@@ -1,12 +1,12 @@
 import React from 'react';
 import {Text, View} from "react-native";
 
-function ProductDetailScreen({id}: any) {
+function CheckoutScreen() {
     return (
         <View>
-            <Text>Product Detail: {id}</Text>
+            <Text>Checkout Screen</Text>
         </View>
     );
 }
 
-export default ProductDetailScreen;
+export default CheckoutScreen;

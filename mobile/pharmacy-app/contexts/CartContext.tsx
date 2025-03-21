@@ -26,7 +26,7 @@ type CartContextType = CartState & {
     checkout: () => Promise<boolean>;
 };
 
-// Create context with default values
+// Create contexts with default values
 const defaultCartState: CartState = {
     items: [],
     subtotal: 0,
@@ -48,7 +48,7 @@ const CartContext = createContext<CartContextType>({
     checkout: async () => false,
 });
 
-// Hook to use cart context
+// Hook to use cart contexts
 export const useCart = () => useContext(CartContext);
 
 // Calculate cart totals
