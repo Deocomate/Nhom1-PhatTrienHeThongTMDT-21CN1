@@ -1,38 +1,16 @@
-import {Stack} from 'expo-router';
-import {AuthProvider, useAuth} from '@/contexts/AuthContext';
-import "../assets/css/global.css";
-import {useEffect} from "react";
+import React from 'react';
+import { Stack } from 'expo-router';
+import { CartProvider } from '@/contexts/CartContext';
+import { FavoritesProvider } from '@/contexts/FavoriteContext';
 
 export default function RootLayout() {
-
-    return (
-        <AuthProvider>
-            <Stack>
-                <Stack.Screen
-                    name="(tabs)"
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen
-                    name="product/[id]"
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen
-                    name="checkout"
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen
-                    name="(auth)"
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-            </Stack>
-        </AuthProvider>
-    );
+  return (
+    <CartProvider>
+      <FavoritesProvider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
+      </FavoritesProvider>
+    </CartProvider>
+  );
 }

@@ -1,31 +1,80 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon } from "@rneui/themed";
+import { useRouter } from 'expo-router';
+import { useFavorites } from '@/contexts/FavoriteContext';
+import { useCart } from '@/contexts/CartContext';
 
 export interface ProductCardProps {
   id: string;
   name: string;
   description: string;
   price: string;
-  onPress?: () => void;
-  onAddToCart?: () => void;
-  onAddToFavorite?: () => void;
 }
 
 export function ProductCard(props: ProductCardProps) {
+  const router = useRouter();
+  const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
+  const { addToCart } = useCart();
+  
+  const favorite = isFavorite(props.id);
+
+  const handleCardPress = () => {
+    router.push(`/product/${props.id}`);
+  };
+
+  const handleFavoritePress = (e: any) => {
+    e.stopPropagation(); // Prevent triggering the card's onPress
+    
+    if (favorite) {
+      removeFromFavorites(props.id);
+    } else {
+      addToFavorites({
+        id: props.id,
+        name: props.name,
+        description: props.description,
+        price: props.price
+      });
+    }
+  };
+
+  const handleAddToCart = (e: any) => {
+    e.stopPropagation(); 
+    addToCart({
+      id: props.id,
+      name: props.name,
+      description: props.description,
+      price: props.price
+    });
+  };
+
   return (
-    <View style={styles.root}>
+    <TouchableOpacity 
+      style={styles.root} 
+      onPress={handleCardPress}
+      activeOpacity={0.9}
+    >
       <View style={styles.productImage}>
         <TouchableOpacity 
           style={styles.favoriteButton}
-          onPress={props.onAddToFavorite}
+          onPress={handleFavoritePress}
         >
-          <Icon
-            name="heart"
-            type="feather"
-            color="#000"
-            size={20}
-          />
+          {favorite ? (
+            <Icon
+              name="heart"
+              type="font-awesome"
+              color="#FF0000"
+              solid={true}
+              size={20}
+            />
+          ) : (
+            <Icon
+              name="heart-o"
+              type="font-awesome"
+              color="#000"
+              size={20}
+            />
+          )}
         </TouchableOpacity>
       </View>
       <View style={styles.productInfo}>
@@ -39,7 +88,7 @@ export function ProductCard(props: ProductCardProps) {
               >
                 {props.name}
               </Text>
-              {/* <TouchableOpacity onPress={props.onAddToCart}>
+              {/* <TouchableOpacity onPress={handleAddToCart}>
                 <Icon
                   name="shopping-cart"
                   type="feather"
@@ -61,7 +110,7 @@ export function ProductCard(props: ProductCardProps) {
           </Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

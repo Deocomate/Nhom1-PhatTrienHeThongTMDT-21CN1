@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, Dimensions } from 'react-native';
 import { ProductCard } from '@/components/ProductCard';
 
-// Sample product data
 const sampleProducts = [
   {
     id: '1',
@@ -42,7 +41,6 @@ const sampleProducts = [
   },
 ];
 
-// Calculate card width based on screen width
 const screenWidth = Dimensions.get('window').width;
 const cardWidth = (screenWidth - 24) / 2; // 8px left padding + 8px right padding + 8px between cards
 
@@ -58,9 +56,9 @@ export default function HomeScreen() {
           name={item.name}
           description={item.description}
           price={item.price}
-          onAddToCart={() => console.log('Add to cart:', item.id)}
-          onAddToFavorite={() => console.log('Add to favorite:', item.id)}
-          onPress={() => console.log('Product pressed:', item.id)}
+          // Remove onAddToCart prop since it's not defined in ProductCardProps
+          // Removed onAddToFavorite prop as it's not defined in ProductCardProps interface
+          // Remove onPress prop since it's not defined in ProductCardProps interface
         />
       </View>
     );
