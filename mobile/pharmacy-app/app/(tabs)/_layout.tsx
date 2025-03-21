@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
-import {Redirect, router, Tabs} from "expo-router";
-import {Icon} from "@rneui/themed";
-import {View, Text} from 'react-native';
-import {useAuth} from "@/contexts/AuthContext";
+import React from 'react';
+import { Redirect, Tabs } from "expo-router";
+import { View, Text, StyleSheet } from 'react-native';
+import { useAuth } from "@/contexts/AuthContext";
+import { Icon } from "@rneui/themed";
+// The styles import is causing the error, let's use React Native's StyleSheet instead
 
 function _Layout() {
-
     // let {loading, user} = useAuth()
     //
     // if (!user) {
@@ -15,26 +15,10 @@ function _Layout() {
     return (
         <Tabs
             screenOptions={{
-                tabBarStyle: {
-                    height: 60,
-                    paddingBottom: 6,
-                    paddingTop: 6,
-                    backgroundColor: 'white',
-                    borderTopWidth: 1,
-                    borderTopColor: '#f0f0f0',
-                    elevation: 8,
-                    shadowColor: '#000',
-                    shadowOffset: {width: 0, height: -2},
-                    shadowOpacity: 0.1,
-                    shadowRadius: 4,
-                },
-                tabBarActiveTintColor: '#3b82f6', // blue-500
-                tabBarInactiveTintColor: '#9ca3af', // gray-400
-                tabBarLabelStyle: {
-                    fontSize: 12,
-                    fontWeight: '500',
-                    marginTop: 2,
-                },
+                tabBarStyle: styles.tabBar,
+                tabBarActiveTintColor: '#000000',
+                tabBarInactiveTintColor: '#9ca3af',
+                tabBarLabelStyle: styles.tabBarLabel,
             }}
         >
             <Tabs.Screen
@@ -43,7 +27,7 @@ function _Layout() {
                     title: "Trang chủ",
                     headerShown: false,
                     tabBarIcon: ({focused, color}) => (
-                        <View className="items-center justify-center">
+                        <View style={styles.iconContainer}>
                             <Icon
                                 name="home"
                                 type="feather"
@@ -55,14 +39,14 @@ function _Layout() {
                 }}
             />
             <Tabs.Screen
-                name="search"
+                name="favorite"
                 options={{
-                    title: "Tìm kiếm",
+                    title: "Yêu thích",
                     headerShown: false,
                     tabBarIcon: ({focused, color}) => (
-                        <View className="items-center justify-center">
+                        <View style={styles.iconContainer}>
                             <Icon
-                                name="search"
+                                name="heart"
                                 type="feather"
                                 color={color}
                                 size={24}
@@ -77,7 +61,7 @@ function _Layout() {
                     title: "Giỏ hàng",
                     headerShown: false,
                     tabBarIcon: ({focused, color}) => (
-                        <View className="items-center justify-center">
+                        <View style={styles.iconContainer}>
                             <Icon
                                 name="shopping-cart"
                                 type="feather"
@@ -94,7 +78,7 @@ function _Layout() {
                     title: "Tài khoản",
                     headerShown: false,
                     tabBarIcon: ({focused, color}) => (
-                        <View className="items-center justify-center">
+                        <View style={styles.iconContainer}>
                             <Icon
                                 name="user"
                                 type="feather"
@@ -108,5 +92,45 @@ function _Layout() {
         </Tabs>
     );
 }
+
+const styles = StyleSheet.create({
+    tabBar: {
+        height: 80,
+        paddingBottom: 16,
+        paddingTop: 16,
+        backgroundColor: 'white',
+        borderTopWidth: 1,
+        borderTopColor: '#f0f0f0',
+        elevation: 8,
+        shadowColor: 'rgba(0, 0, 0, 0.25)',
+        shadowRadius: 4,
+        shadowOffset: {"width": 0, "height": 1},
+    },
+    tabBarLabel: {
+        fontFamily: 'Mulish',
+        fontSize: 12,
+        fontStyle: 'normal',
+        fontWeight: '600',
+        letterSpacing: -0.24,
+        marginTop: 8,
+    },
+    iconContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    root: {
+        width: 393,
+        paddingTop: 16,
+        flexDirection: 'column',
+        alignItems: 'center',
+        backgroundColor: 'rgba(255, 255, 255, 1)',
+    },
+    navButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        rowGap: 32,
+        columnGap: 32,
+    },
+});
 
 export default _Layout;

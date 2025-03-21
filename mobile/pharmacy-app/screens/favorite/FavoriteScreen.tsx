@@ -4,9 +4,9 @@ import { View, Text, StyleSheet, FlatList } from 'react-native';
 export default function FavoriteScreen() {
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Giỏ hàng của bạn</Text>
+            <Text style={styles.title}>Sản phẩm yêu thích</Text>
             <View style={styles.content}>
-                <Text style={styles.emptyText}>Bạn chưa có sản phẩm nào trong giỏ hàng</Text>
+                <Text style={styles.emptyText}>Bạn chưa có sản phẩm yêu thích nào</Text>
             </View>
         </View>
     );
