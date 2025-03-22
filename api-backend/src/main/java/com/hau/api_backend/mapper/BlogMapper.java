@@ -8,5 +8,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface BlogMapper {
+
+    @Mapping(source = "created_at", target = "createdAt")
     BlogResponse toBlogResponse(Blog blog);
 }
