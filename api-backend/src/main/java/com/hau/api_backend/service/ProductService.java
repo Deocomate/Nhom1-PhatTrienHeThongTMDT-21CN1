@@ -81,6 +81,7 @@ public class ProductService {
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND, "slug"));
         ProductResponse productResponse = productMapper.toProductResponse(product);
 
+        checkThumbnail(productResponse);
         return ApiResponse.<ProductResponse>builder()
                 .code(HttpStatus.OK.value())
                 .message(SuccessMessage.GET_PRODUCT_BY_ID.getMessage())
