@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin\PharmacySystem;
+
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -39,12 +40,14 @@ class BlogController extends Controller
             'priority' => 'nullable|integer',
             'blogcategory_id' => 'required|exists:blog_categories,id',
         ]);
-    
+
         // Generate slug from title
         $validated['slug'] = Str::slug($validated['title']);
-    
+        $validated['created_at'] = now();
+        $validated['updated_at'] = now();
+
         DB::table('blogs')->insert($validated);
-    
+
         return redirect()->route('admin.blog.index')->with('success', 'Blog created successfully!');
     }
 
@@ -81,12 +84,13 @@ class BlogController extends Controller
             'priority' => 'nullable|integer',
             'blogcategory_id' => 'required|exists:blog_categories,id',
         ]);
-    
+
         // Generate slug from title
         $validated['slug'] = Str::slug($validated['title']);
-    
+        $validated['updated_at'] = now();
+
         DB::table('blogs')->where('id', $id)->update($validated);
-    
+
         return redirect()->route('admin.blog.index')->with('success', 'Blog updated successfully!');
     }
 

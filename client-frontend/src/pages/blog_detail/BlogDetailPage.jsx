@@ -87,7 +87,8 @@ export const BlogDetailPage = ({slug}) => {
                                     </ul>
                                 </div>
 
-                                <p>{blog.content}</p>
+                                <div dangerouslySetInnerHTML={{__html: blog.content}}></div>
+
                                 <div className="ltn__blog-img">
                                     <img
                                         src={blog.thumbnail || "/assets/default/placeholder.png"}

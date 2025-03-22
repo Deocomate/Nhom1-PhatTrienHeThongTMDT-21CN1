@@ -78,7 +78,7 @@ export const ContactPage = () => {
         try {
             const response = await apiService.post("/customerCares", formData);
 
-            if (response.code === 200) {
+            if (response.code === 201) {
                 setFormData({
                     fullName: "", email: "", phoneNumber: "", address: "", content: "",
                 });

@@ -1,14 +1,14 @@
 <?php
 /**
- * @var \stdClass[] $comments
+ * @var \stdClass[] $customerCares
  */
 ?>
 @extends('admin.layouts.main')
-@section('title','Quản lý bình luận')
+@section('title','Danh sách Chăm sóc khách hàng')
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Danh sách bình luận</h3>
+            <h3 class="card-title">Danh sách Chăm sóc khách hàng</h3>
         </div>
         <div class="card-body">
             @if(session('success'))
@@ -20,33 +20,32 @@
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Sản phẩm</th>
-                    <th>Khách hàng</th>
+                    <th>Họ tên</th>
+                    <th>Email</th>
+                    <th>Số điện thoại</th>
+                    <th>Địa chỉ</th>
                     <th>Nội dung</th>
-                    <th>Ngày đăng</th>
-                    <th></th>
+                    <th>Ngày tạo</th>
+                    <th>Thao tác</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($comments as $comment)
+                @foreach($customerCares as $care)
                     <tr>
-                        <td>{{ $comment->id }}</td>
-                        <td>{{ $comment->product_title }}</td>
-                        <td>{{ $comment->customer_name }}</td>
-                        <td>{{ Str::limit($comment->content, 100) }}</td>
-                        <td>{{ $comment->created_at }}</td>
+                        <td>{{ $care->id }}</td>
+                        <td>{{ $care->full_name }}</td>
+                        <td>{{ $care->email }}</td>
+                        <td>{{ $care->phone_number }}</td>
+                        <td>{{ $care->address }}</td>
+                        <td>{{ Str::limit($care->content, 50) }}</td> <!-- Giới hạn nội dung -->
+                        <td>{{ $care->created_at }}</td>
                         <td>
-                            <a class="btn btn-info"
-                               href="{{ route('admin.comment.edit', ['comment' => $comment->id]) }}">
-                                Chi tiết/Trả lời
-                            </a>
-                            <form action="{{ route('admin.comment.destroy', ['comment' => $comment->id]) }}"
+                            <form action="{{ route('admin.customer_care.destroy', ['customer_care' => $care->id]) }}"
                                   method="POST" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger"
-                                        onclick="return confirm('Bạn có chắc muốn xóa bình luận này?')">
-                                    Xóa
+                                        onclick="return confirm('Bạn có chắc muốn xóa?')">Xoá
                                 </button>
                             </form>
                         </td>

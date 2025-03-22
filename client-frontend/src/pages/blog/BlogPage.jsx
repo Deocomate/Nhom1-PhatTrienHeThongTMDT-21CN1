@@ -10,19 +10,28 @@ import SearchObjects from "./SearchObjects";
 import apiService from "@/lib/api/apiService";
 import Link from "next/link";
 import {BlogPagination} from "./BlogPagination";
+import {useSearchParams} from "next/navigation";
 
 export default function BlogPage() {
     let [blogs, setBlogs] = useState([]);
-    let [pageIndex, setPageIndex] = useState(1);
+    let [pageIndex, setPageIndex] = useState(0);
     let [pageTotal, setPageTotal] = useState(0);
-    let [pageSize, setPageSize] = useState(3);
+    let [pageSize, setPageSize] = useState(9);
     let [totalElements, setTotalElements] = useState(0);
 
-    async function fetchBlogs(pageIndex = 1, pageSize = 3) {
+    const searchParams = useSearchParams()
+    const title = searchParams.get('title')
+
+    async function fetchBlogs(pageIndex = 0, pageSize = 9) {
         try {
-            let response = await apiService.get(`/blog?pageIndex=${pageIndex - 1}&pageSize=${pageSize}`);
-            console.log(response)
+            let response;
+            if (title != null) {
+                response = await apiService.get(`/blog?title=${title}&pageIndex=${pageIndex}&pageSize=9`);
+            } else {
+                response = await apiService.get(`/blog?pageIndex=${pageIndex}&pageSize=9`);
+            }
             if (response) {
+                console.log(response)
                 setBlogs(response.data.content);
                 setPageSize(response.data.size);
                 setPageTotal(response.data.totalPages);
@@ -37,12 +46,12 @@ export default function BlogPage() {
     }
 
     const handlePageChange = (newPage) => {
-        fetchBlogs(newPage, pageSize).then();
+        fetchBlogs(newPage - 1, 9).then();  // API expects page index starting from 0
     };
 
     useEffect(() => {
-        fetchBlogs(pageIndex, pageSize).then();
-    }, []);
+        fetchBlogs(0, pageSize).then();
+    }, [title]);
 
     return (<>
         <BreadCrumbDefault name="Cẩm năng sức khỏe"></BreadCrumbDefault>
@@ -106,7 +115,6 @@ export default function BlogPage() {
                                         <h3 className="ltn__blog-title">
                                             <Link href={`/blog/${blog.slug}`}>{blog.title}</Link>
                                         </h3>
-                                        <p>{blog.content.substring(0, 200)}...</p>
                                         <div className="ltn__blog-meta-btn">
                                             <div className="ltn__blog-meta">
                                                 <ul>
