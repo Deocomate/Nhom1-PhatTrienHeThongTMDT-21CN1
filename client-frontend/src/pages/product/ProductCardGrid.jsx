@@ -15,10 +15,12 @@ export default function ProductCardGrid({product, index}) {
 
     return (<>
         <div key={index} className="col-xl-4 col-sm-6 col-6">
-            <div className="ltn__product-item ltn__product-item-3 text-center">
+            <div className="ltn__product-item ltn__product-item-3 text-center h-100 mb-0">
                 <div className="product-img">
                     <Link href={"/products/" + product.slug}>
-                        <img src={product.thumbnail} alt="#"/>
+                        <img src={product.thumbnail} className={"p-3"} style={{
+                            width: "100%", height: "200px", objectFit: "cover"
+                        }} alt="#"/>
                     </Link>
                     <div className="product-hover-action">
                         <ul>

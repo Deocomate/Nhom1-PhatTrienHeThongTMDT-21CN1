@@ -114,7 +114,9 @@ export default function ProductDetailPage({id}) {
                                         >
                                             {productImagesResponses.map((image, index) => (<SwiperSlide key={index}>
                                                 <div className="ltn__shop-details-img">
-                                                    <img src={image.url} alt={title}/>
+                                                    <img src={image.url} alt={title} className="w-100" style={{
+                                                        width: "100%", height: "500px", objectFit: "cover"
+                                                    }}/>
                                                 </div>
                                             </SwiperSlide>))}
                                         </Swiper>) : (<div className="ltn__shop-details-img">

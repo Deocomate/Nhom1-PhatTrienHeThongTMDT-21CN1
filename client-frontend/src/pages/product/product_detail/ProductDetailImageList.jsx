@@ -14,9 +14,12 @@ export const ProductDetailImageList = ({images, title}) => { // Receive images a
         return <div>Không có hình ảnh sản phẩm.</div>; // Or a placeholder image
     }
 
-    return (<Carousel activeIndex={index} onSelect={handleSelect} interval={null}> {/* Remove auto-sliding */}
+    return (<Carousel activeIndex={index} onSelect={handleSelect} interval={null}>
         {images.map((image, i) => (<Carousel.Item key={image.id}>
             <img
+                style={{
+                    width: "100%"
+                }}
                 className="d-block w-100"
                 src={image.url}
                 alt={`${title} - Slide ${i + 1}`}
