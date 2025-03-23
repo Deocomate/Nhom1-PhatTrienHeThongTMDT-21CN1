@@ -139,6 +139,8 @@ public class ProductWithCategoryService {
         ProductWithCategoryResponse response = productWithCategoryMapper
                 .toProductWithCategoryAndPaginateResponse(pagedProducts, categories, DEFAULT_PAGE_SIZE);
 
+
+
         return ApiResponse.<ProductWithCategoryResponse>builder()
                 .code(HttpStatus.OK.value())
                 .message(SuccessMessage.GET_ALL_PRODUCT_WITH_CATEGORY_SLUG.getMessage())

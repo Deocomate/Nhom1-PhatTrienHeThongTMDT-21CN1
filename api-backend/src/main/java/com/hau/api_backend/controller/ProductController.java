@@ -46,19 +46,19 @@ public class ProductController {
     }
 
 
-    @GetMapping("/category/{categoryId}")
-    public ResponseEntity<ApiResponse<Page<ProductResponse>>> getProductByCategory(
-            @PathVariable int categoryId,
-            @RequestParam(required = false) String sortBy,
-            @RequestParam(defaultValue = "false") boolean priority,
-            @RequestParam(defaultValue = "asc") String direction,
-            @RequestParam(defaultValue = "0") int pageIndex,
-            @RequestParam(defaultValue = "10") int pageSize) {
-
-        ApiResponse<Page<ProductResponse>> apiResponse = productService.getProductsByCategoryId(categoryId, sortBy, priority, direction, pageIndex, pageSize);
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-
-    }
+//    @GetMapping("/category/{categoryId}")
+//    public ResponseEntity<ApiResponse<Page<ProductResponse>>> getProductByCategory(
+//            @PathVariable int categoryId,
+//            @RequestParam(required = false) String sortBy,
+//            @RequestParam(defaultValue = "false") boolean priority,
+//            @RequestParam(defaultValue = "asc") String direction,
+//            @RequestParam(defaultValue = "0") int pageIndex,
+//            @RequestParam(defaultValue = "10") int pageSize) {
+//
+//        ApiResponse<Page<ProductResponse>> apiResponse = productService.getProductsByCategoryId(categoryId, sortBy, priority, direction, pageIndex, pageSize);
+//        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+//
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<ProductResponse>> getProductById(@PathVariable int id) {
