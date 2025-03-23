@@ -1,10 +1,16 @@
-import {View, Text} from 'react-native';
-import "../assets/css/global.css"
+import React from 'react';
+import { Stack } from 'expo-router';
+import { CartProvider } from '@/contexts/CartContext';
+import { FavoritesProvider } from '@/contexts/FavoriteContext';
 
 export default function RootLayout() {
-    return (
-        <View>
-            <Text className={"text-red-500 text-5xl font-bold"}>Hello</Text>
-        </View>
-    );
+  return (
+    <CartProvider>
+      <FavoritesProvider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
+      </FavoritesProvider>
+    </CartProvider>
+  );
 }

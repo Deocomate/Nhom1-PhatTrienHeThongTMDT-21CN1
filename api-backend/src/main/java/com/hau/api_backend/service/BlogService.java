@@ -52,8 +52,12 @@ public class BlogService {
 
     public ApiResponse<BlogResponse> getBlogBySlug(String slug) {
         Blog blog = blogRepository.findBlogBySlug(slug).orElseThrow(() -> new AppException(ErrorCode.BLOG_NOT_FOUND, "slug")); // Thay AppException bằng xử lý exception thích hợp
+        BlogResponse blogResponse = blogMapper.toBlogResponse(blog);
+        checkThumbnail(blogResponse);
 
-        return ApiResponse.<BlogResponse>builder().code(HttpStatus.OK.value()).message("Lấy bài viết theo slug thành công").data(mapBlogWithCategory(blog)) // Sử dụng phương thức riêng
+        return ApiResponse.<BlogResponse>builder().code(HttpStatus.OK.value())
+                .message("Lấy bài viết theo slug thành công")
+                .data(blogResponse) // Sử dụng phương thức riêng
                 .timestamp(LocalDateTime.now()).build();
     }
 

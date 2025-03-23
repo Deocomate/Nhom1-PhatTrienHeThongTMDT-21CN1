@@ -15,6 +15,8 @@ use App\Http\Controllers\Admin\PharmacySystem\BlogCategoryController;
 use App\Http\Controllers\Admin\PharmacySystem\BrandController;
 use App\Http\Controllers\Admin\PharmacySystem\OrderController;
 use App\Http\Controllers\Admin\PharmacySystem\HomePageDefaultController;
+use App\Http\Controllers\Admin\PharmacySystem\CommentController;
+use App\Http\Controllers\Admin\PharmacySystem\CustomerCareController;
 
 // Authenticate and Middleware auth
 use App\Http\Controllers\Auth\LoginController;
@@ -51,6 +53,13 @@ Route::prefix('admin')->name("admin.")->middleware(AuthenticationMiddleware::cla
     Route::resource("product", ProductController::class);
     Route::resource("order", OrderController::class);
     Route::resource("homepage", HomePageDefaultController::class);
+
+    Route::resource("comment", CommentController::class);
+    Route::post("/comment/reply", [CommentController::class, "add_reply_comment"])->name("comment.add_reply");
+
+    Route::resource("comment", CommentController::class);
+
+    Route::resource("customer_care", CustomerCareController::class);
 
     // Quản trị
     Route::resource("manager", AdminManagerController::class);

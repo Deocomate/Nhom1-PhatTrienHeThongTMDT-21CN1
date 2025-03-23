@@ -31,10 +31,20 @@
         <x-menus.nav-item :route="route('admin.product.create')" name="Thêm sản phẩm"></x-menus.nav-item>
     </x-menus.menu-item>
 
-    <li class="nav-header">Quản lý Order</li>
+    <li class="nav-header">Quản lý đơn hàng</li>
     <x-menus.menu-item :route="route('admin.order.index')" name="Đơn hàng" icon="fas fa-file-invoice">
         <x-menus.nav-item :route="route('admin.order.index')" name="Danh sách đơn hàng"></x-menus.nav-item>
         <x-menus.nav-item :route="route('admin.order.create')" name="Thêm đơn hàng mới"></x-menus.nav-item>
+    </x-menus.menu-item>
+
+    <li class="nav-header">Quản lý bình luận</li>
+    <x-menus.menu-item :route="route('admin.order.index')" name="Quản lý bình luận" icon="fa-solid fa-comment">
+        <x-menus.nav-item :route="route('admin.comment.index')" name="Bình luận"></x-menus.nav-item>
+    </x-menus.menu-item>
+
+    <li class="nav-header">Quản lý tương tác khách hàng</li>
+    <x-menus.menu-item :route="route('admin.customer_care.index')" name="Chăm sóc khách hàng" icon="fas fa-headset">
+        <x-menus.nav-item :route="route('admin.customer_care.index')" name="Danh sách"></x-menus.nav-item>
     </x-menus.menu-item>
 
     @if(auth()->user()->name == "Admin")

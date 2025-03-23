@@ -20,6 +20,5 @@ public class BlogResponse {
     BlogCategoryResponse blogCategory;
     String slug;
     int priority;
-    LocalDateTime created_at;
-    LocalDateTime updated_at;
+    LocalDateTime createdAt;
 }
