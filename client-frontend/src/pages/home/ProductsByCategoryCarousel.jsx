@@ -10,31 +10,39 @@ import {formatNumber} from "@/utils/NumberUltils";
 import apiService from "@/lib/api/apiService";
 
 export const ProductsByCategoryCarousel = ({banner, title, categoryId}) => {
-
+    let [products, setProducts] = useState([])
     let [categories, setCategories] = useState([])
     let [category, setCategory] = useState({
         "id": "", "name": "", "thumbnail": "", "slug": "", "priority": "", "parentId": "", "productsResponses": ""
     })
+
+    const fetchProductByCategorySlug = async (slug) => {
+        try {
+            let response = await apiService.get(`/categories/productWithCategory/${slug}?pageIndex=0&pageSize=9`);
+            console.log(response)
+            if (response && response.data) {
+                setProducts(response.data.products);
+                setCategories(response.data.categories);
+            } else {
+                console.error("Failed to fetch products or categories by slug");
+            }
+        } catch (error) {
+            console.error("Error fetching products by category slug:", error);
+        }
+    }
 
     const fetchCategoryListInfo = async () => {
         if (categoryId) {
             let response = await apiService.get("/categories/id/" + categoryId)
             if (response.code == 200) {
                 setCategory(response.data)
+                console.log(response.data)
+                await fetchProductByCategorySlug(response.data.slug)
             }
         }
     }
-    const fetchCategoryList = async () => {
-        if (categoryId) {
-            let response = await apiService.get("/products/category/" + categoryId)
-            console.log(response.data)
-            if (response.data.content?.length >= 0) {
-                setCategories(response.data.content);
-            }
-        }
-    }
+
     useEffect(() => {
-        fetchCategoryList().then()
         fetchCategoryListInfo().then()
     }, [categoryId]);
 
@@ -71,13 +79,13 @@ export const ProductsByCategoryCarousel = ({banner, title, categoryId}) => {
                     onSlideChange={() => console.log('slide change')}
                     onSwiper={(swiper) => console.log(swiper)}
                 >
-                    {categories.map((item, index) => ( // Thêm nhiều item hơn để test
+                    {products.map((item, index) => ( // Thêm nhiều item hơn để test
                         <SwiperSlide className={"p-1"} key={index}>
                             <div className={"product-card"}>
                                 <div className="card" style={{overflow: "hidden"}}>
                                     <Link href={`/products/${item.slug}`}
                                           passHref> {/* Thay đổi: Thêm Link vào từng sản phẩm */}
-                                        <img src={item.thumbnail}
+                                        <img src={"http://172.20.10.2:8000" + item.thumbnail}
                                              style={{height: "200px", objectFit: "cover"}}
                                              className="w-100" alt=""/>
                                     </Link>

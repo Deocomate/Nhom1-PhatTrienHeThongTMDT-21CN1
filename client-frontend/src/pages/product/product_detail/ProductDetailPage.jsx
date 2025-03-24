@@ -43,7 +43,6 @@ export default function ProductDetailPage({id}) {
                 setLoading(false);
             }
         };
-
         fetchProductDetail();
     }, [id]);
 

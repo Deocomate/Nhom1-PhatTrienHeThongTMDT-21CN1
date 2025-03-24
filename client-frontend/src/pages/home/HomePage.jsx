@@ -29,7 +29,6 @@ const HomePage = () => {
             homePageDataResponse.topBanner = JSON.parse(homePageDataResponse.topBanner)
             homePageDataResponse.mostSearches = JSON.parse(homePageDataResponse.mostSearches)
             setHomePageData(homePageDataResponse)
-
             console.log(homePageDataResponse)
         } else {
 

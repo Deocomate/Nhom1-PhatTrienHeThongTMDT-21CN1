@@ -134,8 +134,8 @@ export const ContactPage = () => {
                             </div>
                             <h3>Số điện thoại</h3>
                             <p>
-                                +84 123 456 789 <br/>
-                                +84 987 654 321
+                                +0565651189 <br/>
+                                +0865095066
                             </p>
                         </div>
                     </div>
@@ -151,8 +151,8 @@ export const ContactPage = () => {
                             </div>
                             <h3>Địa chỉ văn phòng</h3>
                             <p>
-                                Khu phố 6, P.Linh Trung <br/>
-                                Tp.Thủ Đức, TP.HCM
+                                Đại học Kiến Trúc Hà Nội <br/>
+                                Hà Nội
                             </p>
                         </div>
                     </div>
@@ -255,7 +255,7 @@ export const ContactPage = () => {
         </div>
         <div className="google-map">
             <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.44359132815!2d106.80086547501756!3d10.853826357756822!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317527587e9ad5bf%3A0xafa66f9c8be3c91!2sUniversity%20of%20Information%20Technology%20-%20VNUHCM!5e0!3m2!1sen!2s!4v1715848225382!5m2!1sen!2s"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3725.3011426867115!2d105.78657997428805!3d20.9805623894341!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ade83ba9e115%3A0x6f4fdb5e1e9e39ed!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBLaeG6v24gdHLDumMgSMOgIE7hu5lp!5e0!3m2!1svi!2s!4v1742778214568!5m2!1svi!2s"
                 width="100%"
                 height="500"
                 style={{border: 0}}

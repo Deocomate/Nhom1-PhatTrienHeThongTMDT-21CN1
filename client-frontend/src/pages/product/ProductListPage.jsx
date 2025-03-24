@@ -14,7 +14,7 @@ import {SearchProductWidget} from "@/pages/product/SearchProductWidget";
 
 export default function ProductListPage() {
     let [products, setProducts] = useState([]);
-    let [pageIndex, setPageIndex] = useState(0); // Start from page 0 as API expects
+    let [pageIndex, setPageIndex] = useState(0);
     let [pageTotal, setPageTotal] = useState(0);
     let [pageSize, setPageSize] = useState(0);
     let [totalElements, setTotalElements] = useState(0);
