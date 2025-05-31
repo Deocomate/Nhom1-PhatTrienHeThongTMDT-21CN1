@@ -1,4 +1,4 @@
-package com.hau.api_backend.service;
+package com.hau.api_backend.service.impl;
 
 import com.hau.api_backend.dto.request.customer.CustomerCreationRequest;
 import com.hau.api_backend.dto.request.customer.CustomerUpdateRequest;

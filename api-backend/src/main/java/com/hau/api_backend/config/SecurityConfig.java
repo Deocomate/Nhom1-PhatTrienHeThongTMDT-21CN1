@@ -45,10 +45,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll().requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll().requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Cho phép OPTIONS requests
+        httpSecurity.authorizeHttpRequests(
+                request -> request.requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
+                .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Cho phép OPTIONS requests
                 .anyRequest().authenticated());
 
-        httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(customJwtAuthenticationConverter)));
+        httpSecurity.oauth2ResourceServer(
+                oauth2 -> oauth2.jwt(
+                        jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(customJwtAuthenticationConverter)));
 
         httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource())); // Enable CORS
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
